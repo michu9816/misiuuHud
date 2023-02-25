@@ -8,14 +8,17 @@ counter.count++;
 counter.$patch({ count: counter.count + 1 });
 // or using an action instead
 counter.increment();
-
-const increment = () => {
-	counter.increment();
-};
 </script>
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div @click="increment">Current Count: {{ counter.count }}</div>
+	<div class="darkBackground nickname">Maciek z csa</div>
 </template>
+
+<style scoped>
+.nickname {
+	padding: 8px 10px;
+	text-align: left;
+}
+</style>
 

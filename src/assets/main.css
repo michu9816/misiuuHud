@@ -1,0 +1,10 @@
+@import './base.css';
+
+.healt.ct{
+  background: var(--gradient-health-ct);
+}
+
+.darkBackground{
+  background: var(--color-background-dark-transparent);
+  color: var(--color-text-white);
+}

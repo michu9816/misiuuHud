@@ -1,5 +1,6 @@
 <script setup>
 import { useCounterStore } from "@/stores/players";
+import TeamBox from "@/components/Bottom/TeamBox.vue";
 
 const counter = useCounterStore();
 
@@ -15,7 +16,10 @@ const increment = () => {
 </script>
 
 <template>
-	<!-- Access the state directly from the store -->
-	<div @click="increment">Current Count: {{ counter.count }}</div>
+	<div>
+		<!-- Access the state directly from the store -->
+		<div @click="increment">Current Count is: {{ counter.count }}</div>
+		<TeamBox />
+	</div>
 </template>
 
