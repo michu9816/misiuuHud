@@ -1,8 +1,10 @@
 <script setup>
+import { useMatchStore } from "@/stores/match";
 import { usePlayersStore } from "@/stores/players";
-import { computed, defineProps } from "vue";
+import { computed, defineProps, ref, watch } from "vue";
 
 const playersStore = usePlayersStore();
+const matchStore = useMatchStore();
 
 const props = defineProps(["playerId"]);
 
@@ -21,6 +23,21 @@ const deaths = computed(() => {
 });
 const money = computed(() => {
 	return playerData.value?.state.money;
+});
+
+const savedMoney = ref(0);
+
+watch(money, (value) => {
+	if (savedMoney.value < value) {
+		savedMoney.value = value;
+	}
+});
+
+const matchLive = computed(() => {
+	return (
+		matchStore.getData().phase == "live" &&
+		matchStore.getData().roundInfo.data.phase != "freezetime"
+	);
 });
 </script>
 
@@ -44,7 +61,9 @@ const money = computed(() => {
 			<div>{{ deaths }}</div>
 		</div>
 		<div class="statistic">
-			<div class="title">Money</div>
+			<div class="title">
+				{{ matchLive ? "Money" : `-$${Math.abs(money - savedMoney)}` }}
+			</div>
 			<div>${{ money }}</div>
 		</div>
 	</div>
