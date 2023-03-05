@@ -1,14 +1,25 @@
 <script setup>
 import PlayerView from "@/components/Bottom/PlayerView.vue";
+import { defineProps } from "vue";
+import { usePlayersStore } from "@/stores/players";
+import { computed } from "vue";
+
+const playersStore = usePlayersStore();
+
+const props = defineProps(["team"]);
+
+const players = computed(() => {
+	return playersStore.getPlayers(props.team);
+});
 </script>
 
 <template>
-	<div class="team" :class="[teamSide]">
-		<PlayerView />
-		<PlayerView />
-		<PlayerView />
-		<PlayerView />
-		<PlayerView />
+	<div class="team" :class="props.team">
+		<PlayerView
+			v-for="player of players"
+			:key="player.id"
+			:playerId="player.id"
+		/>
 	</div>
 </template>
 
@@ -21,10 +32,10 @@ import PlayerView from "@/components/Bottom/PlayerView.vue";
 	grid-template-columns: repeat(5, 140px);
 	align-items: end;
 }
-.team.ct {
+.team.CT {
 	left: 10px;
 }
-.team.tt {
+.team.T {
 	right: 10px;
 }
 </style>

@@ -2,6 +2,8 @@
 :root {
   --vt-c-cyan-bright: #0077d8;
   --vt-c-cyan-dark: #004d8b;
+  --vt-c-orange-bright: #d86100;
+  --vt-c-orange-dark: #8b3f00;
   --vt-c-gray: #cecece;
   --vt-c-white: #f2f2f2;
 
@@ -22,6 +24,9 @@
 
   --gradient-health-ct: -webkit-linear-gradient(0deg, var(--vt-c-cyan-bright),var(--vt-c-cyan-dark));
   --gradient-health-ct-vertical: -webkit-linear-gradient(90deg, var(--vt-c-cyan-bright),var(--vt-c-cyan-dark));
+  
+  --gradient-health-t: -webkit-linear-gradient(0deg, var(--vt-c-orange-bright),var(--vt-c-orange-dark));
+  --gradient-health-t-vertical: -webkit-linear-gradient(90deg, var(--vt-c-orange-bright),var(--vt-c-orange-dark));
 }
 
 body {

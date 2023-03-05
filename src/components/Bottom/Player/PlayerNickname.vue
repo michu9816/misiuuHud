@@ -1,18 +1,21 @@
 <script setup>
-import { useCounterStore } from "@/stores/players";
+import { usePlayersStore } from "@/stores/players";
+import { computed, defineProps } from "vue";
 
-const counter = useCounterStore();
+const playersStore = usePlayersStore();
 
-counter.count++;
-// with autocompletion ✨
-counter.$patch({ count: counter.count + 1 });
-// or using an action instead
-counter.increment();
+const props = defineProps(["playerId"]);
+
+const playerData = computed(() => {
+	return playersStore.getPlayerDataById(props.playerId);
+});
 </script>
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div class="darkBackground nickname">Maciek z csa</div>
+	<div class="darkBackground nickname">
+		{{ playerData?.observer_slot }} | {{ playerData?.name }}
+	</div>
 </template>
 
 <style scoped>

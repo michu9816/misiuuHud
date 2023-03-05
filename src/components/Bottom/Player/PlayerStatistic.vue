@@ -1,33 +1,57 @@
 <script setup>
-import { computed, ref } from "vue";
-import { useCounterStore } from "@/stores/players";
+import { useGuiStore } from "@/stores/gui";
+import { useMatchStore } from "@/stores/match";
+import { usePlayersStore } from "@/stores/players";
+import { computed, defineProps } from "vue";
 
-const counter = useCounterStore();
+const playersStore = usePlayersStore();
+const matchStore = useMatchStore();
+const guiStore = useGuiStore();
 
-counter.count++;
-// with autocompletion ✨
-counter.$patch({ count: counter.count + 1 });
-const adr = ref((Math.random(2, 4) * 100).toFixed(1));
+const props = defineProps(["playerId"]);
 
-const adrHeight = computed(() => {
-	let test = parseInt(adr.value) + 50;
+const playerData = computed(() => {
+	return playersStore.getPlayerDataById(props.playerId);
+});
+
+const matchLive = computed(() => {
+	return (
+		matchStore.getData().phase == "live" &&
+		matchStore.getData().round.phase != "freezetime"
+	);
+});
+
+const statisticToShow = computed(() => {
+	return guiStore.getData().playersStatistics.type;
+});
+
+const statisticValue = computed(() => {
+	return playerData.value.statistics[statisticToShow.value];
+});
+
+const statisticHeight = computed(() => {
+	let test = 0;
+	let multiplier = statisticToShow.value == "kd" ? 30 : 1;
+	if (!matchLive.value) {
+		test = parseInt(statisticValue.value) * multiplier + 50;
+	}
 	return test;
 });
-// or using an action instead
-counter.increment();
 </script>
 
 <template>
 	<!-- Access the state directly from the store -->
+	<!-- {{ playerData.statistics }} -->
 	<div
 		class="darkBackground"
+		:class="[playerData.team]"
 		:style="{
-			height: adrHeight + 'px',
+			height: statisticHeight + 'px',
 		}"
 	>
-		<div class="title">ADR</div>
+		<div class="title">{{ statisticToShow }}</div>
 		<div class="value">
-			{{ adr }}
+			{{ statisticValue }}
 		</div>
 	</div>
 </template>
@@ -38,11 +62,18 @@ counter.increment();
 	color: var(--color-text-gray);
 	margin-bottom: 2px;
 	padding: 5px 0;
+	text-transform: uppercase;
 }
 .darkBackground {
-	background: var(--gradient-health-ct-vertical);
 	transition-duration: 0.5s;
 	height: 0px;
+	overflow: hidden;
+}
+.darkBackground.CT {
+	background: var(--gradient-health-ct-vertical);
+}
+.darkBackground.T {
+	background: var(--gradient-health-t-vertical);
 }
 </style>
 

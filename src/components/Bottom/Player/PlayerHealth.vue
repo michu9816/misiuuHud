@@ -1,18 +1,23 @@
 <script setup>
 import { ref, watch } from "vue";
-import { useCounterStore } from "@/stores/players";
+import { usePlayersStore } from "@/stores/players";
+import { computed, defineProps } from "vue";
+import { useMatchStore } from "@/stores/match";
 
-const counter = useCounterStore();
+const playersStore = usePlayersStore();
+const matchStore = useMatchStore();
 
-counter.count++;
-// with autocompletion ✨
-counter.$patch({ count: counter.count + 1 });
-// or using an action instead
-counter.increment();
+const props = defineProps(["playerId"]);
+
+const playerData = computed(() => {
+	return playersStore.getPlayerDataById(props.playerId);
+});
 
 const decreaseOldHealth = ref();
 
-const currentHealth = ref(100);
+const currentHealth = computed(() => {
+	return playerData.value.state.health;
+});
 const oldHealth = ref(100);
 
 watch(currentHealth, (val) => {
@@ -26,9 +31,12 @@ watch(currentHealth, (val) => {
 	}, 750);
 });
 
-const decrease = () => {
-	currentHealth.value -= 7;
-};
+const matchLive = computed(() => {
+	return (
+		matchStore.getData().phase == "live" &&
+		matchStore.getData().round.phase != "freezetime"
+	);
+});
 </script>
 
 <template>
@@ -36,12 +44,13 @@ const decrease = () => {
 	<div
 		class="bars"
 		:class="{
-			hide: currentHealth == 0,
+			hide: currentHealth == 0 || !matchLive,
 		}"
 	>
-		<div class="health bar" @click="decrease">+ {{ currentHealth }}</div>
+		<div class="health bar">+ {{ currentHealth }}</div>
 		<div
 			class="healthBackground bar"
+			:class="[playerData.team]"
 			:style="{
 				width: `${currentHealth}%`,
 			}"
@@ -64,6 +73,7 @@ const decrease = () => {
 	display: flex;
 	position: absolute;
 	width: 100%;
+	overflow: hidden;
 }
 .darkBackground {
 	background: var(--vt-c-dark-transparent-9);
@@ -76,8 +86,12 @@ const decrease = () => {
 	font-size: 20px;
 	width: calc(100% - 20px);
 }
-.healthBackground {
+.healthBackground.CT {
 	background: var(--gradient-health-ct);
+	z-index: 2;
+}
+.healthBackground.T {
+	background: var(--gradient-health-t);
 	z-index: 2;
 }
 .oldHealthBackground {
@@ -92,7 +106,6 @@ const decrease = () => {
 }
 .hide {
 	height: 0;
-	overflow: hidden;
 }
 </style>
 

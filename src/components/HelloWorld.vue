@@ -1,7 +1,7 @@
 <script setup>
-import { useCounterStore } from "@/stores/players";
+import { usePlayersStore } from "@/stores/players";
 
-const counter = useCounterStore();
+const counter = usePlayersStore();
 
 counter.count++;
 // with autocompletion ✨

@@ -1,13 +1,27 @@
 <script setup>
-import { useCounterStore } from "@/stores/players";
+import { usePlayersStore } from "@/stores/players";
+import { computed, defineProps } from "vue";
 
-const counter = useCounterStore();
+const playersStore = usePlayersStore();
 
-counter.count++;
-// with autocompletion ✨
-counter.$patch({ count: counter.count + 1 });
-// or using an action instead
-counter.increment();
+const props = defineProps(["playerId"]);
+
+const playerData = computed(() => {
+	return playersStore.getPlayerDataById(props.playerId);
+});
+
+const kills = computed(() => {
+	return playerData.value?.match_stats.kills;
+});
+const roundKills = computed(() => {
+	return playerData.value?.state.round_kills;
+});
+const deaths = computed(() => {
+	return playerData.value?.match_stats.deaths;
+});
+const money = computed(() => {
+	return playerData.value?.state.money;
+});
 </script>
 
 <template>
@@ -15,15 +29,20 @@ counter.increment();
 	<div class="darkBackground statistics">
 		<div class="statistic">
 			<div class="title">K</div>
-			<div>12<span class="roundKills">2</span></div>
+			<div>
+				{{ kills
+				}}<span class="roundKills" v-if="roundKills">{{
+					roundKills
+				}}</span>
+			</div>
 		</div>
 		<div class="statistic">
 			<div class="title">D</div>
-			<div>21</div>
+			<div>{{ deaths }}</div>
 		</div>
 		<div class="statistic">
 			<div class="title">Money</div>
-			<div>$16000</div>
+			<div>${{ money }}</div>
 		</div>
 	</div>
 </template>
