@@ -5,6 +5,7 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const express = require("express");
+const bodyParser = require("body-parser");
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -30,8 +31,11 @@ async function createWindow() {
 		res.json({ message: "Hello from Express!" });
 	});
 
+	appExpress.use(bodyParser.urlencoded({ extended: true }));
+	appExpress.use(bodyParser.json());
 	appExpress.post("/api/data", (req, res) => {
-		// res.json({ message: "Hello from Express!" });
+		res.json({ message: "Ok!" });
+		win.webContents.send("data", req.body);
 	});
 
 	appExpress.listen(3000, () => {

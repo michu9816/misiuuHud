@@ -1,6 +1,7 @@
 <template>
 	<img alt="Vue logo" src="./assets/logo.png" />
 	<HelloWorld msg="Welcome to Your Vue.js App" />
+	{{ test }}
 	<BottomPanel></BottomPanel>
 </template>
 
@@ -15,8 +16,17 @@ export default {
 		HelloWorld,
 		BottomPanel,
 	},
+	data() {
+		return {
+			test: "123",
+		};
+	},
 	created() {
+		const vm = this;
 		ipcRenderer.send("data", "test");
+		ipcRenderer.on("data", (event, arg) => {
+			vm.test = arg;
+		});
 	},
 };
 </script>
