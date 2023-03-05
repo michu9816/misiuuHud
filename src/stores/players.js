@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useGuiStore } from "./gui";
+import { useMatchStore } from "./match";
 
 export const usePlayersStore = defineStore("players", () => {
 	const guiStore = useGuiStore();
+	const matchStore = useMatchStore();
 
 	const players = ref([]);
 	function loadPlayers(playersData) {
@@ -24,11 +26,15 @@ export const usePlayersStore = defineStore("players", () => {
 		const playerSlot =
 			playerData.observer_slot == 0 ? 10 : playerData.observer_slot;
 		playerData.statistics = {
-			adr: guiStore.getPlayerDamage(playerSlot),
+			adr: (
+				guiStore.getPlayerDamage(playerSlot) /
+				(matchStore.getData().round - 1)
+			).toFixed(2),
 			kd: parseFloat(
 				parseInt(playerData.match_stats.kills) /
 					parseInt(playerData.match_stats.deaths)
 			).toFixed(1),
+			rounds: matchStore.getData().round,
 		};
 		return playerData;
 	}

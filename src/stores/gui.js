@@ -24,7 +24,6 @@ export const useGuiStore = defineStore("gui", () => {
 			data.value.playersStatistics.damage[observerSlot - 1][round] =
 				playerData.state.round_totaldmg;
 		}
-		console.log(round);
 	}
 
 	function getPlayerDamage(id) {

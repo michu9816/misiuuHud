@@ -3,16 +3,16 @@ import { ref } from "vue";
 
 export const useMatchStore = defineStore("match", () => {
 	const match = ref();
-	function loadMatchData(matchData) {
+	function loadMatchData(matchData, roundData, timeData) {
 		match.value = matchData;
-	}
-
-	function loadMatchRoundData(roundData) {
-		match.value.round = roundData;
+		match.value.roundInfo = {
+			data: roundData,
+			timer: timeData,
+		};
 	}
 
 	function getData() {
 		return match.value;
 	}
-	return { loadMatchData, loadMatchRoundData, getData };
+	return { loadMatchData, getData };
 });

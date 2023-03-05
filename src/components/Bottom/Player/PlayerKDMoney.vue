@@ -31,9 +31,12 @@ const money = computed(() => {
 			<div class="title">K</div>
 			<div>
 				{{ kills
-				}}<span class="roundKills" v-if="roundKills">{{
-					roundKills
-				}}</span>
+				}}<span
+					class="roundKills"
+					:class="[playerData.team]"
+					v-if="roundKills"
+					>{{ roundKills }}</span
+				>
 			</div>
 		</div>
 		<div class="statistic">
@@ -59,10 +62,15 @@ const money = computed(() => {
 	margin-bottom: 2px;
 }
 .roundKills {
-	background: var(--gradient-health-ct-vertical);
 	padding: 2px 5px;
 	border-radius: 5px;
 	margin-left: 3px;
+}
+.roundKills.CT {
+	background: var(--gradient-health-ct-vertical);
+}
+.roundKills.T {
+	background: var(--gradient-health-t-vertical);
 }
 </style>
 

@@ -34,7 +34,7 @@ watch(currentHealth, (val) => {
 const matchLive = computed(() => {
 	return (
 		matchStore.getData().phase == "live" &&
-		matchStore.getData().round.phase != "freezetime"
+		matchStore.getData().roundInfo.data.phase != "freezetime"
 	);
 });
 </script>

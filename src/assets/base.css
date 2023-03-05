@@ -18,7 +18,8 @@
   --color-background-dark-transparent: var(--vt-c-dark-transparent);
   --color-background-dark-red: var(--vt-c-red-dark);
   
-  --color-text-ct: var(--vt-c-cyan-dark);
+  --color-text-ct: var(--vt-c-cyan-bright);
+  --color-text-t: var(--vt-c-orange-bright);
   --color-text-gray: var(--vt-c-gray);
   --color-text-white: var(--vt-c-white);
 
