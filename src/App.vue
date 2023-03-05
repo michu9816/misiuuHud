@@ -7,12 +7,16 @@
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
 import BottomPanel from "./components/BottomPanel.vue";
+import { ipcRenderer } from "electron";
 
 export default {
 	name: "App",
 	components: {
 		HelloWorld,
 		BottomPanel,
+	},
+	created() {
+		ipcRenderer.send("data", "test");
 	},
 };
 </script>

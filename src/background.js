@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -21,7 +21,7 @@ async function createWindow() {
 		webPreferences: {
 			// Use pluginOptions.nodeIntegration, leave this alone
 			// See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-			nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+			nodeIntegration: true,
 			contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
 		},
 	});
@@ -36,6 +36,10 @@ async function createWindow() {
 
 	appExpress.listen(3000, () => {
 		console.log("Server started on port 3000");
+	});
+
+	ipcMain.on("data", (event, arg) => {
+		console.log(arg);
 	});
 
 	if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -96,4 +100,3 @@ if (isDevelopment) {
 		});
 	}
 }
-
