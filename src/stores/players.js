@@ -14,6 +14,16 @@ export const usePlayersStore = defineStore("players", () => {
 		for (let key of Object.keys(playersData)) {
 			let playerData = playersData[key];
 			playerData.id = key;
+
+			let availableWeapons = [];
+			for (let weapon of Object.keys(playerData.weapons)) {
+				availableWeapons.push(playerData.weapons[weapon]);
+				if (playerData.weapons[weapon].state == "active") {
+					playerData.activeWeapon = playerData.weapons[weapon];
+				}
+			}
+			playerData.availableWeapons = availableWeapons;
+
 			players.value.push(playerData);
 		}
 
@@ -25,6 +35,9 @@ export const usePlayersStore = defineStore("players", () => {
 	}
 
 	function getPlayerDataById(id) {
+		if (!id) {
+			return;
+		}
 		let playerData = players.value.find((obj) => obj.id == id);
 		const playerSlot =
 			playerData.observer_slot == 0 ? 10 : playerData.observer_slot;

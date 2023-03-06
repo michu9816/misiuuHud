@@ -8,6 +8,7 @@
 		{{ playersStore.someoneHeadshoted3() ? "tak" : "nie" }}<br />
 		{{ playersStore.getPlayers().map((obj) => obj.state.round_kills) }}
 	</div>
+	<PlayerData></PlayerData>
 	<TopPanel></TopPanel>
 	<BottomPanel></BottomPanel>
 </template>
@@ -15,6 +16,7 @@
 <script>
 import BottomPanel from "./components/BottomPanel.vue";
 import TopPanel from "./components/TopPanel.vue";
+import PlayerData from "./components/PlayerData.vue";
 import { ipcRenderer } from "electron";
 import { usePlayersStore } from "./stores/players";
 import { useMatchStore } from "./stores/match";
@@ -25,6 +27,7 @@ export default {
 	components: {
 		BottomPanel,
 		TopPanel,
+		PlayerData,
 	},
 	data() {
 		return {
