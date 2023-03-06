@@ -8,13 +8,16 @@ export const usePlayersStore = defineStore("players", () => {
 	const matchStore = useMatchStore();
 
 	const players = ref([]);
-	function loadPlayers(playersData) {
+	const player = ref();
+	function loadPlayers(playersData, playerData) {
 		players.value = [];
 		for (let key of Object.keys(playersData)) {
 			let playerData = playersData[key];
 			playerData.id = key;
 			players.value.push(playerData);
 		}
+
+		player.value = playerData;
 	}
 
 	function getPlayers(team) {
@@ -43,6 +46,10 @@ export const usePlayersStore = defineStore("players", () => {
 			assists: playerData.match_stats.assists,
 		};
 		return playerData;
+	}
+
+	function getWatchingPlayerData() {
+		return player.value;
 	}
 
 	function anyTeamIsPoor() {
@@ -77,6 +84,7 @@ export const usePlayersStore = defineStore("players", () => {
 		loadPlayers,
 		getPlayers,
 		getPlayerDataById,
+		getWatchingPlayerData,
 		anyTeamIsPoor,
 		someoneKilled3,
 		someoneHeadshoted3,

@@ -14,6 +14,10 @@ const props = defineProps(["playerId"]);
 const playerData = computed(() => {
 	return playersStore.getPlayerDataById(props.playerId);
 });
+
+const isThisPlayerWatching = computed(() => {
+	return playerData.value.id == playersStore.getWatchingPlayerData().steamid;
+});
 </script>
 
 <template>
@@ -22,6 +26,7 @@ const playerData = computed(() => {
 		class="playerInformations"
 		:class="{
 			dead: !playerData.state.health,
+			watching: isThisPlayerWatching,
 		}"
 	>
 		<PlayerNickname :playerId="props.playerId" />
@@ -38,6 +43,12 @@ const playerData = computed(() => {
 }
 .playerInformations.dead {
 	opacity: 0.5;
+}
+.team.T .watching {
+	background: var(--color-text-t);
+}
+.team.CT .watching {
+	background: var(--color-text-ct);
 }
 </style>
 

@@ -39,7 +39,7 @@ export default {
 		ipcRenderer.send("data", "test");
 		ipcRenderer.on("data", (event, arg) => {
 			vm.test = arg;
-			vm.playersStore.loadPlayers(arg.allplayers);
+			vm.playersStore.loadPlayers(arg.allplayers, arg.player);
 			vm.matchStore.loadMatchData(
 				arg.map,
 				arg.round,
