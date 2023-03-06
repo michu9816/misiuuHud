@@ -1,5 +1,13 @@
 <template>
-	{{ test }}
+	<div>
+		{{ guiStore.getData() }}<br /><br />
+		{{ matchStore.getData()?.roundInfo }} <br />
+		moreThan3: {{ playersStore.someoneKilled3() ? "tak" : "nie" }}
+		<br />dmghigh: {{ playersStore.someoneHighDMG() ? "tak" : "nie" }}<br />
+		hs3:
+		{{ playersStore.someoneHeadshoted3() ? "tak" : "nie" }}<br />
+		{{ playersStore.getPlayers().map((obj) => obj.state.round_kills) }}
+	</div>
 	<TopPanel></TopPanel>
 	<BottomPanel></BottomPanel>
 </template>
@@ -37,7 +45,9 @@ export default {
 				arg.round,
 				arg.phase_countdowns
 			);
-			let roundsNumber = Object.keys(arg.map.round_wins).length;
+			let roundsNumber = arg?.map?.round_wins
+				? Object.keys(arg.map.round_wins)?.length
+				: 0;
 			vm.guiStore.setPlayersDamage(arg.allplayers, roundsNumber);
 		});
 	},

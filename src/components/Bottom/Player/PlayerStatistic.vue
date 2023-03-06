@@ -31,9 +31,20 @@ const statisticValue = computed(() => {
 
 const statisticHeight = computed(() => {
 	let test = 0;
-	let multiplier = statisticToShow.value == "kd" ? 30 : 1;
-	if (!matchLive.value) {
-		test = parseInt(statisticValue.value) * multiplier + 50;
+
+	if (!matchLive.value && guiStore.getData().playersStatistics.show) {
+		test = parseInt(statisticValue.value) * getMultiplier() + 50;
+	}
+
+	function getMultiplier() {
+		switch (statisticToShow.value) {
+			case "kd":
+				return 30;
+			case "equipment":
+				return 0.01;
+			default:
+				return 1;
+		}
 	}
 	return test;
 });

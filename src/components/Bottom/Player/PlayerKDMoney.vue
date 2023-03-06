@@ -43,7 +43,12 @@ const matchLive = computed(() => {
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div class="darkBackground statistics">
+	<div
+		class="darkBackground statistics"
+		:class="{
+			buyTime: !matchLive,
+		}"
+	>
 		<div class="statistic">
 			<div class="title">K</div>
 			<div>
@@ -61,7 +66,7 @@ const matchLive = computed(() => {
 			<div>{{ deaths }}</div>
 		</div>
 		<div class="statistic">
-			<div class="title">
+			<div class="title money">
 				{{ matchLive ? "Money" : `-$${Math.abs(money - savedMoney)}` }}
 			</div>
 			<div>${{ money }}</div>
@@ -79,6 +84,14 @@ const matchLive = computed(() => {
 	font-size: 10px;
 	color: var(--color-text-gray);
 	margin-bottom: 2px;
+	transition-duration: 0.5s;
+}
+
+.statistics.buyTime .title {
+	font-size: 14px;
+}
+.statistics.buyTime .title.money {
+	color: red;
 }
 .roundKills {
 	padding: 2px 5px;

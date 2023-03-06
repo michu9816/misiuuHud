@@ -3,6 +3,7 @@ import { ref, watch } from "vue";
 import { usePlayersStore } from "@/stores/players";
 import { computed, defineProps } from "vue";
 import { useMatchStore } from "@/stores/match";
+import { useGuiStore } from "@/stores/gui";
 
 const playersStore = usePlayersStore();
 const matchStore = useMatchStore();
@@ -31,11 +32,23 @@ watch(currentHealth, (val) => {
 	}, 750);
 });
 
+const guiStore = useGuiStore();
+
 const matchLive = computed(() => {
 	return (
-		matchStore.getData().phase == "live" &&
-		matchStore.getData().roundInfo.data.phase != "freezetime"
+		(matchStore.getData().phase == "live" &&
+			matchStore.getData().roundInfo.data.phase != "freezetime") ||
+		!guiStore.getData().playersStatistics.show
 	);
+});
+
+const kevlarImage = computed(() => {
+	if (playerData.value.state.helmet) {
+		return require("@/assets/img/elements/icon_armor_helmet_default.png");
+	} else if (playerData.value.state.armor) {
+		return require("@/assets/img/elements/icon_armor_none_default.png");
+	}
+	return null;
 });
 </script>
 
@@ -47,7 +60,14 @@ const matchLive = computed(() => {
 			hide: currentHealth == 0 || !matchLive,
 		}"
 	>
-		<div class="health bar">+ {{ currentHealth }}</div>
+		<div class="health bar">
+			<img
+				src="@/assets/img/elements/icon_health_full_default.png"
+				class="ico_health"
+			/>
+			{{ currentHealth }}
+			<img :src="kevlarImage" v-if="kevlarImage" class="ico_kevlar" />
+		</div>
 		<div
 			class="healthBackground bar"
 			:class="[playerData.team]"
@@ -78,6 +98,13 @@ const matchLive = computed(() => {
 .darkBackground {
 	background: var(--vt-c-dark-transparent-9);
 }
+.ico_health {
+	margin-right: 5px;
+}
+.ico_kevlar {
+	right: 5px;
+	position: absolute;
+}
 .health {
 	color: var(--color-text-white);
 	z-index: 3;
@@ -85,6 +112,9 @@ const matchLive = computed(() => {
 	font-weight: bold;
 	font-size: 20px;
 	width: calc(100% - 20px);
+}
+.health img {
+	height: 20px;
 }
 .healthBackground.CT {
 	background: var(--gradient-health-ct);

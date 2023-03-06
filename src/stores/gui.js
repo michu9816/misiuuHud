@@ -5,13 +5,22 @@ export const useGuiStore = defineStore("gui", () => {
 	const data = ref({
 		playersStatistics: {
 			damage: [[], [], [], [], [], [], [], [], [], []],
-			show: true,
+			hs: [[], [], [], [], [], [], [], [], [], []],
+			show: false,
 			type: "adr",
 		},
 	});
 
 	function getData() {
 		return data.value;
+	}
+
+	function setPlayerStatisticType(type) {
+		data.value.playersStatistics.type = type;
+	}
+
+	function setPlayerStatisticVisibility(visibility) {
+		data.value.playersStatistics.show = visibility;
 	}
 
 	function setPlayersDamage(players, round) {
@@ -23,6 +32,8 @@ export const useGuiStore = defineStore("gui", () => {
 			}
 			data.value.playersStatistics.damage[observerSlot - 1][round] =
 				playerData.state.round_totaldmg;
+			data.value.playersStatistics.hs[observerSlot - 1][round] =
+				playerData.state.round_killhs;
 		}
 	}
 
@@ -35,5 +46,23 @@ export const useGuiStore = defineStore("gui", () => {
 		);
 		return damageSum;
 	}
-	return { getData, setPlayersDamage, getPlayerDamage };
+
+	function getPlayerHS(id) {
+		let hsSum = data.value.playersStatistics.hs[id - 1]?.reduce(function (
+			a,
+			b
+		) {
+			return a + b;
+		},
+		0);
+		return hsSum;
+	}
+	return {
+		getData,
+		setPlayersDamage,
+		getPlayerDamage,
+		getPlayerHS,
+		setPlayerStatisticType,
+		setPlayerStatisticVisibility,
+	};
 });
