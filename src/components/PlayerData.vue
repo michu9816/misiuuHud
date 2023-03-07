@@ -2,16 +2,24 @@
 import Nickname from "@/components/Player/PlayerNick.vue";
 import PlayerState from "@/components/Player/PlayerState.vue";
 import PlayerStatistic from "@/components/Player/PlayerStatistics.vue";
-import { useGuiStore } from "@/stores/gui";
+import { useMatchStore } from "@/stores/match";
+import { computed } from "vue";
 
-const guiStore = useGuiStore();
+const matchStore = useMatchStore();
+
+const boxVisible = computed(() => {
+	return (
+		matchStore.getData()?.phase == "live" &&
+		matchStore.getData()?.roundInfo?.data?.phase != "freezetime"
+	);
+});
 </script>
 
 <template>
 	<div
 		class="playerBox"
 		:class="{
-			hidden: !guiStore.getData().playersStatistics.show,
+			hidden: !boxVisible,
 		}"
 	>
 		<Nickname></Nickname>

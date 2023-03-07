@@ -11,10 +11,12 @@ const playersStore = usePlayersStore();
 <style scoped>
 .nick {
 	text-align: left;
-	padding: 10px 20px;
+	padding: 5px 15px;
 	background: rgba(0, 0, 0, 0.8);
 	color: white;
 	border-radius: 5px 5px 0 0;
 	width: fit-content;
+	font-weight: bold;
+	font-size: 20px;
 }
 </style>

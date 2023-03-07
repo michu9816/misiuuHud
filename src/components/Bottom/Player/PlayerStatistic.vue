@@ -79,6 +79,7 @@ const statisticHeight = computed(() => {
 	transition-duration: 0.5s;
 	height: 0px;
 	overflow: hidden;
+	opacity: 0.8;
 }
 .darkBackground.CT {
 	background: var(--gradient-health-ct-vertical);

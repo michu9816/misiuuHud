@@ -35,10 +35,10 @@ export const usePlayersStore = defineStore("players", () => {
 	}
 
 	function getPlayerDataById(id) {
-		if (!id) {
+		let playerData = players.value.find((obj) => obj.id == id);
+		if (!playerData || !id) {
 			return;
 		}
-		let playerData = players.value.find((obj) => obj.id == id);
 		const playerSlot =
 			playerData.observer_slot == 0 ? 10 : playerData.observer_slot;
 		playerData.statistics = {

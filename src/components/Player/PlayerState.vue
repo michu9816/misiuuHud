@@ -19,8 +19,8 @@ const armor = computed(() => {
 });
 
 const ammo = computed(() => {
-	const clipAmmo = playerData.value?.activeWeapon.ammo_clip;
-	const reserveAmmo = playerData.value?.activeWeapon.ammo_reserve;
+	const clipAmmo = playerData.value?.activeWeapon?.ammo_clip;
+	const reserveAmmo = playerData.value?.activeWeapon?.ammo_reserve;
 	if (clipAmmo != undefined) {
 		return `${clipAmmo}/${reserveAmmo}`;
 	} else {
@@ -37,8 +37,7 @@ const kevlarImage = computed(() => {
 });
 
 const getWeponIcon = function (value) {
-	console.log(value);
-	const weaponName = value.name.split("_")[1];
+	const weaponName = value.name.split("weapon_")[1];
 	return require(`@/assets/img/weapons/${weaponName}.png`);
 };
 </script>
