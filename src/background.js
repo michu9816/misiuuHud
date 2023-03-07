@@ -25,7 +25,11 @@ async function createWindow() {
 			nodeIntegration: true,
 			contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
 		},
+		transparent: true,
+		frame: false,
 	});
+
+	win.setAlwaysOnTop(true, "screen");
 
 	appExpress.get("/api/data", (req, res) => {
 		res.json({ message: "Hello from Express!" });

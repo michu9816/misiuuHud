@@ -14,7 +14,6 @@ const getMainWeapon = computed(() => {
 	let betterWeapons = playerData.value?.availableWeapons.filter(
 		(obj) => !["Knife", "Grenade", "Pistol"].includes(obj.type)
 	);
-	console.log(betterWeapons.value);
 	if (betterWeapons.length) {
 		return betterWeapons[0];
 	} else {
@@ -25,7 +24,7 @@ const getMainWeapon = computed(() => {
 });
 
 const getWeponIcon = function (value) {
-	const weaponName = value.name.split("weapon_")[1];
+	const weaponName = value?.name.split("weapon_")[1];
 	return require(`@/assets/img/weapons/${weaponName}.png`);
 };
 </script>
@@ -36,8 +35,9 @@ const getWeponIcon = function (value) {
 		<div class="left">
 			<img
 				:class="{
-					inactive: getMainWeapon.state != 'active',
+					inactive: getMainWeapon?.state != 'active',
 				}"
+				v-if="getMainWeapon"
 				:src="getWeponIcon(getMainWeapon)"
 			/>
 		</div>
