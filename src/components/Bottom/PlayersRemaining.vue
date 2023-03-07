@@ -35,13 +35,13 @@ const playersAlive = function (team) {
 <style scoped>
 .players {
 	position: absolute;
-	bottom: 30px;
-	width: 80px;
+	bottom: 10px;
+	width: 100px;
 	padding: 10px 0;
 	background: var(--color-background-dark-transparent);
-	left: calc(50% - 40px);
+	left: calc(50% - 50px);
 	border-radius: 5px;
-	font-size: 20px;
+	font-size: 25px;
 	color: white;
 	transition-duration: 0.5s;
 }

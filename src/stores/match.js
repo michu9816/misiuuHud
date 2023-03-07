@@ -5,11 +5,12 @@ import { usePlayersStore } from "./players";
 
 export const useMatchStore = defineStore("match", () => {
 	const match = ref();
-	function loadMatchData(matchData, roundData, timeData) {
+	function loadMatchData(matchData, roundData, timeData, bombData) {
 		match.value = matchData;
 		match.value.roundInfo = {
 			data: roundData,
 			timer: timeData,
+			bomb: bombData,
 		};
 
 		if (timeData.phase == "over") {

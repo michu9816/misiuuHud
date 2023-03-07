@@ -19,7 +19,7 @@ const decreaseOldHealth = ref();
 const currentHealth = computed(() => {
 	return playerData.value.state.health;
 });
-const oldHealth = ref(100);
+const oldHealth = ref(parseInt(playerData.value.state.health));
 
 watch(currentHealth, (val) => {
 	clearTimeout(decreaseOldHealth.value);

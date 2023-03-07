@@ -1,12 +1,14 @@
 <template>
 	<div>
-		{{ guiStore.getData() }}<br /><br />
+		<!-- {{ guiStore.getData() }}<br /><br />
 		{{ matchStore.getData()?.roundInfo }} <br />
 		moreThan3: {{ playersStore.someoneKilled3() ? "tak" : "nie" }}
 		<br />dmghigh: {{ playersStore.someoneHighDMG() ? "tak" : "nie" }}<br />
 		hs3:
 		{{ playersStore.someoneHeadshoted3() ? "tak" : "nie" }}<br />
 		{{ playersStore.getPlayers().map((obj) => obj.state.round_kills) }}
+		<br /> -->
+		<!-- {{ test }} -->
 	</div>
 	<PlayerData></PlayerData>
 	<TopPanel></TopPanel>
@@ -46,7 +48,8 @@ export default {
 			vm.matchStore.loadMatchData(
 				arg.map,
 				arg.round,
-				arg.phase_countdowns
+				arg.phase_countdowns,
+				arg.bomb
 			);
 			let roundsNumber = arg?.map?.round_wins
 				? Object.keys(arg.map.round_wins)?.length

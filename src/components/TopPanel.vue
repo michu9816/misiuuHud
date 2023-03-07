@@ -6,11 +6,11 @@ import TimeBox from "@/components/Top/TimeBox.vue";
 
 <template>
 	<div class="matchScore">
-		<TeamBox team="ct">Counter Terrorists</TeamBox>
+		<TeamBox team="ct"></TeamBox>
 		<ScoreBox team="ct"></ScoreBox>
 		<TimeBox></TimeBox>
 		<ScoreBox team="t"></ScoreBox>
-		<TeamBox team="t">Terrorists</TeamBox>
+		<TeamBox team="t"></TeamBox>
 	</div>
 </template>
 

@@ -60,11 +60,13 @@ const getWeponIcon = function (value) {
 <style scoped>
 img {
 	filter: invert(1);
-	height: 12px;
+	max-height: 17px;
+	max-width: 40px;
 }
 .weapons {
 	padding: 5px 5px;
 	display: flex;
+	align-content: center;
 }
 .weapons .right {
 	right: 5px;
