@@ -31,6 +31,7 @@ export const usePlayersStore = defineStore("players", () => {
 	}
 
 	function getPlayers(team) {
+		team = team?.toUpperCase();
 		return players.value.filter((obj) => (team ? obj.team == team : obj));
 	}
 

@@ -4,3 +4,11 @@
   background: var(--color-background-dark-transparent);
   color: var(--color-text-white);
 }
+
+.text.ct{
+  color:var(--color-text-ct)
+}
+
+.text.t{
+  color:var(--color-text-t)
+}

@@ -6,6 +6,7 @@ import PlayerNickname from "@/components/Bottom/Player/PlayerNickname.vue";
 import PlayerHealth from "@/components/Bottom/Player/PlayerHealth.vue";
 import PlayerKDMoney from "@/components/Bottom/Player/PlayerKDMoney.vue";
 import PlayerStatistic from "@/components/Bottom/Player/PlayerStatistic.vue";
+import PlayerWeapons from "@/components/Bottom/Player/PlayerWeapons.vue";
 
 const playersStore = usePlayersStore();
 
@@ -29,6 +30,7 @@ const isThisPlayerWatching = computed(() => {
 			watching: isThisPlayerWatching,
 		}"
 	>
+		<PlayerWeapons :playerId="props.playerId"></PlayerWeapons>
 		<PlayerNickname :playerId="props.playerId" />
 		<PlayerHealth :playerId="props.playerId" />
 		<PlayerKDMoney :playerId="props.playerId" />
