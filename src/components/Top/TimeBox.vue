@@ -12,6 +12,14 @@ const timeLeft = computed(() => {
 	return convertTime(matchStore.getData()?.roundInfo.timer.phase_ends_in);
 });
 
+const bombTimerHeight = computed(() => {
+	const maxTime = 40;
+	const timeLeft = matchStore.getData()?.roundInfo.bomb.countdown;
+	const percent = 100 - (timeLeft / maxTime) * 100;
+	// return convertTime(matchStore.getData()?.roundInfo.timer.phase_ends_in);
+	return `${percent}%`;
+});
+
 function convertTime(time) {
 	let minutes = Math.floor(time / 60);
 	let seconds = parseInt(time % 60);
@@ -22,7 +30,13 @@ function convertTime(time) {
 </script>
 
 <template>
-	<div class="bomb" v-if="bombPlanted">
+	<div
+		class="bomb"
+		v-if="bombPlanted"
+		:style="{
+			height: bombTimerHeight,
+		}"
+	>
 		<img src="@/assets/img/elements/icon_bomb_default.png" />
 	</div>
 	<div class="time" v-else>{{ timeLeft }}</div>
@@ -33,13 +47,12 @@ function convertTime(time) {
 	padding: 10px 0;
 }
 .bomb {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	animation: 2s bombTicking infinite;
+	animation: 2s bombTicking-251b7e38 infinite;
 	background: rgb(135, 0, 0);
+	position: relative;
 }
 .bomb img {
+	padding-top: 6px;
 	height: 30px;
 }
 @keyframes bombTicking {

@@ -25,6 +25,10 @@ const assists = computed(() => {
 const adr = computed(() => {
 	return playerData.value?.statistics.adr;
 });
+
+const hsp = computed(() => {
+	return playerData.value?.statistics.hs;
+});
 </script>
 
 <template>
@@ -35,6 +39,7 @@ const adr = computed(() => {
 		<div class="statistic">
 			<a class="name">K/D</a>{{ playerData?.statistics.kd }}
 		</div>
+		<div class="statistic" v-if="hsp"><a class="name">HS%</a>{{ hsp }}</div>
 		<div class="statistic" v-if="adr"><a class="name">ADR</a>{{ adr }}</div>
 		<div class="roundKills">
 			<img
