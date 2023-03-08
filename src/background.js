@@ -30,6 +30,8 @@ async function createWindow() {
 	});
 
 	win.setAlwaysOnTop(true, "screen");
+	win.setIgnoreMouseEvents(true);
+	// win.setFocusable(false);
 
 	appExpress.get("/api/data", (req, res) => {
 		res.json({ message: "Hello from Express!" });

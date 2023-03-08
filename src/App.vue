@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<!-- {{ guiStore.getData() }}<br /><br />
-		{{ matchStore.getData()?.roundInfo }} <br />
+		{{ guiStore.getData() }}<br /><br />
+		<!--{{ matchStore.getData()?.roundInfo }} <br />
 		moreThan3: {{ playersStore.someoneKilled3() ? "tak" : "nie" }}
 		<br />dmghigh: {{ playersStore.someoneHighDMG() ? "tak" : "nie" }}<br />
 		hs3:
@@ -51,9 +51,7 @@ export default {
 				arg.phase_countdowns,
 				arg.bomb
 			);
-			let roundsNumber = arg?.map?.round_wins
-				? Object.keys(arg.map.round_wins)?.length
-				: 0;
+			let roundsNumber = arg.map.round || 1;
 			vm.guiStore.setPlayersDamage(arg.allplayers, roundsNumber);
 		});
 	},
