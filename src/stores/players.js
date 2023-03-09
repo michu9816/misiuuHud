@@ -47,11 +47,12 @@ export const usePlayersStore = defineStore("players", () => {
 				guiStore.getPlayerDamage(playerSlot) /
 				(matchStore.getData().round || 1)
 			).toFixed(2),
-			hs:
+			hs: parseInt(
 				(playerData.match_stats.kills
 					? guiStore.getPlayerHS(playerSlot) /* eslint-disable */ /
 					  playerData.match_stats.kills
-					: 0) * 100,
+					: 0) * 100
+			),
 			kd: parseFloat(
 				parseInt(playerData.match_stats.kills) /
 					(parseInt(playerData.match_stats.deaths) || 1)

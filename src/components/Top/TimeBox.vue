@@ -5,7 +5,7 @@ import { computed } from "vue";
 const matchStore = useMatchStore();
 
 const bombPlanted = computed(() => {
-	return matchStore.getData()?.roundInfo.bomb.state == "planted";
+	return matchStore.getData()?.roundInfo.bomb?.state == "planted";
 });
 
 const timeLeft = computed(() => {

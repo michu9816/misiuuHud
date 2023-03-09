@@ -1,7 +1,7 @@
 <template>
 	<div>
-		{{ guiStore.getData() }}<br /><br />
-		{{ matchStore.getData() }}
+		<!-- {{ guiStore.getData() }}<br /><br /> -->
+		<!-- {{ matchStore.getData() }} -->
 		<!--{{ matchStore.getData()?.roundInfo }} <br />
 		moreThan3: {{ playersStore.someoneKilled3() ? "tak" : "nie" }}
 		<br />dmghigh: {{ playersStore.someoneHighDMG() ? "tak" : "nie" }}<br />
