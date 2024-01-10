@@ -28,7 +28,7 @@ const money = computed(() => {
 const savedMoney = ref(0);
 
 watch(money, (value) => {
-	if (savedMoney.value < value) {
+	if (savedMoney.value < value || matchStore.getData().round == "1") {
 		savedMoney.value = value;
 	}
 });
@@ -43,22 +43,14 @@ const matchLive = computed(() => {
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div
-		class="darkBackground statistics"
-		:class="{
-			buyTime: !matchLive,
-		}"
-	>
+	<div class="darkBackground statistics" :class="{
+		buyTime: !matchLive,
+	}">
 		<div class="statistic">
 			<div class="title">K</div>
 			<div>
 				{{ kills
-				}}<span
-					class="roundKills"
-					:class="[playerData.team]"
-					v-if="roundKills"
-					>{{ roundKills }}</span
-				>
+				}}<span class="roundKills" :class="[playerData.team]" v-if="roundKills">{{ roundKills }}</span>
 			</div>
 		</div>
 		<div class="statistic">
@@ -80,6 +72,7 @@ const matchLive = computed(() => {
 	grid-template-columns: 32% 26% 42%;
 	padding: 5px 0;
 }
+
 .title {
 	font-size: 10px;
 	color: var(--color-text-gray);
@@ -90,17 +83,21 @@ const matchLive = computed(() => {
 .statistics.buyTime .title {
 	font-size: 14px;
 }
+
 .statistics.buyTime .title.money {
 	color: red;
 }
+
 .roundKills {
 	padding: 2px 5px;
 	border-radius: 5px;
 	margin-left: 3px;
 }
+
 .roundKills.CT {
 	background: var(--gradient-health-ct-vertical);
 }
+
 .roundKills.T {
 	background: var(--gradient-health-t-vertical);
 }

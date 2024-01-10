@@ -2,6 +2,8 @@
 import ScoreBox from "@/components/Top/ScoreBox.vue";
 import TeamBox from "@/components/Top/TeamBox.vue";
 import TimeBox from "@/components/Top/TimeBox.vue";
+import RoundPhase from "@/components/Top/RoundPhase.vue";
+import RoundWinner from "@/components/Top/RoundWinner.vue";
 </script>
 
 <template>
@@ -12,6 +14,8 @@ import TimeBox from "@/components/Top/TimeBox.vue";
 		<ScoreBox team="t"></ScoreBox>
 		<TeamBox team="t"></TeamBox>
 	</div>
+	<RoundPhase></RoundPhase>
+	<RoundWinner></RoundWinner>
 </template>
 
 <style scoped>
@@ -22,7 +26,6 @@ import TimeBox from "@/components/Top/TimeBox.vue";
 	display: grid;
 	grid-template-columns: 330px 80px 100px 80px 330px;
 	top: 10px;
-	background: rgba(0, 0, 0, 0.8);
 	font-size: 24px;
 	color: white;
 	border-radius: 5px;

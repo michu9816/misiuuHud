@@ -30,12 +30,14 @@ function convertTime(time) {
 </script>
 
 <template>
-	<div class="bomb" v-if="bombPlanted" :style="{
-		height: bombTimerHeight,
-	}">
-		<img src="@/assets/img/elements/icon_bomb_default.png" />
+	<div class="timeBackground">
+		<div class="bomb" v-if="bombPlanted" :style="{
+			height: bombTimerHeight,
+		}">
+			<img src="@/assets/img/elements/icon_bomb_default.png" />
+		</div>
+		<div class="time" v-else>{{ timeLeft }}</div>
 	</div>
-	<div class="time" v-else>{{ timeLeft }}</div>
 </template>
 
 <style scoped>
@@ -52,6 +54,10 @@ function convertTime(time) {
 .bomb img {
 	padding-top: 6px;
 	height: 30px;
+}
+
+.timeBackground {
+	background: #141414;
 }
 
 @keyframes bombTicking {

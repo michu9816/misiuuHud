@@ -31,21 +31,26 @@ const scoreChanged = computed(() => {
 	font-size: 32px;
 	font-weight: bold;
 	transition-duration: 0.5s;
+	background: white;
 }
+
 .score.highlight {
 	color: white;
 }
+
 .score.highlight.ct {
 	background: var(--color-text-ct);
 }
+
 .score.highlight.t {
 	background: var(--color-text-t);
 }
+
 .score.ct:not(.highlight) {
 	color: var(--color-text-ct);
 }
+
 .score.t:not(.highlight) {
 	color: var(--color-text-t);
-}
-</style>
+}</style>
 

@@ -12,14 +12,18 @@ const name = computed(() => {
 });
 </script>
 <template>
-	<div class="name">{{ name }}</div>
+	<div class="name" :class="props.team">{{ name }}</div>
 </template>
 
 <style scoped>
 .name {
 	display: flex;
 	align-self: center;
-	justify-content: center;
+	padding: 0 20px;
+}
+
+.name.ct {
+	justify-content: flex-end;
 }
 </style>
 
