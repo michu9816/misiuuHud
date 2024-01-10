@@ -28,7 +28,9 @@ const money = computed(() => {
 const savedMoney = ref(0);
 
 watch(money, (value) => {
-	if (savedMoney.value < value || matchStore.getData().round == "1") {
+	if (matchStore.getData().round == "1") {
+		savedMoney.value = 800;
+	} else if (matchStore.getData().round > "1" || matchStore.getData().roundInfo?.data?.phase == "over") {
 		savedMoney.value = value;
 	}
 });
