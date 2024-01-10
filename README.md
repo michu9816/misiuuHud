@@ -1,7 +1,7 @@
 # MisiuU HUD
 
 ## Uruchomienie HUD
-- Dodaj do folderu "cfg" gry CS2 (.../csgo/cfg) plik "gamestate_integration_observerspectator.cfg" z zawartością
+- Dodaj do folderu "cfg" gry CS2 (.../csgo/cfg) plik "gamestate_integration_misiuuHud.cfg" z zawartością
 ```
 "Observer All Players v.1"
 {
@@ -32,12 +32,12 @@
  }
 }
 ```
-- Uruchom program vue-desktop.exe (plik instalacyjny można go pobrać z folderu głównego projektu)
-- Przejdź do okna "vue-desktop" i naciśnij F11
+- Uruchom program misiuuHud.exe (plik instalacyjny "misiuuHud Setup 0.1.0.exe" można go pobrać z folderu głównego projektu)
+- Przejdź do okna "misiuuHud" i naciśnij F11
 - Włącz grę i przejdź do dema / odtwarzania meczu LIVE
 - Wpisz komendy, które spowodują wyłączenie domyślnego HUD
 ```
-
+cl_draw_only_deathnotices true;cl_drawhud_force_radar 1
 ```
 ## Działanie aplikacji
 Aplikacja napisana w electron stawia serwer na porcie 8080. 
@@ -66,17 +66,16 @@ ukryte informacje o HP graczy.
 rundy. GSI nie dostarcza informacji na temat liczby zabójstw przez HS w trakcie meczu, ani o 
 zadanych obrażeniach. Te statystyki są zbierane co rundę do tablicy i wykorzystywane przez aplikację
 
-## Przygotowanie projektu
-```
-npm install
-```
+## Ręczne włączenie i przebudowanie projektu
 
 ### Uruchomienie projektu
 ```
+npm install
 npm run electron:serve
 ```
 
 ### Budowanie pliku .exe
 ```
+npm install
 npm run electron:build
 ```
