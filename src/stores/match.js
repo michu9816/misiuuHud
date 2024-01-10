@@ -6,6 +6,8 @@ import { usePlayersStore } from "./players";
 export const useMatchStore = defineStore("match", () => {
 	const match = ref();
 	function loadMatchData(matchData, roundData, timeData, bombData) {
+		const guiStore = useGuiStore();
+
 		match.value = matchData;
 		if (match.value) {
 			match.value.roundInfo = {
@@ -14,13 +16,15 @@ export const useMatchStore = defineStore("match", () => {
 				bomb: bombData,
 			};
 		}
+		if (matchData?.round == 1) {
+			guiStore.restartStatistics();
+		}
 
 		if (timeData?.phase == "over") {
-			const guiStore = useGuiStore();
 			const playersStore = usePlayersStore();
 
 			let statistic = "adr";
-			const roundSideNr = matchData.round % 15;
+			const roundSideNr = matchData.round % 12;
 			const extendedStatistics =
 				guiStore.getData().playersStatistics.damage[0] != null;
 

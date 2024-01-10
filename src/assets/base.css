@@ -8,8 +8,8 @@
   --vt-c-white: #f2f2f2;
 
   --vt-c-red-dark: rgb(161, 0, 0);
-  --vt-c-dark-transparent: rgba(0,0,0,0.8);
-  --vt-c-dark-transparent-9: rgba(0,0,0,0.9);
+  --vt-c-dark-transparent: rgba(0, 0, 0, 0.8);
+  --vt-c-dark-transparent-9: rgba(0, 0, 0, 0.9);
 }
 
 /* semantic color variables for this project */
@@ -17,17 +17,17 @@
   --color-background: var(--vt-c-white);
   --color-background-dark-transparent: var(--vt-c-dark-transparent);
   --color-background-dark-red: var(--vt-c-red-dark);
-  
+
   --color-text-ct: var(--vt-c-cyan-bright);
   --color-text-t: var(--vt-c-orange-bright);
   --color-text-gray: var(--vt-c-gray);
   --color-text-white: var(--vt-c-white);
 
-  --gradient-health-ct: -webkit-linear-gradient(0deg, var(--vt-c-cyan-bright),var(--vt-c-cyan-dark));
-  --gradient-health-ct-vertical: -webkit-linear-gradient(90deg, var(--vt-c-cyan-bright),var(--vt-c-cyan-dark));
-  
-  --gradient-health-t: -webkit-linear-gradient(0deg, var(--vt-c-orange-bright),var(--vt-c-orange-dark));
-  --gradient-health-t-vertical: -webkit-linear-gradient(90deg, var(--vt-c-orange-bright),var(--vt-c-orange-dark));
+  --gradient-health-ct: -webkit-linear-gradient(0deg, var(--vt-c-cyan-bright), var(--vt-c-cyan-dark));
+  --gradient-health-ct-vertical: -webkit-linear-gradient(90deg, var(--vt-c-cyan-bright), var(--vt-c-cyan-dark));
+
+  --gradient-health-t: -webkit-linear-gradient(0deg, var(--vt-c-orange-bright), var(--vt-c-orange-dark));
+  --gradient-health-t-vertical: -webkit-linear-gradient(90deg, var(--vt-c-orange-bright), var(--vt-c-orange-dark));
 }
 
 body {

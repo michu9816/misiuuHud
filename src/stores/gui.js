@@ -54,8 +54,17 @@ export const useGuiStore = defineStore("gui", () => {
 		) {
 			return a + b;
 		},
-		0);
+			0);
 		return hsSum;
+	}
+
+	function restartStatistics() {
+		data.value.playersStatistics = {
+			damage: [[], [], [], [], [], [], [], [], [], []],
+			hs: [[], [], [], [], [], [], [], [], [], []],
+			show: false,
+			type: "adr",
+		}
 	}
 	return {
 		getData,
@@ -64,5 +73,6 @@ export const useGuiStore = defineStore("gui", () => {
 		getPlayerHS,
 		setPlayerStatisticType,
 		setPlayerStatisticVisibility,
+		restartStatistics
 	};
 });
