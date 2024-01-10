@@ -33,12 +33,14 @@
 }
 ```
 - Uruchom program misiuuHud.exe (plik instalacyjny "misiuuHud Setup 0.1.0.exe" można go pobrać z folderu głównego projektu)
-- Przejdź do okna "misiuuHud" i naciśnij F11
+- Przejdź do programu "misiuuHud" i naciśnij F11. Od tego momentu kursor nie będzie reagował na program, lecz na wszystko co jest pod nim.
 - Włącz grę i przejdź do dema / odtwarzania meczu LIVE
 - Wpisz komendy, które spowodują wyłączenie domyślnego HUD
 ```
 cl_draw_only_deathnotices true;cl_drawhud_force_radar 1
 ```
+
+Aby wyłączyć HUD należy kliknąć na niego, aby był aktywny (lub dać ALT + TAB) i kliknąć ALT + F4.
 ## Działanie aplikacji
 Aplikacja napisana w electron stawia serwer na porcie 8080. 
 Za pomocą biblioteki „express” na porcie „3000” dostępny jest serwer http, który służy do odbierania 
