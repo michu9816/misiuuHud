@@ -71,7 +71,7 @@ const getWeponIcon = function (value) {
 	color: white;
 	border-radius: 0 5px 0 0;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 20px;
 	display: grid;
 	grid-template-columns: auto auto;
 }
@@ -93,7 +93,7 @@ const getWeponIcon = function (value) {
 }
 
 .seperator {
-	height: 5px;
+	height: 8px;
 }
 
 .seperator.T {
