@@ -41,18 +41,20 @@ cl_draw_only_deathnotices true;cl_drawhud_force_radar 1
 ```
 
 Aby wyłączyć HUD należy kliknąć na niego, aby był aktywny (lub dać ALT + TAB) i kliknąć ALT + F4.
+
+**Ważne! Przeczytaj kolejny punkt, aby wyświetlać HUD nad grą**
+## Wyświetlanie nad grą i integracja w OBS
+Aby aplikacja wyświetliła się nad grą wymagane jest włączenie CS w trybie „Pełny ekran w oknie”. 
+Nakładka pojawia się nad grą co pozwala komentować z widocznym HUD’em.
+Jeżeli w OBS przechwytywany jest obraz gry, ekranu HUD nie będzie widoczny. Wymagane będzie 
+dodane kolejnego źródła obrazu – programu „HUD” który będzie wyświetlany nad grą. 
+
 ## Działanie aplikacji
 Aplikacja napisana w electron stawia serwer na porcie 8080. 
 Za pomocą biblioteki „express” na porcie „3000” dostępny jest serwer http, który służy do odbierania 
 danych z gry. Dane dostarczane są za pomocą GSI ( Game State Integration ) w CS:GO dzięki 
 odpowiedniemu pliku .cfg umieszczonemu w plikach gry.
 O GSI można poczytać na stronie https://developer.valvesoftware.com/wiki/CounterStrike:_Global_Offensive_Game_State_Integration
-
-## Wyświetlanie nad grą i integracja w OBS
-Aby aplikacja wyświetliła się nad grą wymagane jest włączenie CS w trybie „Pełny ekran w oknie”. 
-Nakładka pojawia się nad grą co pozwala komentować z widocznym HUD’em.
-Jeżeli w OBS przechwytywany jest obraz gry, ekranu HUD nie będzie widoczny. Wymagane będzie 
-dodane kolejnego źródła obrazu – programu „HUD” który będzie wyświetlany nad grą. 
 
 ## SStatystyki wyświetlanie w trakcie gry
 Po każdej rundzie (zaczynając od 3) zostają wyświetlane statystyki w formacie wykresu słupkowego. 
