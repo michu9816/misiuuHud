@@ -7,13 +7,15 @@ export const useMatchStore = defineStore("match", () => {
 	const match = ref();
 	function loadMatchData(matchData, roundData, timeData, bombData) {
 		match.value = matchData;
-		match.value.roundInfo = {
-			data: roundData,
-			timer: timeData,
-			bomb: bombData,
-		};
+		if (match.value) {
+			match.value.roundInfo = {
+				data: roundData,
+				timer: timeData,
+				bomb: bombData,
+			};
+		}
 
-		if (timeData.phase == "over") {
+		if (timeData?.phase == "over") {
 			const guiStore = useGuiStore();
 			const playersStore = usePlayersStore();
 
@@ -31,7 +33,7 @@ export const useMatchStore = defineStore("match", () => {
 				statistic = "equipment";
 			} else if (roundSideNr >= 3) {
 				if (someoneHeadshoted3 && extendedStatistics) {
-					statistic = "hsp";
+					statistic = "hs";
 				} else if (someoneKilled3) {
 					statistic = "kd";
 				} else if (someoneHighDMG) {

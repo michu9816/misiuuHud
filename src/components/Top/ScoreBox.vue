@@ -13,7 +13,7 @@ const score = computed(() => {
 
 const scoreChanged = computed(() => {
 	return (
-		matchStore.getData()?.roundInfo.data.win_team ==
+		matchStore.getData()?.roundInfo.data?.win_team ==
 		props.team.toUpperCase()
 	);
 });

@@ -9,7 +9,7 @@ const bombPlanted = computed(() => {
 });
 
 const timeLeft = computed(() => {
-	return convertTime(matchStore.getData()?.roundInfo.timer.phase_ends_in);
+	return convertTime(matchStore.getData()?.roundInfo?.timer?.phase_ends_in);
 });
 
 const bombTimerHeight = computed(() => {
@@ -30,13 +30,9 @@ function convertTime(time) {
 </script>
 
 <template>
-	<div
-		class="bomb"
-		v-if="bombPlanted"
-		:style="{
-			height: bombTimerHeight,
-		}"
-	>
+	<div class="bomb" v-if="bombPlanted" :style="{
+		height: bombTimerHeight,
+	}">
 		<img src="@/assets/img/elements/icon_bomb_default.png" />
 	</div>
 	<div class="time" v-else>{{ timeLeft }}</div>
@@ -46,20 +42,25 @@ function convertTime(time) {
 .time {
 	padding: 10px 0;
 }
+
 .bomb {
 	animation: 2s bombTicking-251b7e38 infinite;
 	background: rgb(135, 0, 0);
 	position: relative;
 }
+
 .bomb img {
 	padding-top: 6px;
 	height: 30px;
 }
+
 @keyframes bombTicking {
+
 	0%,
 	100% {
 		background: rgb(135, 0, 0);
 	}
+
 	50% {
 		background: rgb(91, 0, 0);
 	}

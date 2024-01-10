@@ -53,13 +53,9 @@ const statisticHeight = computed(() => {
 <template>
 	<!-- Access the state directly from the store -->
 	<!-- {{ playerData.statistics }} -->
-	<div
-		class="darkBackground"
-		:class="[playerData.team]"
-		:style="{
-			height: statisticHeight + 'px',
-		}"
-	>
+	<div class="darkBackground" :class="[playerData.team]" :style="{
+		height: statisticHeight + 'px',
+	}">
 		<div class="title">{{ statisticToShow }}</div>
 		<div class="value">
 			{{ statisticValue }}
@@ -75,15 +71,18 @@ const statisticHeight = computed(() => {
 	padding: 5px 0;
 	text-transform: uppercase;
 }
+
 .darkBackground {
 	transition-duration: 0.5s;
 	height: 0px;
 	overflow: hidden;
 	opacity: 0.8;
 }
+
 .darkBackground.CT {
 	background: var(--gradient-health-ct-vertical);
 }
+
 .darkBackground.T {
 	background: var(--gradient-health-t-vertical);
 }

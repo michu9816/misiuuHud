@@ -11,23 +11,25 @@ export const usePlayersStore = defineStore("players", () => {
 	const player = ref();
 	function loadPlayers(playersData, playerData) {
 		players.value = [];
-		for (let key of Object.keys(playersData)) {
-			let playerData = playersData[key];
-			playerData.id = key;
+		if (playersData) {
+			for (let key of Object.keys(playersData)) {
+				let playerData = playersData[key];
+				playerData.id = key;
 
-			let availableWeapons = [];
-			for (let weapon of Object.keys(playerData.weapons)) {
-				availableWeapons.push(playerData.weapons[weapon]);
-				if (playerData.weapons[weapon].state == "active") {
-					playerData.activeWeapon = playerData.weapons[weapon];
+				let availableWeapons = [];
+				for (let weapon of Object.keys(playerData.weapons)) {
+					availableWeapons.push(playerData.weapons[weapon]);
+					if (playerData.weapons[weapon].state == "active") {
+						playerData.activeWeapon = playerData.weapons[weapon];
+					}
 				}
+				playerData.availableWeapons = availableWeapons;
+
+				players.value.push(playerData);
 			}
-			playerData.availableWeapons = availableWeapons;
 
-			players.value.push(playerData);
+			player.value = playerData;
 		}
-
-		player.value = playerData;
 	}
 
 	function getPlayers(team) {
@@ -50,12 +52,12 @@ export const usePlayersStore = defineStore("players", () => {
 			hs: parseInt(
 				(playerData.match_stats.kills
 					? guiStore.getPlayerHS(playerSlot) /* eslint-disable */ /
-					  playerData.match_stats.kills
+					playerData.match_stats.kills
 					: 0) * 100
 			),
 			kd: parseFloat(
 				parseInt(playerData.match_stats.kills) /
-					(parseInt(playerData.match_stats.deaths) || 1)
+				(parseInt(playerData.match_stats.deaths) || 1)
 			).toFixed(1),
 			rounds: matchStore.getData().round,
 			equipment: playerData.state.equip_value,

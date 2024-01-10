@@ -3,14 +3,18 @@ import Nickname from "@/components/Player/PlayerNick.vue";
 import PlayerState from "@/components/Player/PlayerState.vue";
 import PlayerStatistic from "@/components/Player/PlayerStatistics.vue";
 import { useMatchStore } from "@/stores/match";
+import { usePlayersStore } from "@/stores/players";
+
 import { computed } from "vue";
 
 const matchStore = useMatchStore();
+const playersStore = usePlayersStore();
 
 const boxVisible = computed(() => {
 	return (
 		matchStore.getData()?.phase == "live" &&
-		matchStore.getData()?.roundInfo?.data?.phase != "freezetime"
+		matchStore.getData()?.roundInfo?.data?.phase != "freezetime" &&
+		playersStore.getWatchingPlayerData()?.name
 	);
 });
 </script>

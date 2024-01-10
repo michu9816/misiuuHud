@@ -17,7 +17,7 @@ const playerData = computed(() => {
 });
 
 const isThisPlayerWatching = computed(() => {
-	return playerData.value.id == playersStore.getWatchingPlayerData().steamid;
+	return playerData.value.id == playersStore.getWatchingPlayerData()?.steamid;
 });
 </script>
 

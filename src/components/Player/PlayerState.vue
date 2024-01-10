@@ -45,31 +45,19 @@ const getWeponIcon = function (value) {
 <template>
 	<div class="data">
 		<div class="state">
-			<img
-				src="@/assets/img/elements/icon_health_full_default.png"
-				class="ico_health"
-			/>
+			<img src="@/assets/img/elements/icon_health_full_default.png" class="ico_health" />
 			{{ health }}
 			<img :src="kevlarImage" class="ico_health" />
 			{{ armor }}
-			<img
-				src="@/assets/img/elements/icon_bullets_default.png"
-				class="ico_ammo"
-				v-if="ammo"
-			/>
+			<img src="@/assets/img/elements/icon_bullets_default.png" class="ico_ammo" v-if="ammo" />
 			{{ ammo }}
 		</div>
 		<div class="weapons">
-			<img
-				v-for="weapon of playerData?.availableWeapons.filter(
-					(obj) => obj.type != 'Knife'
-				)"
-				:key="weapon.name"
-				:class="{
-					inactive: weapon.state != 'active',
-				}"
-				:src="getWeponIcon(weapon)"
-			/>
+			<img v-for="weapon of playerData?.availableWeapons.filter(
+				(obj) => obj.type != 'Knife'
+			)" :key="weapon.name" :class="{
+	inactive: weapon.state != 'active',
+}" :src="getWeponIcon(weapon)" />
 		</div>
 	</div>
 	<div class="seperator" :class="[playerData?.team]"></div>
@@ -87,25 +75,36 @@ const getWeponIcon = function (value) {
 	display: grid;
 	grid-template-columns: auto auto;
 }
+
 .data img {
 	height: 15px;
 }
+
 .data .weapons {
 	text-align: right;
 }
+
 .data .weapons img {
 	filter: invert(1);
 }
+
 .data .weapons img.inactive {
 	opacity: 0.6;
 }
+
 .seperator {
 	height: 5px;
 }
+
 .seperator.T {
 	background: var(--gradient-health-t);
 }
+
 .seperator.CT {
 	background: var(--gradient-health-ct);
+}
+
+.weapons img {
+	margin-left: 5px;
 }
 </style>
