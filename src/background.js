@@ -29,8 +29,9 @@ async function createWindow() {
 		frame: false,
 	});
 
-	win.setAlwaysOnTop(true, "screen");
+	win.setAlwaysOnTop(true, "screen-saver", 1);
 	win.setIgnoreMouseEvents(true);
+	win.setFullScreen(true);
 	// win.setFocusable(false);
 
 	appExpress.get("/api/data", (req, res) => {

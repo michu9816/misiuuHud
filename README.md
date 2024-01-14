@@ -32,8 +32,7 @@
  }
 }
 ```
-- Uruchom program misiuuHud.exe (plik instalacyjny "misiuuHud Setup 0.1.0.exe" można go pobrać z folderu głównego projektu)
-- Przejdź do programu "misiuuHud" i naciśnij F11. Od tego momentu kursor nie będzie reagował na program, lecz na wszystko co jest pod nim.
+- Uruchom program misiuuHud.exe (plik instalacyjny "misiuuHud Setup 0.1.2.exe" można go pobrać z folderu głównego projektu)
 - Włącz grę i przejdź do dema / odtwarzania meczu LIVE
 - Wpisz komendy, które spowodują wyłączenie domyślnego HUD
 ```
