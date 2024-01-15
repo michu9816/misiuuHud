@@ -29,10 +29,12 @@ async function createWindow() {
 		frame: false,
 	});
 
+	win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 	win.setAlwaysOnTop(true, "screen-saver", 1);
 	win.setIgnoreMouseEvents(true);
 	win.setFullScreen(true);
 	// win.setFocusable(false);
+	win.moveTop();
 
 	appExpress.get("/api/data", (req, res) => {
 		res.json({ message: "Hello from Express!" });
