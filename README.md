@@ -32,7 +32,7 @@
  }
 }
 ```
-- Uruchom program misiuuHud.exe (plik instalacyjny "misiuuHud Setup 0.1.3.exe" można pobrać z sekcji Release https://github.com/michu9816/misiuuHud/releases/tag/hud2)
+- Uruchom program misiuuHud.exe (plik instalacyjny "misiuuHud Setup 0.1.4.exe" można pobrać z sekcji Release https://github.com/michu9816/misiuuHud/releases)
 - Włącz grę i przejdź do dema / odtwarzania meczu LIVE
 - Wpisz komendy, które spowodują wyłączenie domyślnego HUD
 ```
@@ -41,7 +41,7 @@ cl_draw_only_deathnotices true;cl_drawhud_force_radar 1
 
 Aby wyłączyć HUD należy kliknąć na niego, aby był aktywny (lub dać ALT + TAB) i kliknąć ALT + F4.
 
-**Ważne! Przeczytaj kolejny punkt, aby wyświetlać HUD nad grą**
+**Ważne! Przeczytaj kolejny punkt, aby wyświetlać HUD nad grą**n
 ## Wyświetlanie nad grą i integracja w OBS
 Aby aplikacja wyświetliła się nad grą wymagane jest włączenie CS w trybie „Pełny ekran w oknie”. 
 Nakładka pojawia się nad grą co pozwala komentować z widocznym HUD’em.
