@@ -5,7 +5,8 @@ const playersStore = usePlayersStore();
 </script>
 
 <template>
-	<div class="nick">{{ playersStore.getWatchingPlayerData()?.name }}</div>
+	<div class="nick" :class="[playersStore.getWatchingPlayerData()?.team]">{{ playersStore.getWatchingPlayerData()?.name }}
+	</div>
 </template>
 
 <style scoped>
@@ -18,5 +19,13 @@ const playersStore = usePlayersStore();
 	width: fit-content;
 	font-weight: bold;
 	font-size: 25px;
+}
+
+.nick.T {
+	background: var(--gradient-health-t);
+}
+
+.nick.CT {
+	background: var(--gradient-health-ct);
 }
 </style>

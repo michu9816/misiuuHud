@@ -43,6 +43,33 @@ const matchLive = computed(() => {
 		matchStore.getData().roundInfo.data.phase != "freezetime"
 	);
 });
+
+const showStatisticChangeOverlay = ref(undefined);
+watch(roundKills, (value, oldValue) => {
+	if (value > oldValue) {
+		if (!matchLive.value) {
+			return;
+		}
+		switch (value) {
+			case 3:
+				showStatisticChangeOverlay.value = "3K";
+				break;
+			case 4:
+				showStatisticChangeOverlay.value = "4K";
+				break;
+			case 5:
+				showStatisticChangeOverlay.value = "ACE";
+				break;
+			default:
+				showStatisticChangeOverlay.value = "Kill";
+				break;
+
+		}
+		setTimeout(function () {
+			showStatisticChangeOverlay.value = undefined;
+		}, value == 5 ? 1450 : 450)
+	}
+})
 </script>
 
 <template>
@@ -50,6 +77,11 @@ const matchLive = computed(() => {
 	<div class="darkBackground statistics" :class="{
 		buyTime: !matchLive,
 	}">
+		<div class="statisticChangeOverlay" v-if="showStatisticChangeOverlay" :class="[playerData.team]">
+			<div class="text">
+				{{ showStatisticChangeOverlay }}
+			</div>
+		</div>
 		<div class="statistic">
 			<div class="title">K</div>
 			<div>
@@ -71,6 +103,35 @@ const matchLive = computed(() => {
 </template>
 
 <style scoped>
+.statisticChangeOverlay {
+	position: absolute;
+	transition-duration: 0.5s;
+	background: white;
+	width: 0%;
+	height: 34px;
+	font-weight: bold;
+	font-size: 22px;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	animation: stretchHorizontal 0.5s infinite;
+}
+
+.statisticChangeOverlay.T {
+	color: var(--color-text-t);
+}
+
+.statisticChangeOverlay.CT {
+	color: var(--color-text-ct);
+}
+
+.statisticChangeOverlay .text {
+	width: 140px;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+}
+
 .statistics {
 	display: grid;
 	grid-template-columns: 32% 26% 42%;
@@ -104,6 +165,28 @@ const matchLive = computed(() => {
 
 .roundKills.T {
 	background: var(--gradient-health-t-vertical);
+}
+
+@keyframes stretchHorizontal {
+
+	0%,
+	99% {
+		width: 0%;
+	}
+
+	30%,
+	70% {
+		width: 100%;
+	}
+
+	49% {
+		left: 0%;
+	}
+
+	50%,
+	100% {
+		right: 0;
+	}
 }
 </style>
 
