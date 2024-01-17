@@ -17,7 +17,7 @@ const playerData = computed(() => {
 const decreaseOldHealth = ref();
 
 const currentHealth = computed(() => {
-	return playerData.value.state.health;
+	return playerData.value.state?.health;
 });
 const oldHealth = ref(parseInt(playerData.value.state.health));
 
@@ -54,33 +54,20 @@ const kevlarImage = computed(() => {
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div
-		class="bars"
-		:class="{
-			hide: currentHealth == 0 || !matchLive,
-		}"
-	>
+	<div class="bars" :class="{
+		hide: currentHealth == 0 || !matchLive,
+	}">
 		<div class="health bar">
-			<img
-				src="@/assets/img/elements/icon_health_full_default.png"
-				class="ico_health"
-			/>
+			<img src="@/assets/img/elements/icon_health_full_default.png" class="ico_health" />
 			{{ currentHealth }}
 			<img :src="kevlarImage" v-if="kevlarImage" class="ico_kevlar" />
 		</div>
-		<div
-			class="healthBackground bar"
-			:class="[playerData.team]"
-			:style="{
-				width: `${currentHealth}%`,
-			}"
-		></div>
-		<div
-			class="oldHealthBackground bar"
-			:style="{
-				width: `${oldHealth}%`,
-			}"
-		></div>
+		<div class="healthBackground bar" :class="[playerData.team]" :style="{
+			width: `${currentHealth}%`,
+		}"></div>
+		<div class="oldHealthBackground bar" :style="{
+			width: `${oldHealth}%`,
+		}"></div>
 		<div class="darkBackground bar"></div>
 	</div>
 </template>
@@ -95,16 +82,20 @@ const kevlarImage = computed(() => {
 	width: 100%;
 	overflow: hidden;
 }
+
 .darkBackground {
 	background: var(--vt-c-dark-transparent-9);
 }
+
 .ico_health {
 	margin-right: 5px;
 }
+
 .ico_kevlar {
 	right: 5px;
 	position: absolute;
 }
+
 .health {
 	color: var(--color-text-white);
 	z-index: 3;
@@ -113,27 +104,33 @@ const kevlarImage = computed(() => {
 	font-size: 20px;
 	width: calc(100% - 20px);
 }
+
 .health img {
 	height: 20px;
 }
+
 .healthBackground.CT {
 	background: var(--gradient-health-ct);
 	z-index: 2;
 }
+
 .healthBackground.T {
 	background: var(--gradient-health-t);
 	z-index: 2;
 }
+
 .oldHealthBackground {
 	background: var(--color-background-dark-red);
 	z-index: 1;
 	transition-duration: 0.5s;
 }
+
 .bars {
 	position: relative;
 	transition-duration: 0.5s;
 	height: 30px;
 }
+
 .hide {
 	height: 0;
 }

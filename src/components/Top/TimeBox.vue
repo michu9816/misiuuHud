@@ -25,7 +25,7 @@ function convertTime(time) {
 	let seconds = parseInt(time % 60);
 	seconds = seconds.toLocaleString("pl-PL", { minimumIntegerDigits: 2 });
 
-	return `${minutes}:${seconds}`;
+	return time > 0 ? `${minutes}:${seconds}` : "--:--";
 }
 </script>
 

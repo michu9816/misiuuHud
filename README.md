@@ -32,7 +32,7 @@
  }
 }
 ```
-- Uruchom program misiuuHud.exe (plik instalacyjny "misiuuHud Setup 0.1.4.exe" można pobrać z sekcji Release https://github.com/michu9816/misiuuHud/releases)
+- Uruchom program misiuuHud.exe (plik instalacyjny "misiuuHud Setup 0.1.5.exe" można pobrać z sekcji Release https://github.com/michu9816/misiuuHud/releases)
 - Włącz grę i przejdź do dema / odtwarzania meczu LIVE
 - Wpisz komendy, które spowodują wyłączenie domyślnego HUD
 ```

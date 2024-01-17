@@ -9,6 +9,7 @@ export const usePlayersStore = defineStore("players", () => {
 
 	const players = ref([]);
 	const player = ref();
+
 	function loadPlayers(playersData, playerData) {
 		players.value = [];
 		if (playersData) {
@@ -42,23 +43,27 @@ export const usePlayersStore = defineStore("players", () => {
 		if (!playerData || !id) {
 			return;
 		}
-		const playerSlot =
-			playerData.observer_slot == 0 ? 10 : playerData.observer_slot;
+
+		const extendedStatistics =
+			guiStore.getData().playersStatistics.data?.filter(obj => obj.round == 0).length > 0;
+
 		playerData.statistics = {
-			adr: (
-				guiStore.getPlayerDamage(playerSlot) /
+			dmg: guiStore.getPlayerDamage(id),
+			adr: extendedStatistics ? (
+				guiStore.getPlayerDamage(id) /
 				(matchStore.getData().round || 1)
-			).toFixed(2),
-			hs: parseInt(
+			).toFixed(2) : undefined,
+			hs: extendedStatistics ? (parseInt(
 				(playerData.match_stats.kills
-					? guiStore.getPlayerHS(playerSlot) /* eslint-disable */ /
+					? guiStore.getPlayerHS(id) /* eslint-disable */ /
 					playerData.match_stats.kills
-					: 0) * 100
-			),
+					: 0) * 100)
+			) : undefined,
 			kd: parseFloat(
 				parseInt(playerData.match_stats.kills) /
 				(parseInt(playerData.match_stats.deaths) || 1)
 			).toFixed(1),
+			kills: playerData.match_stats.kills,
 			rounds: matchStore.getData().round,
 			equipment: playerData.state.equip_value,
 			assists: playerData.match_stats.assists,

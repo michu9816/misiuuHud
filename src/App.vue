@@ -52,7 +52,7 @@ export default {
 				arg.phase_countdowns,
 				arg.bomb
 			);
-			let roundsNumber = arg.map?.round;
+			let roundsNumber = arg.round?.phase == "over" ? arg.map?.round - 1 : arg.map?.round;
 			vm.guiStore.setPlayersDamage(arg.allplayers, roundsNumber);
 		});
 	},

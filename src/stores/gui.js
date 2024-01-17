@@ -4,8 +4,7 @@ import { ref } from "vue";
 export const useGuiStore = defineStore("gui", () => {
 	const data = ref({
 		playersStatistics: {
-			damage: [[], [], [], [], [], [], [], [], [], []],
-			hs: [[], [], [], [], [], [], [], [], [], []],
+			data: [],
 			show: false,
 			type: "adr",
 		},
@@ -24,21 +23,38 @@ export const useGuiStore = defineStore("gui", () => {
 	}
 
 	function setPlayersDamage(players, round) {
-		for (let player of Object.keys(players)) {
-			let playerData = players[player];
-			let observerSlot = playerData.observer_slot;
-			if (observerSlot == 0) {
-				observerSlot = 10;
+		try {
+			for (let player of Object.keys(players)) {
+				let playerData = players[player];
+				let observerSlot = playerData.observer_slot;
+				if (observerSlot == 0) {
+					observerSlot = 10;
+				}
+
+				let dmgData = {
+					player,
+					dmg: playerData.state.round_totaldmg,
+					hs: playerData.state.round_killhs,
+					round
+				}
+
+				const playerStatisticInThisRound = data.value.playersStatistics.data.find(obj => obj.player == player && obj.round == round);
+				if (playerStatisticInThisRound) {
+					if (playerStatisticInThisRound.dmg != playerData.state.round_totaldmg && playerStatisticInThisRound.hs != playerData.state.round_killhs) {
+						playerStatisticInThisRound.dmg = playerData.state.round_totaldmg;
+						playerStatisticInThisRound.hs = playerData.state.round_killhs;
+					}
+				} else {
+					data.value.playersStatistics.data.push(dmgData)
+				}
 			}
-			data.value.playersStatistics.damage[observerSlot - 1][round] =
-				playerData.state.round_totaldmg;
-			data.value.playersStatistics.hs[observerSlot - 1][round] =
-				playerData.state.round_killhs;
+		} catch (e) {
+			restartStatistics();
 		}
 	}
 
 	function getPlayerDamage(id) {
-		let damageSum = data.value.playersStatistics.damage[id - 1]?.reduce(
+		let damageSum = data.value.playersStatistics.data.filter(obj => obj.player == id)?.map(obj => obj.dmg).reduce(
 			function (a, b) {
 				return a + b;
 			},
@@ -48,20 +64,17 @@ export const useGuiStore = defineStore("gui", () => {
 	}
 
 	function getPlayerHS(id) {
-		let hsSum = data.value.playersStatistics.hs[id - 1]?.reduce(function (
-			a,
-			b
-		) {
-			return a + b;
-		},
+		let hsSum = data.value.playersStatistics.data.filter(obj => obj.player == id)?.map(obj => obj.hs).reduce(
+			function (a, b) {
+				return a + b;
+			},
 			0);
 		return hsSum;
 	}
 
 	function restartStatistics() {
 		data.value.playersStatistics = {
-			damage: [[], [], [], [], [], [], [], [], [], []],
-			hs: [[], [], [], [], [], [], [], [], [], []],
+			data: [],
 			show: false,
 			type: "adr",
 		}

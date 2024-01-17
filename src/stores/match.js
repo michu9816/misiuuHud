@@ -16,7 +16,8 @@ export const useMatchStore = defineStore("match", () => {
 				bomb: bombData,
 			};
 		}
-		if (matchData?.round == 1) {
+		if (matchData?.round == 0 && timeData?.phase == "freezetime") {
+			console.log("Restarting statistics on first round");
 			guiStore.restartStatistics();
 		}
 
@@ -26,7 +27,7 @@ export const useMatchStore = defineStore("match", () => {
 			let statistic = "adr";
 			const roundSideNr = matchData.round % 12;
 			const extendedStatistics =
-				guiStore.getData().playersStatistics.damage[0] != null;
+				guiStore.getData().playersStatistics.data?.filter(obj => obj.round == 0).length > 0;
 
 			const someoneKilled3 = playersStore.someoneKilled3();
 			const someoneHighDMG = playersStore.someoneHighDMG();
