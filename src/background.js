@@ -31,8 +31,10 @@ async function createWindow() {
 
 	win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 	win.setAlwaysOnTop(true, "screen-saver", 1);
-	win.setIgnoreMouseEvents(true);
-	win.setFullScreen(true);
+	if (!isDevelopment) {
+		win.setIgnoreMouseEvents(true);
+		win.setFullScreen(true);
+	}
 	// win.setFocusable(false);
 	win.moveTop();
 
