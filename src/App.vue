@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<!-- {{ playersStore.extendedStatistics() }} -->
 		<!-- {{ guiStore.getData() }}<br /><br /> -->
 		<!-- {{ matchStore.getData() }} -->
 		<!--{{ matchStore.getData()?.roundInfo }} <br />

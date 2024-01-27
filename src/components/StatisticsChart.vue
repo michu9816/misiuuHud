@@ -14,13 +14,15 @@ import { usePlayersStore } from "@/stores/players";
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, LinearScale, CategoryScale, PointElement, Filler)
 
+const guiStore = useGuiStore();
+
 const chartVisible = ref(false);
 const chartVisibleClass = ref(false);
 const chartOpacity = computed(() => {
 	const phase = useMatchStore()?.getData()?.roundInfo?.timer?.phase;
 	const showChart = phase?.includes("timeout");
 	const round = parseInt(useMatchStore()?.getData()?.round)
-	return showChart && round > 5;
+	return showChart && round > 5 && usePlayersStore()?.extendedStatistics();
 })
 
 const chartTeam = ref();
@@ -45,8 +47,6 @@ watch(chartOpacity, (value) => {
 const players = computed(() => {
 	return usePlayersStore().getPlayers(chartTeam.value);
 })
-
-const guiStore = useGuiStore();
 
 const datasets = computed(() => {
 

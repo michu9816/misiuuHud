@@ -33,6 +33,12 @@ export const usePlayersStore = defineStore("players", () => {
 		}
 	}
 
+	function extendedStatistics() {
+		const playerStatistics = guiStore.getData()?.playersStatistics.data
+		const fisrtPlayerStatistics = playerStatistics.filter(obj => obj.player == playerStatistics[0].player);
+		return (fisrtPlayerStatistics.map(obj => obj.round).length >= matchStore.getData()?.round + (matchStore.getData()?.roundInfo?.data?.phase == "over" ? 0 : 1)) && fisrtPlayerStatistics.map(obj => obj.round).filter(obj => obj == 0)?.length >= 0;
+	}
+
 	function getPlayers(team) {
 		team = team?.toUpperCase();
 		return players.value.filter((obj) => (team ? obj.team == team : obj));
@@ -44,16 +50,13 @@ export const usePlayersStore = defineStore("players", () => {
 			return;
 		}
 
-		const extendedStatistics =
-			guiStore.getData().playersStatistics.data?.filter(obj => obj.round == 0).length > 0;
-
 		playerData.statistics = {
 			dmg: guiStore.getPlayerDamage(id),
-			adr: extendedStatistics ? (
+			adr: extendedStatistics() ? (
 				guiStore.getPlayerDamage(id) /
 				(matchStore.getData().round || 1)
 			).toFixed(2) : undefined,
-			hs: extendedStatistics ? (parseInt(
+			hs: extendedStatistics() ? (parseInt(
 				(playerData.match_stats.kills
 					? guiStore.getPlayerHS(id) /* eslint-disable */ /
 					playerData.match_stats.kills
@@ -112,5 +115,6 @@ export const usePlayersStore = defineStore("players", () => {
 		someoneKilled3,
 		someoneHeadshoted3,
 		someoneHighDMG,
+		extendedStatistics
 	};
 });
