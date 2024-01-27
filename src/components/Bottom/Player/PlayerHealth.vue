@@ -17,7 +17,7 @@ const playerData = computed(() => {
 const decreaseOldHealth = ref();
 
 const currentHealth = computed(() => {
-	return playerData.value.state?.health;
+	return playerData.value?.state?.health;
 });
 const oldHealth = ref(parseInt(playerData.value.state.health));
 

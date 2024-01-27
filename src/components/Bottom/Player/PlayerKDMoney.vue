@@ -28,7 +28,7 @@ const money = computed(() => {
 const savedMoney = ref(0);
 
 const phase = computed(() => {
-	return matchStore.getData().roundInfo?.data?.phase;
+	return matchStore.getData()?.roundInfo?.data?.phase;
 })
 
 watch(phase, (value) => {
@@ -39,8 +39,8 @@ watch(phase, (value) => {
 
 const matchLive = computed(() => {
 	return (
-		matchStore.getData().phase == "live" &&
-		matchStore.getData().roundInfo.data.phase != "freezetime"
+		matchStore.getData()?.phase == "live" &&
+		matchStore.getData()?.roundInfo.data.phase != "freezetime"
 	);
 });
 

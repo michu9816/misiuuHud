@@ -13,12 +13,14 @@
 	</div>
 	<PlayerData></PlayerData>
 	<TopPanel></TopPanel>
+	<StatisticsChart></StatisticsChart>
 	<BottomPanel></BottomPanel>
 </template>
 
 <script>
 import BottomPanel from "./components/BottomPanel.vue";
 import TopPanel from "./components/TopPanel.vue";
+import StatisticsChart from "./components/StatisticsChart.vue";
 import PlayerData from "./components/PlayerData.vue";
 import { ipcRenderer } from "electron";
 import { usePlayersStore } from "./stores/players";
@@ -31,6 +33,7 @@ export default {
 		BottomPanel,
 		TopPanel,
 		PlayerData,
+		StatisticsChart
 	},
 	data() {
 		return {

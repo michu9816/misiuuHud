@@ -39,8 +39,9 @@ export const useGuiStore = defineStore("gui", () => {
 				}
 
 				const playerStatisticInThisRound = data.value.playersStatistics.data.find(obj => obj.player == player && obj.round == round);
+
 				if (playerStatisticInThisRound) {
-					if (playerStatisticInThisRound.dmg != playerData.state.round_totaldmg && playerStatisticInThisRound.hs != playerData.state.round_killhs) {
+					if (playerStatisticInThisRound.dmg != playerData.state.round_totaldmg || playerStatisticInThisRound.hs != playerData.state.round_killhs) {
 						playerStatisticInThisRound.dmg = playerData.state.round_totaldmg;
 						playerStatisticInThisRound.hs = playerData.state.round_killhs;
 					}
@@ -53,11 +54,12 @@ export const useGuiStore = defineStore("gui", () => {
 		}
 	}
 
-	function getPlayerDamage(id) {
-		let damageSum = data.value.playersStatistics.data.filter(obj => obj.player == id)?.map(obj => obj.dmg).reduce(
-			function (a, b) {
-				return a + b;
-			},
+	function getPlayerDamage(id, round) {
+		let damageList = data.value.playersStatistics.data.filter(obj => obj.player == id && (round !== undefined ? obj.round <= round : true))?.map(obj => {
+			return obj.dmg
+		})
+		let damageSum = damageList.reduce(
+			(a, b) => a + b,
 			0
 		);
 		return damageSum;
@@ -79,6 +81,10 @@ export const useGuiStore = defineStore("gui", () => {
 			type: "adr",
 		}
 	}
+
+	function getOrderedStatistics() {
+		return data.value.playersStatistics.data.sort((a, b) => a.round - b.round);
+	}
 	return {
 		getData,
 		setPlayersDamage,
@@ -86,6 +92,7 @@ export const useGuiStore = defineStore("gui", () => {
 		getPlayerHS,
 		setPlayerStatisticType,
 		setPlayerStatisticVisibility,
-		restartStatistics
+		restartStatistics,
+		getOrderedStatistics
 	};
 });

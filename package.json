@@ -1,6 +1,6 @@
 {
   "name": "misiuuHud",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -14,10 +14,12 @@
   "main": "background.js",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "chart.js": "^4.4.1",
     "core-js": "^3.6.5",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "pinia": "^2.0.32",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "vue-chartjs": "^5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
