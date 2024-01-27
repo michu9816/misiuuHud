@@ -15,6 +15,9 @@ export const usePlayersStore = defineStore("players", () => {
 		if (playersData) {
 			for (let key of Object.keys(playersData)) {
 				let playerData = playersData[key];
+				if (playerData?.state?.health == 0 && playerData?.match_stats?.deaths == 0) {
+					playerData.isCoach = true;
+				}
 				playerData.id = key;
 
 				let availableWeapons = [];
@@ -41,7 +44,7 @@ export const usePlayersStore = defineStore("players", () => {
 
 	function getPlayers(team) {
 		team = team?.toUpperCase();
-		return players.value.filter((obj) => (team ? obj.team == team : obj));
+		return players.value.filter((obj) => (team ? obj.team == team : obj) && !obj.isCoach);
 	}
 
 	function getPlayerDataById(id) {
