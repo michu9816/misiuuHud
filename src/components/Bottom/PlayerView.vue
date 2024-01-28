@@ -23,13 +23,10 @@ const isThisPlayerWatching = computed(() => {
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div
-		class="playerInformations"
-		:class="{
-			dead: !playerData.state.health,
-			watching: isThisPlayerWatching,
-		}"
-	>
+	<div class="playerInformations" :class="{
+		dead: !playerData.state.health,
+		watching: isThisPlayerWatching,
+	}">
 		<PlayerWeapons :playerId="props.playerId"></PlayerWeapons>
 		<PlayerNickname :playerId="props.playerId" />
 		<PlayerHealth :playerId="props.playerId" />
@@ -43,12 +40,15 @@ const isThisPlayerWatching = computed(() => {
 	position: relative;
 	transition-duration: 0.5s;
 }
+
 .playerInformations.dead {
-	opacity: 0.5;
+	opacity: 0.8;
 }
+
 .team.T .watching {
 	background: var(--color-text-t);
 }
+
 .team.CT .watching {
 	background: var(--color-text-ct);
 }

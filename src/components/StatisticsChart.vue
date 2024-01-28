@@ -83,11 +83,19 @@ const chartOptions = ref({
 				size: "20px"
 			},
 			color: "white"
-		}
+		},
+		legend: {
+			labels: {
+				color: "#ffffff"
+			},
+		},
 	},
 	scales: {
 		x: {
 			display: true,
+			ticks: {
+				color: "#ffffff"
+			},
 			title: {
 				display: true,
 				text: "Round",
@@ -96,12 +104,16 @@ const chartOptions = ref({
 					variant: "all-small-caps",
 					family: "Calibri",
 					size: "18px",
-					lineHeight: 1.2
+					lineHeight: 1.2,
+					weight: "bold"
 				}
 			},
 		},
 		y: {
 			display: true,
+			ticks: {
+				color: "#ffffff"
+			},
 			title: {
 				display: true,
 				text: "Damage",
@@ -110,7 +122,8 @@ const chartOptions = ref({
 					variant: "all-small-caps",
 					family: "Calibri",
 					size: "18px",
-					lineHeight: 1.2
+					lineHeight: 1.2,
+					weight: "bold"
 				},
 			},
 		},
@@ -125,11 +138,12 @@ const chartOptions = ref({
 	max-height: 450px;
 	display: flex;
 	margin: auto auto;
-	background: rgb(0 0 0 / 80%);
+	background: rgb(0 0 0 / 90%);
 	padding: 30px;
 	margin-top: 150px;
 	opacity: 0;
 	transition-duration: 0.5s;
+	border-radius: 5px;
 }
 
 .chartBox.visible {

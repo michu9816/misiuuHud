@@ -36,7 +36,7 @@
 - Włącz grę i przejdź do dema / odtwarzania meczu LIVE
 - Wpisz komendy, które spowodują wyłączenie domyślnego HUD
 ```
-cl_draw_only_deathnotices true;cl_drawhud_force_radar 1
+cl_draw_only_deathnotices true;cl_drawhud_force_radar 1;cl_drawhud_force_teamid_overhead 1
 ```
 
 Aby wyłączyć HUD należy kliknąć na niego, aby był aktywny (lub dać ALT + TAB) i kliknąć ALT + F4.

@@ -56,7 +56,7 @@ const matchPhase = computed(() => {
 
 .movingName {
 	position: absolute;
-	top: 20px;
+	top: 40px;
 	left: 0px;
 	font-variant: all-small-caps;
 	font-size: 30px;
@@ -98,7 +98,7 @@ const matchPhase = computed(() => {
 	justify-content: center;
 	height: 150px;
 	min-width: 400px;
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba(0, 0, 0, 0.6);
 	color: white;
 	text-align: center;
 	position: relative;
