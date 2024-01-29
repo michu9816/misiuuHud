@@ -40,8 +40,12 @@ const statisticHeight = computed(() => {
 		switch (statisticToShow.value) {
 			case "kd":
 				return 30;
+			case "kills":
+				return 1.5;
 			case "equipment":
 				return 0.01;
+			case "adr":
+				return 0.45;
 			default:
 				return 1;
 		}
@@ -53,23 +57,39 @@ const statisticHeight = computed(() => {
 <template>
 	<!-- Access the state directly from the store -->
 	<!-- {{ playerData.statistics }} -->
-	<div class="darkBackground" :class="[playerData.team]" :style="{
-		height: statisticHeight + 'px',
-	}">
-		<div class="title">{{ statisticToShow }}</div>
-		<div class="value">
-			{{ statisticValue }}
+	<div class="statisticsBackground" :class="{ visible: statisticHeight > 0 }">
+		<div class="darkBackground" :class="[playerData.team]" :style="{
+			height: statisticHeight + 'px',
+		}">
+			<div class="title">{{ statisticToShow }}</div>
+			<div class="value">
+				{{ statisticValue }}
+			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
 .title {
-	font-size: 10px;
-	color: var(--color-text-gray);
+	font-size: 12px;
+	color: var(--color-text-white);
 	margin-bottom: 2px;
-	padding: 5px 0;
+	padding: 5px 0 2px;
 	text-transform: uppercase;
+}
+
+.statisticsBackground {
+	height: 0px;
+	background: var(--color-background-dark-transparent);
+	border-radius: 5px 5px 0 0;
+	overflow: hidden;
+	display: flex;
+	align-items: flex-end;
+	transition-duration: 0.5s;
+}
+
+.statisticsBackground.visible {
+	height: 120px;
 }
 
 .darkBackground {
@@ -77,6 +97,8 @@ const statisticHeight = computed(() => {
 	height: 0px;
 	overflow: hidden;
 	opacity: 0.8;
+	width: 100%;
+	max-height: 120px;
 }
 
 .darkBackground.CT {
@@ -85,6 +107,11 @@ const statisticHeight = computed(() => {
 
 .darkBackground.T {
 	background: var(--gradient-health-t-vertical);
+}
+
+.value {
+	font-weight: bold;
+
 }
 </style>
 

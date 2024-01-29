@@ -42,8 +42,8 @@ const hsp = computed(() => {
 		<div class="statistic" v-if="hsp"><a class="name">HS%</a>{{ hsp }}</div>
 		<div class="statistic" v-if="adr"><a class="name">ADR</a>{{ adr }}</div>
 		<div class="roundKills">
-			<img src="@/assets/img/elements/icon_skull_default.png" v-for="kill of playerData?.state.round_kills"
-				:key="kill" />
+			{{ playerData?.state.round_kills > 1 ? playerData?.state.round_kills + "x" : "" }}
+			<img src="@/assets/img/elements/icon_skull_default.png" v-if="playerData?.state.round_kills > 0" :key="kill" />
 		</div>
 	</div>
 </template>
@@ -52,7 +52,7 @@ const hsp = computed(() => {
 .data {
 	text-align: left;
 	padding: 10px;
-	background: rgba(0, 0, 0, 0.8);
+	background: var(--color-background-dark-transparent);
 	color: white;
 	border-radius: 0 0 5px 5px;
 	font-weight: bold;
@@ -77,6 +77,5 @@ const hsp = computed(() => {
 
 .roundKills img {
 	height: 12px;
-	margin-left: 5px;
 }
 </style>

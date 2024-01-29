@@ -160,11 +160,11 @@ watch(roundKills, (value, oldValue) => {
 }
 
 .roundKills.CT {
-	background: var(--gradient-health-ct-vertical);
+	background: var(--color-background-ct);
 }
 
 .roundKills.T {
-	background: var(--gradient-health-t-vertical);
+	background: var(--color-background-t);
 }
 
 @keyframes stretchHorizontal {

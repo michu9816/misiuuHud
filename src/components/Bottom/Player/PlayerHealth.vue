@@ -62,7 +62,7 @@ const kevlarImage = computed(() => {
 			{{ currentHealth }}
 			<img :src="kevlarImage" v-if="kevlarImage" class="ico_kevlar" />
 		</div>
-		<div class="healthBackground bar" :class="[playerData.team]" :style="{
+		<div class="healthBackground bar" :class="[{ low: currentHealth < 30 }, playerData.team]" :style="{
 			width: `${currentHealth}%`,
 		}"></div>
 		<div class="oldHealthBackground bar" :style="{
@@ -119,6 +119,11 @@ const kevlarImage = computed(() => {
 	z-index: 2;
 }
 
+.healthBackground.T.low,
+.healthBackground.CT.low {
+	background: var(--gradient-health-low);
+}
+
 .oldHealthBackground {
 	background: var(--color-background-dark-red);
 	z-index: 1;
@@ -129,6 +134,7 @@ const kevlarImage = computed(() => {
 	position: relative;
 	transition-duration: 0.5s;
 	height: 30px;
+	background: var(--color-background-gray);
 }
 
 .hide {

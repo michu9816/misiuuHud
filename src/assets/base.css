@@ -5,9 +5,11 @@
   --vt-c-orange-bright: #d86100;
   --vt-c-orange-dark: #8b3f00;
   --vt-c-gray: #cecece;
+  --vt-c-gray-dark: #303030;
   --vt-c-white: #f2f2f2;
 
-  --vt-c-red-dark: rgb(161, 0, 0);
+  --vt-c-red: rgb(161, 0, 0);
+  --vt-c-red-dark: rgb(68, 0, 0);
   --vt-c-dark-transparent: rgba(0, 0, 0, 0.9);
   --vt-c-dark-transparent-9: rgba(0, 0, 0, 0.9);
 }
@@ -16,12 +18,22 @@
 :root {
   --color-background: var(--vt-c-white);
   --color-background-dark-transparent: var(--vt-c-dark-transparent);
-  --color-background-dark-red: var(--vt-c-red-dark);
+  --color-background-dark-red: var(--vt-c-red);
+
+  --color-background-ct: var(--vt-c-cyan-dark);
+  --color-background-t: var(--vt-c-orange-dark);
+
+  --color-background-ct-bright: var(--vt-c-cyan-bright);
+  --color-background-t-bright: var(--vt-c-orange-bright);
+
+  --color-background-gray: var(--vt-c-gray-dark);
 
   --color-text-ct: var(--vt-c-cyan-bright);
   --color-text-t: var(--vt-c-orange-bright);
   --color-text-gray: var(--vt-c-gray);
   --color-text-white: var(--vt-c-white);
+
+  --gradient-health-low: var(--vt-c-red-dark);
 
   --gradient-health-ct: -webkit-linear-gradient(0deg, var(--vt-c-cyan-bright), var(--vt-c-cyan-dark));
   --gradient-health-ct-vertical: -webkit-linear-gradient(90deg, var(--vt-c-cyan-bright), var(--vt-c-cyan-dark));

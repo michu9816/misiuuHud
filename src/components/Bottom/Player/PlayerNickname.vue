@@ -12,21 +12,50 @@ const playerData = computed(() => {
 
 const observerSlot = computed(() => {
 	let slot = playerData.value?.observer_slot + 1;
-	return slot < 10 ? slot : 0;
+	return slot == 10 ? 0 : slot;
 })
+
+const getWeaponIcon = function (type) {
+	if (type == "c4") {
+		return require(`@/assets/img/weapons/c4.png`)
+	} else {
+		return require(`@/assets/img/elements/icon_defuse_default.png`);
+	}
+};
 </script>
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div class="darkBackground nickname">
-		{{ observerSlot }} | {{ playerData?.name }}
+	<div class="darkBackground nickname" :class="playerData.team">
+		{{ observerSlot }} {{ playerData?.name }}
+		<img v-if="playerData?.availableWeapons?.find(obj => obj.name == 'weapon_c4')" :src="getWeaponIcon('c4')" />
+		<img class="def" v-if="playerData?.state?.defusekit" :src="getWeaponIcon('defuse')" />
+
 	</div>
 </template>
 
 <style scoped>
 .nickname {
-	padding: 8px 10px;
+	padding: 8px 5px;
 	text-align: left;
+}
+
+.nickname.T {
+	background: var(--color-background-t);
+}
+
+.nickname.CT {
+	background: var(--color-background-ct);
+}
+
+img {
+	height: 15px;
+	opacity: 0.8;
+	float: right;
+}
+
+img:not(.def) {
+	filter: invert(1);
 }
 </style>
 

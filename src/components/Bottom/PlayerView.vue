@@ -23,14 +23,16 @@ const isThisPlayerWatching = computed(() => {
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div class="playerInformations" :class="{
-		dead: !playerData.state.health,
-		watching: isThisPlayerWatching,
-	}">
-		<PlayerWeapons :playerId="props.playerId"></PlayerWeapons>
-		<PlayerNickname :playerId="props.playerId" />
-		<PlayerHealth :playerId="props.playerId" />
-		<PlayerKDMoney :playerId="props.playerId" />
+	<div>
+		<div class="playerInformations" :class="[{
+			dead: !playerData.state.health,
+			watching: isThisPlayerWatching,
+		}, playerData.team]">
+			<PlayerNickname :playerId="props.playerId" />
+			<PlayerWeapons :playerId="props.playerId"></PlayerWeapons>
+			<PlayerHealth :playerId="props.playerId" />
+			<PlayerKDMoney :playerId="props.playerId" />
+		</div>
 		<PlayerStatistic :playerId="props.playerId" />
 	</div>
 </template>
@@ -39,10 +41,22 @@ const isThisPlayerWatching = computed(() => {
 .playerInformations {
 	position: relative;
 	transition-duration: 0.5s;
+	margin-bottom: 10px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.playerInformations.T {
+	border: 2px solid var(--color-background-t);
+}
+
+.playerInformations.CT {
+	border: 2px solid var(--color-background-ct);
 }
 
 .playerInformations.dead {
 	opacity: 0.8;
+	filter: grayscale(1);
 }
 
 .team.T .watching {

@@ -1,6 +1,6 @@
 <script setup>
 import Nickname from "@/components/Player/PlayerNick.vue";
-import PlayerState from "@/components/Player/PlayerState.vue";
+import PlayerEquipment from "@/components/Player/PlayerEquipment.vue";
 import PlayerStatistic from "@/components/Player/PlayerStatistics.vue";
 import { useMatchStore } from "@/stores/match";
 import { usePlayersStore } from "@/stores/players";
@@ -20,26 +20,25 @@ const boxVisible = computed(() => {
 </script>
 
 <template>
-	<div
-		class="playerBox"
-		:class="{
-			hidden: !boxVisible,
-		}"
-	>
+	<div class="playerBox" :class="{
+		hidden: !boxVisible,
+	}">
 		<Nickname></Nickname>
-		<PlayerState></PlayerState>
+		<PlayerEquipment></PlayerEquipment>
 		<PlayerStatistic></PlayerStatistic>
 	</div>
 </template>
 
 <style scoped>
 .playerBox {
-	width: 500px;
+	width: 300px;
 	position: absolute;
-	left: calc(50% - 250px);
-	bottom: 150px;
+	left: calc(50% - 150px);
+	bottom: 70px;
+	/* bottom: 200px; */
 	transition-duration: 0.5s;
 }
+
 .playerBox.hidden {
 	opacity: 0;
 }
