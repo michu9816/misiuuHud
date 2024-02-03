@@ -33,14 +33,12 @@ watch(currentHealth, (val) => {
 const requireBackgroundChange = ref(false);
 
 
-watch(currentPlayerId, (val) => {
+watch(currentPlayerId, () => {
 	clearTimeout(decreaseOldHealth.value);
 
 	oldHealth.value = currentHealth.value;
 	requireBackgroundChange.value = true;
-	console.log(val);
 	setTimeout(() => {
-		console.log(val);
 		requireBackgroundChange.value = false;
 	}, 500)
 });

@@ -34,7 +34,7 @@ const boxVisible = computed(() => {
 	width: 300px;
 	position: absolute;
 	left: calc(50% - 150px);
-	bottom: 70px;
+	bottom: 10px;
 	/* bottom: 200px; */
 	transition-duration: 0.5s;
 }

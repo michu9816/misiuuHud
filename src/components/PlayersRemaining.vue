@@ -21,12 +21,9 @@ const playersAlive = function (team) {
 </script>
 
 <template>
-	<div
-		class="players"
-		:class="{
-			hidden: !matchLive,
-		}"
-	>
+	<div class="players" :class="{
+		hidden: !matchLive,
+	}">
 		<a class="text ct">{{ playersAlive("ct") }}</a> v
 		<a class="text t">{{ playersAlive("t") }}</a>
 	</div>
@@ -35,20 +32,23 @@ const playersAlive = function (team) {
 <style scoped>
 .players {
 	position: absolute;
-	bottom: 10px;
+	top: 59px;
 	width: 100px;
-	padding: 10px 0;
+	padding: 5px 0;
 	background: var(--color-background-dark-transparent);
 	left: calc(50% - 50px);
 	border-radius: 5px;
 	font-size: 25px;
 	color: white;
 	transition-duration: 0.5s;
+	z-index: -1;
 }
+
 .players.hidden {
 	opacity: 0;
-	bottom: 0;
+	top: 0;
 }
+
 .text {
 	font-weight: bold;
 }

@@ -1,4 +1,9 @@
 /* color palette from <https://github.com/vuejs/theme> */
+@font-face {
+  font-family: 'Lexend Deca';
+  src: url('@/assets/fonts/Lexend_Deca/LexendDeca-VariableFont_wght.ttf');
+}
+
 :root {
   --vt-c-cyan-bright: #0077d8;
   --vt-c-cyan-dark: #004d8b;

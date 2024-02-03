@@ -139,7 +139,7 @@ watch(roundKills, (value, oldValue) => {
 }
 
 .title {
-	font-size: 10px;
+	font-size: 12px;
 	color: var(--color-text-gray);
 	margin-bottom: 2px;
 	transition-duration: 0.5s;

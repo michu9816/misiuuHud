@@ -13,6 +13,7 @@
 		<!-- {{ test }} -->
 	</div>
 	<PlayerData></PlayerData>
+	<PlayersRemaining></PlayersRemaining>
 	<TopPanel></TopPanel>
 	<StatisticsChart></StatisticsChart>
 	<BottomPanel></BottomPanel>
@@ -23,6 +24,7 @@ import BottomPanel from "./components/BottomPanel.vue";
 import TopPanel from "./components/TopPanel.vue";
 import StatisticsChart from "./components/StatisticsChart.vue";
 import PlayerData from "./components/PlayerData.vue";
+import PlayersRemaining from "./components/PlayersRemaining.vue";
 import { ipcRenderer } from "electron";
 import { usePlayersStore } from "./stores/players";
 import { useMatchStore } from "./stores/match";
@@ -34,7 +36,8 @@ export default {
 		BottomPanel,
 		TopPanel,
 		PlayerData,
-		StatisticsChart
+		StatisticsChart,
+		PlayersRemaining
 	},
 	data() {
 		return {
@@ -65,7 +68,7 @@ export default {
 
 <style>
 #app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
+	font-family: 'Lexend Deca', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;

@@ -59,6 +59,10 @@ const isThisPlayerWatching = computed(() => {
 	filter: grayscale(1);
 }
 
+.playerInformations.watching {
+	border-color: white;
+}
+
 .team.T .watching {
 	background: var(--color-text-t);
 }

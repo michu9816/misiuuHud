@@ -49,7 +49,7 @@ const getWeaponIcon = function (type) {
 }
 
 img {
-	height: 15px;
+	height: 20px;
 	opacity: 0.8;
 	float: right;
 }

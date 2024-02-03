@@ -41,7 +41,9 @@ const statisticHeight = computed(() => {
 			case "kd":
 				return 30;
 			case "kills":
-				return 1.5;
+				return 2;
+			case "assists":
+				return 8;
 			case "equipment":
 				return 0.01;
 			case "adr":

@@ -31,6 +31,7 @@ import RoundWinner from "@/components/Top/RoundWinner.vue";
 	font-size: 24px;
 	color: white;
 	border-radius: 5px;
+	background: rgba(0, 0, 0, 0.8);
 }
 </style>
 
