@@ -9,19 +9,22 @@ const matchPhase = computed(() => {
 	let phase;
 	let team;
 	let winnerTeam;
+	let score;
 
 	const roundInfo = matchStore.getData()?.roundInfo;
 
 	if (roundInfo?.data?.phase == "over") {
 		phase = roundInfo?.data?.phase;
 		winnerTeam = roundInfo?.data?.win_team;
-		team = matchStore.getData()["team_" + winnerTeam.toLowerCase()]?.name
+		team = matchStore.getData()["team_" + winnerTeam.toLowerCase()]?.name,
+			score = matchStore.getData()["team_" + winnerTeam.toLowerCase()]?.score
 	}
 
 	return {
 		phase,
 		team,
-		winnerTeam
+		winnerTeam,
+		score
 	}
 })
 
@@ -29,10 +32,12 @@ const matchPhase = computed(() => {
 <template>
 	<div v-if="matchPhase?.team" class="box">
 		<div class="background">
+			<div class="colorBox" :class="[matchPhase?.winnerTeam]"></div>
 			<div class="description">wins the round</div>
 			<div class="name">{{ matchPhase?.team }}</div>
 			<div class="line"></div>
 			<div class="movingName" :class="[matchPhase?.winnerTeam]">{{ matchPhase?.team }}</div>
+			<div class="score">{{ matchPhase?.score }}</div>
 		</div>
 	</div>
 </template>
@@ -46,20 +51,46 @@ const matchPhase = computed(() => {
 	animation: italic 3s infinite;
 }
 
+.score {
+	position: absolute;
+	bottom: 0px;
+	left: 10px;
+	font-size: 70px;
+	opacity: 0.1;
+}
+
+.colorBox {
+	height: 100%;
+	width: 70px;
+	position: absolute;
+	bottom: 0;
+	right: 30px;
+	transform: skewX(-20deg);
+	animation: moveIn 3s;
+}
+
+.colorBox.T {
+	background: var(--color-background-t);
+}
+
+.colorBox.CT {
+	background: var(--color-background-ct);
+}
+
 .description {
 	position: absolute;
 	bottom: 10px;
 	right: 10px;
 	font-variant: all-small-caps;
-	font-size: 16px;
+	font-size: 28px;
 }
 
 .movingName {
 	position: absolute;
-	top: 40px;
+	top: 20px;
 	left: 0px;
 	font-variant: all-small-caps;
-	font-size: 30px;
+	font-size: 40px;
 	font-style: italic;
 	opacity: 0.6;
 	white-space: nowrap;
@@ -103,6 +134,7 @@ const matchPhase = computed(() => {
 	text-align: center;
 	position: relative;
 	padding: 0 60px;
+
 }
 
 @keyframes blinking {
@@ -144,6 +176,18 @@ const matchPhase = computed(() => {
 
 	100% {
 		opacity: 1;
+	}
+}
+
+@keyframes moveIn {
+	0% {
+		right: calc(100% - 180px);
+		width: 140px;
+	}
+
+	100% {
+		right: 30px;
+		width: 50px;
 	}
 }
 
