@@ -35,7 +35,8 @@ const boxVisible = computed(() => {
 	position: absolute;
 	left: calc(50% - 150px);
 	bottom: 10px;
-	/* bottom: 200px; */
+	border-radius: 5px;
+	overflow: hidden;
 	transition-duration: 0.5s;
 }
 

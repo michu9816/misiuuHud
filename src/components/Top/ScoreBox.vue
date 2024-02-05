@@ -11,17 +11,11 @@ const score = computed(() => {
 	return matchData ? matchData[`team_${props.team}`].score : "-";
 });
 
-const scoreChanged = computed(() => {
-	return (
-		matchStore.getData()?.roundInfo.data?.win_team ==
-		props.team.toUpperCase()
-	);
-});
 </script>
 
 <template>
-	<div class="score" :class="[{ highlight: scoreChanged }, team]">
-		{{ score }}
+	<div class="score" :class="[team]">
+		<div class="text">{{ score }}</div>
 	</div>
 </template>
 
@@ -31,26 +25,33 @@ const scoreChanged = computed(() => {
 	font-size: 32px;
 	font-weight: bold;
 	transition-duration: 0.5s;
-	background: white;
+	background: black;
 }
 
-.score.highlight {
+.score.ct {
 	color: white;
+	border-bottom: 5px solid var(--color-text-ct);
+	border-left: 5px solid var(--color-text-ct);
+	border-right: 5px solid transparent;
+	transform: skewX(10deg);
+	margin-right: 5px;
 }
 
-.score.highlight.ct {
-	background: var(--color-text-ct);
+.score.ct .text {
+	transform: skewX(-10deg);
 }
 
-.score.highlight.t {
-	background: var(--color-text-t);
+.score.t {
+	color: white;
+	border-bottom: 5px solid var(--color-text-t);
+	border-right: 5px solid var(--color-text-t);
+	border-left: 5px solid transparent;
+	transform: skewX(-10deg);
+	margin-left: 5px;
 }
 
-.score.ct:not(.highlight) {
-	color: var(--color-text-ct);
+.score.t .text {
+	transform: skewX(10deg);
 }
-
-.score.t:not(.highlight) {
-	color: var(--color-text-t);
-}</style>
+</style>
 

@@ -1,20 +1,49 @@
 <script setup>
 import { useMatchStore } from "@/stores/match";
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 
 const matchStore = useMatchStore();
 
 const bombPlanted = computed(() => {
-	return matchStore.getData()?.roundInfo.bomb?.state == "planted";
+	return matchStore.getData()?.roundInfo?.data?.bomb == "planted";
 });
 
 const timeLeft = computed(() => {
 	return convertTime(matchStore.getData()?.roundInfo?.timer?.phase_ends_in);
 });
 
+const round = computed(() => {
+	return matchStore.getData()?.round + 1
+})
+
+const remainingBombTime = ref();
+const remainingBombTimeInterval = ref();
+
+const readedBombTime = computed(() => {
+	return matchStore.getData()?.roundInfo?.bomb?.countdown;
+})
+
+watch(readedBombTime, (val) => {
+	if (matchStore.getData()?.roundInfo.bomb?.state == "defusing") {
+		clearInterval(remainingBombTimeInterval.value);
+		remainingBombTimeInterval.value = setInterval(() => {
+			if (remainingBombTime.value > 0) {
+				remainingBombTime.value = Number(parseFloat(remainingBombTime.value)).toFixed(1) - 0.1;
+			} else {
+				clearInterval(remainingBombTimeInterval.value)
+			}
+		}, 100);
+	} else if (matchStore.getData()?.roundInfo.bomb?.state == "planted") {
+		clearInterval(remainingBombTimeInterval.value);
+		remainingBombTime.value = Number.parseFloat(val).toFixed(1);
+	} else {
+		clearInterval(remainingBombTimeInterval.value);
+	}
+});
+
 const bombTimerHeight = computed(() => {
 	const maxTime = 40;
-	const timeLeft = matchStore.getData()?.roundInfo.bomb.countdown;
+	const timeLeft = remainingBombTime.value;
 	const percent = 100 - (timeLeft / maxTime) * 100;
 	// return convertTime(matchStore.getData()?.roundInfo.timer.phase_ends_in);
 	return `${percent}%`;
@@ -36,13 +65,27 @@ function convertTime(time) {
 		}">
 			<img src="@/assets/img/elements/icon_bomb_default.png" />
 		</div>
-		<div class="time" v-else>{{ timeLeft }}</div>
+		<div class="time" v-if="!bombPlanted">{{ timeLeft }}</div>
+		<div class="round" v-if="!bombPlanted">Round {{ round }}</div>
 	</div>
 </template>
 
 <style scoped>
 .time {
-	padding: 10px 0;
+	padding: 3px 0;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 19px solid #ffffff;
+	margin: 0px auto 0;
+}
+
+.round {
+	position: absolute;
+	bottom: 2px;
+	font-size: 12px;
+	color: black;
+	width: 100%;
+	font-weight: bold;
 }
 
 .bomb {
@@ -57,7 +100,9 @@ function convertTime(time) {
 }
 
 .timeBackground {
-	background: #141414;
+	background: #000000;
+	color: white;
+	position: relative;
 }
 
 @keyframes bombTicking {

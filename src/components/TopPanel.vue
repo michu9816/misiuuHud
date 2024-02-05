@@ -23,15 +23,15 @@ import RoundWinner from "@/components/Top/RoundWinner.vue";
 <style scoped>
 .matchScore {
 	position: absolute;
-	width: 920px;
-	left: calc(50% - (920px / 2));
+	width: 865px;
+	left: calc(50% - (860px / 2));
 	display: grid;
-	grid-template-columns: 330px 80px 100px 80px 330px;
+	grid-template-columns: 300px 80px 100px 80px 300px;
 	top: 10px;
 	font-size: 24px;
-	color: white;
 	border-radius: 5px;
-	background: rgba(0, 0, 0, 0.8);
+	background: rgb(0 0 0);
+	overflow: hidden;
 }
 </style>
 

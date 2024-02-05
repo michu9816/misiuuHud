@@ -27,7 +27,7 @@ const getWeaponIcon = function (type) {
 <template>
 	<!-- Access the state directly from the store -->
 	<div class="darkBackground nickname" :class="playerData.team">
-		{{ observerSlot }} {{ playerData?.name }}
+		<div class="text">{{ observerSlot }} {{ playerData?.name }}</div>
 		<img v-if="playerData?.availableWeapons?.find(obj => obj.name == 'weapon_c4')" :src="getWeaponIcon('c4')" />
 		<img class="def" v-if="playerData?.state?.defusekit" :src="getWeaponIcon('defuse')" />
 
@@ -35,9 +35,17 @@ const getWeaponIcon = function (type) {
 </template>
 
 <style scoped>
+.text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .nickname {
 	padding: 8px 5px;
 	text-align: left;
+	display: flex;
+	justify-content: space-between;
 }
 
 .nickname.T {
@@ -49,7 +57,7 @@ const getWeaponIcon = function (type) {
 }
 
 img {
-	height: 20px;
+	height: 18px;
 	opacity: 0.8;
 	float: right;
 }

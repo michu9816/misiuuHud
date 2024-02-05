@@ -62,7 +62,8 @@ const getEquipmentIcon = function (type) {
 }" :src="getWeaponIcon(weapon)" />
 		</div>
 		<div class="state">
-			<img v-if="playerData?.availableWeapons?.find(obj => obj.name == 'weapon_c4')" :src="getEquipmentIcon('c4')" />
+			<img v-if="playerData?.availableWeapons?.find(obj => obj.name == 'weapon_c4')" :src="getEquipmentIcon('c4')"
+				class="bomb" />
 			<img class="def" v-if="playerData?.state?.defusekit" :src="getEquipmentIcon('defuse')" />
 			<img src="@/assets/img/elements/icon_bullets_default.png" class="ico_ammo" style="margin-left:10px"
 				v-if="ammo" />
@@ -94,6 +95,10 @@ const getEquipmentIcon = function (type) {
 }
 
 .data .weapons img {
+	filter: invert(1);
+}
+
+img.bomb {
 	filter: invert(1);
 }
 

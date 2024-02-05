@@ -55,13 +55,15 @@ const kevlarImage = computed(() => {
 </script>
 
 <template>
-	<div class="statusBar" :class="[playerData?.team]">
-		<div class="health bar">
+	<div class="health bar" :class="[playerData?.team]">
+		<div class="currentHealth">
 			{{ currentHealth }}
-			<img :src="kevlarImage" v-if="kevlarImage" class="ico_kevlar" />
 		</div>
+		<img :src="kevlarImage" v-if="kevlarImage" class="ico_kevlar" />
+	</div>
+	<div class="statusBar" :class="[playerData?.team]">
 		<div class="nickname">{{ playerData?.name }}</div>
-		<div class="healthBackground bar" :class="[{ low: currentHealth < 30 }, playerData?.team]" :style="{
+		<div class="healthBackground bar" :class="[playerData?.team]" :style="{
 			width: `${currentHealth}%`,
 		}"></div>
 		<div class="oldHealthBackground bar" :class="{
@@ -76,28 +78,51 @@ const kevlarImage = computed(() => {
 .statusBar {
 	text-align: left;
 	color: white;
-	border-radius: 5px 5px 0 0;
 	font-weight: bold;
 	font-size: 25px;
 	background: var(--color-background-gray);
 	height: 49px;
 	position: relative;
-	overflow: hidden;
+	border-bottom: 5px solid white;
+	width: calc(100% - 75px);
 }
 
 .bar.health {
-	color: var(--color-text-white);
 	z-index: 3;
 	font-weight: bold;
 	font-size: 20px;
-	width: calc(100% - 10px);
+	width: auto;
 	justify-content: flex-end;
+	right: -5px;
+	padding: 0 10px;
+	background: white;
+	transform: skewX(-10deg);
+	width: 65px;
+	display: grid;
+	grid-template-columns: auto 30px;
+	height: 54px;
+}
+
+.bar.health.T {
+	color: var(--color-background-t)
+}
+
+.bar.health.CT {
+	color: var(--color-background-ct)
+}
+
+.currentHealth {
+	transform: skewX(10deg);
 }
 
 .nickname {
 	padding: 10px 15px;
 	position: absolute;
 	z-index: 4;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: calc(100% - 30px);
 }
 
 .bar {
@@ -111,18 +136,13 @@ const kevlarImage = computed(() => {
 }
 
 .healthBackground.CT {
-	background: var(--gradient-health-ct);
+	background: var(--color-background-ct);
 	z-index: 2;
 }
 
 .healthBackground.T {
-	background: var(--gradient-health-t);
+	background: var(--color-background-t);
 	z-index: 2;
-}
-
-.healthBackground.T.low,
-.healthBackground.CT.low {
-	background: var(--gradient-health-low);
 }
 
 .oldHealthBackground {
@@ -135,15 +155,14 @@ const kevlarImage = computed(() => {
 	transition-duration: 0s;
 }
 
-.ico_health {
-	margin-right: 5px;
-}
-
 .ico_kevlar {
 	margin-left: 5px;
 }
 
 .health img {
 	height: 25px;
+	filter: invert(1);
+	transform: skewX(10deg);
+	opacity: 0.8;
 }
 </style>
