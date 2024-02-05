@@ -54,7 +54,7 @@ const matchPhase = computed(() => {
 .score {
 	position: absolute;
 	bottom: 0px;
-	left: 10px;
+	left: 20px;
 	font-size: 70px;
 	opacity: 0.1;
 }
