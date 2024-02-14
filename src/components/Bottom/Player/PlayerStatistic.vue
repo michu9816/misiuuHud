@@ -74,10 +74,11 @@ const statisticHeight = computed(() => {
 <style scoped>
 .title {
 	font-size: 12px;
-	color: var(--color-text-white);
+	color: white;
 	margin-bottom: 2px;
 	padding: 5px 0 2px;
 	text-transform: uppercase;
+	text-shadow: 0 0 5px black;
 }
 
 .statisticsBackground {
@@ -113,6 +114,7 @@ const statisticHeight = computed(() => {
 
 .value {
 	font-weight: bold;
+	text-shadow: 0 0 5px black;
 
 }
 </style>

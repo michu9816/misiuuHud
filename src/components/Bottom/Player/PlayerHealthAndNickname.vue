@@ -50,50 +50,61 @@ const kevlarImage = computed(() => {
 	}
 	return null;
 });
+//const observerSlot = computed(() => {
+// let slot = playerData.value?.observer_slot + 1;
+// return slot == 10 ? 0 : slot;
+// })
+
+const getWeaponIcon = function (type) {
+	if (type == "c4") {
+		return require(`@/assets/img/weapons/c4.png`)
+	} else {
+		return require(`@/assets/img/elements/icon_defuse_default.png`);
+	}
+};
 </script>
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div class="bars" :class="{
-		hide: currentHealth == 0 || !matchLive,
-	}">
-		<div class="health bar">
-			<img src="@/assets/img/elements/icon_health_full_default.png" class="ico_health" />
-			{{ currentHealth }}
-			<img :src="kevlarImage" v-if="kevlarImage" class="ico_kevlar" />
-		</div>
+	<div class="status">
 		<div class="healthBackground bar" :class="[{ low: currentHealth < 30 }, playerData.team]" :style="{
-			width: `${currentHealth}%`,
+			height: `${currentHealth}%`,
 		}"></div>
 		<div class="oldHealthBackground bar" :style="{
-			width: `${oldHealth}%`,
+			height: `${oldHealth}%`,
 		}"></div>
-		<div class="darkBackground bar"></div>
+		<div class="nickname" :class="playerData.team">
+			<div class="text">{{ playerData?.name }}</div>
+		</div>
+		<div class="health" :class="{
+			hide: currentHealth == 0 || !matchLive,
+		}">
+			<div style="width: 20px;">
+				<img :src="kevlarImage" v-if="kevlarImage" class="ico_kevlar" />
+			</div>
+			{{ currentHealth }}
+			<div style="width: 20px;">
+				<img class="bomb" v-if="playerData?.availableWeapons?.find(obj => obj.name == 'weapon_c4')"
+					:src="getWeaponIcon('c4')" />
+				<img class="def" v-if="playerData?.state?.defusekit" :src="getWeaponIcon('defuse')" />
+			</div>
+		</div>
 	</div>
 </template>
 
 <style scoped>
+.nickname {
+	font-size: 18px;
+	color: white;
+	z-index: 3;
+	position: relative;
+}
+
 .bar {
-	height: 100%;
-	text-align: left;
-	align-items: center;
-	display: flex;
-	position: absolute;
 	width: 100%;
-	overflow: hidden;
-}
-
-.darkBackground {
-	background: var(--vt-c-dark-transparent-9);
-}
-
-.ico_health {
-	margin-right: 5px;
-}
-
-.ico_kevlar {
-	right: 5px;
 	position: absolute;
+	margin-top: -5px;
+	bottom: 0;
 }
 
 .health {
@@ -103,6 +114,13 @@ const kevlarImage = computed(() => {
 	font-weight: bold;
 	font-size: 20px;
 	width: calc(100% - 20px);
+	transition-duration: 0.5s;
+	height: 30px;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
 }
 
 .health img {
@@ -130,15 +148,28 @@ const kevlarImage = computed(() => {
 	transition-duration: 0.5s;
 }
 
-.bars {
-	position: relative;
-	transition-duration: 0.5s;
-	height: 30px;
-	background: var(--color-background-gray);
-}
-
 .hide {
 	height: 0;
+}
+
+img {
+	height: 18px;
+	opacity: 0.8;
+	float: right;
+	filter: drop-shadow(0 0 5px black)
+}
+
+img.bomb {
+	filter: invert(1)
+}
+
+.status {
+	background: var(--color-background-gray);
+	padding: 5px 0;
+	position: relative;
+	text-shadow: 0 0 5px black;
+	border-radius: 5px;
+	overflow: hidden;
 }
 </style>
 

@@ -70,7 +70,6 @@ const getEquipmentIcon = function (type) {
 			{{ ammo }}
 		</div>
 	</div>
-	<div class="seperator" :class="[playerData?.team]"></div>
 </template>
 
 <style scoped>

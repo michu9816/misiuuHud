@@ -92,14 +92,13 @@ const kevlarImage = computed(() => {
 	font-weight: bold;
 	font-size: 20px;
 	width: auto;
-	justify-content: flex-end;
+	justify-content: space-evenly;
 	right: -5px;
 	padding: 0 10px;
 	background: white;
 	transform: skewX(-10deg);
 	width: 65px;
-	display: grid;
-	grid-template-columns: auto 30px;
+	display: flex;
 	height: 54px;
 }
 
@@ -123,6 +122,7 @@ const kevlarImage = computed(() => {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: calc(100% - 30px);
+	text-shadow: 0 0 5px black;
 }
 
 .bar {

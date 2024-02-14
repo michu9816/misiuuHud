@@ -31,7 +31,7 @@ const getWeaponIcon = function (value) {
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div class="weapons darkBackground">
+	<div class="weapons">
 		<div class="left">
 			<img :class="{
 				inactive: getMainWeapon?.state != 'active',

@@ -51,7 +51,7 @@ const hsp = computed(() => {
 <style scoped>
 .data {
 	text-align: left;
-	padding: 10px;
+	padding: 0 10px 10px 10px;
 	background: var(--color-background-dark-transparent);
 	color: white;
 	border-radius: 0 0 5px 5px;

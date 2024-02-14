@@ -2,8 +2,7 @@
 import { defineProps, computed } from "vue";
 import { usePlayersStore } from "@/stores/players";
 
-import PlayerNickname from "@/components/Bottom/Player/PlayerNickname.vue";
-import PlayerHealth from "@/components/Bottom/Player/PlayerHealth.vue";
+import PlayerHealthAndNickname from "@/components/Bottom/Player/PlayerHealthAndNickname.vue";
 import PlayerKDMoney from "@/components/Bottom/Player/PlayerKDMoney.vue";
 import PlayerStatistic from "@/components/Bottom/Player/PlayerStatistic.vue";
 import PlayerWeapons from "@/components/Bottom/Player/PlayerWeapons.vue";
@@ -24,13 +23,12 @@ const isThisPlayerWatching = computed(() => {
 <template>
 	<!-- Access the state directly from the store -->
 	<div>
-		<div class="playerInformations" :class="[{
+		<div class="playerInformations darkBackground" :class="[{
 			dead: !playerData.state.health,
 			watching: isThisPlayerWatching,
 		}, playerData.team]">
-			<PlayerNickname :playerId="props.playerId" />
 			<PlayerWeapons :playerId="props.playerId"></PlayerWeapons>
-			<PlayerHealth :playerId="props.playerId" />
+			<PlayerHealthAndNickname :playerId="props.playerId" />
 			<PlayerKDMoney :playerId="props.playerId" />
 		</div>
 		<PlayerStatistic :playerId="props.playerId" />
@@ -46,12 +44,8 @@ const isThisPlayerWatching = computed(() => {
 	overflow: hidden;
 }
 
-.playerInformations.T {
-	border: 2px solid var(--color-background-t);
-}
-
-.playerInformations.CT {
-	border: 2px solid var(--color-background-ct);
+.playerInformations {
+	border: 2px solid transparent;
 }
 
 .playerInformations.dead {
@@ -64,11 +58,11 @@ const isThisPlayerWatching = computed(() => {
 }
 
 .team.T .watching {
-	background: var(--color-text-t);
+	background: var(--color-background-t-dark);
 }
 
 .team.CT .watching {
-	background: var(--color-text-ct);
+	background: var(--color-background-ct-dark);
 }
 </style>
 

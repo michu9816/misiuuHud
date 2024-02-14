@@ -74,7 +74,7 @@ watch(roundKills, (value, oldValue) => {
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div class="darkBackground statistics" :class="{
+	<div class="statistics" :class="{
 		buyTime: !matchLive,
 	}">
 		<div class="statisticChangeOverlay" v-if="showStatisticChangeOverlay" :class="[playerData.team]">
