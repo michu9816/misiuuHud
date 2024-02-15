@@ -7,10 +7,10 @@ const matchStore = useMatchStore();
 // const playerStore = usePlayersStore();
 
 const score = computed(() => {
-	const ct = matchStore.getData()?.team_ct?.matches_won_this_series;
-	const t = matchStore.getData()?.team_t?.matches_won_this_series;
+	const ct = matchStore.getScore()?.total?.ct;
+	const t = matchStore.getScore()?.total?.t;
 
-	const show = (ct || t) && matchStore.getData()?.roundInfo?.data?.phase != "live";
+	const show = (ct || t) && matchStore.getPhase().round != "live";
 
 	return {
 		ct,

@@ -5,19 +5,19 @@ import { usePlayersStore } from "@/stores/players";
 const playersStore = usePlayersStore();
 
 const playerData = computed(() => {
-	return playersStore.getWatchingPlayerData();
+	return playersStore.getWatchingPlayerBasicData();
 });
 
 const decreaseOldHealth = ref();
 
 const currentPlayerId = computed(() => {
-	return playerData.value?.steamid;
+	return playerData.value?.id;
 });
 
 const currentHealth = computed(() => {
-	return playerData.value?.state?.health;
+	return playerData.value?.health;
 });
-const oldHealth = ref(parseInt(playerData.value?.state.health));
+const oldHealth = ref(parseInt(playerData.value?.health));
 
 watch(currentHealth, (val) => {
 	clearTimeout(decreaseOldHealth.value);
@@ -44,9 +44,9 @@ watch(currentPlayerId, () => {
 });
 
 const kevlarImage = computed(() => {
-	if (playerData.value?.state.helmet) {
+	if (playerData.value?.helmet) {
 		return require("@/assets/img/elements/icon_armor_helmet_default.png");
-	} else if (playerData.value?.state.armor) {
+	} else if (playerData.value?.armor) {
 		return require("@/assets/img/elements/icon_armor_none_default.png");
 	}
 	return null;

@@ -11,15 +11,15 @@ const matchStore = useMatchStore();
 const props = defineProps(["playerId"]);
 
 const playerData = computed(() => {
-	return playersStore.getPlayerDataById(props.playerId);
+	return playersStore.getPlayerBottomDataById(props.playerId);
 });
 
 const decreaseOldHealth = ref();
 
 const currentHealth = computed(() => {
-	return playerData.value?.state?.health;
+	return playerData.value?.health;
 });
-const oldHealth = ref(parseInt(playerData.value.state.health));
+const oldHealth = ref(parseInt(playerData.value.health));
 
 watch(currentHealth, (val) => {
 	clearTimeout(decreaseOldHealth.value);
@@ -36,16 +36,16 @@ const guiStore = useGuiStore();
 
 const matchLive = computed(() => {
 	return (
-		(matchStore.getData().phase == "live" &&
-			matchStore.getData().roundInfo.data.phase != "freezetime") ||
+		(matchStore.getPhase()?.match == "live" &&
+			matchStore.getPhase()?.round != "freezetime") ||
 		!guiStore.getData().playersStatistics.show
 	);
 });
 
 const kevlarImage = computed(() => {
-	if (playerData.value.state.helmet) {
+	if (playerData.value.helmet) {
 		return require("@/assets/img/elements/icon_armor_helmet_default.png");
-	} else if (playerData.value.state.armor) {
+	} else if (playerData.value.armor) {
 		return require("@/assets/img/elements/icon_armor_none_default.png");
 	}
 	return null;
@@ -84,9 +84,8 @@ const getWeaponIcon = function (type) {
 			</div>
 			{{ currentHealth }}
 			<div style="width: 20px;">
-				<img class="bomb" v-if="playerData?.availableWeapons?.find(obj => obj.name == 'weapon_c4')"
-					:src="getWeaponIcon('c4')" />
-				<img class="def" v-if="playerData?.state?.defusekit" :src="getWeaponIcon('defuse')" />
+				<img class="bomb" v-if="playerData?.bomb" :src="getWeaponIcon('c4')" />
+				<img class="def" v-if="playerData?.defusekit" :src="getWeaponIcon('defuse')" />
 			</div>
 		</div>
 	</div>

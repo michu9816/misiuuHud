@@ -11,13 +11,11 @@ const matchPhase = computed(() => {
 	let winnerTeam;
 	let score;
 
-	const roundInfo = matchStore.getData()?.roundInfo;
-
-	if (roundInfo?.data?.phase == "over") {
-		phase = roundInfo?.data?.phase;
-		winnerTeam = roundInfo?.data?.win_team;
-		team = matchStore.getData()["team_" + winnerTeam.toLowerCase()]?.name,
-			score = matchStore.getData()["team_" + winnerTeam.toLowerCase()]?.score
+	if (matchStore.getPhase()?.round == "over") {
+		phase = matchStore.getPhase()?.round;
+		winnerTeam = matchStore.getPhase()?.winner;
+		team = matchStore.getScore()?.teams[winnerTeam.toLowerCase()];
+		score = matchStore.getScore()?.map[winnerTeam.toLowerCase()];
 	}
 
 	return {
@@ -61,7 +59,7 @@ const matchPhase = computed(() => {
 
 .colorBox {
 	height: 100%;
-	width: 70px;
+	width: 50px;
 	position: absolute;
 	bottom: 0;
 	right: 30px;

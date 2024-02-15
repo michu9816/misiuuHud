@@ -7,15 +7,15 @@ const matchStore = useMatchStore();
 const props = defineProps(["team"]);
 
 const score = computed(() => {
-	let matchData = matchStore.getData();
-	return matchData ? (showNine.value ? "IX" : matchData[`team_${props.team}`].score) : "-";
+	let matchData = matchStore.getScore();
+	return matchData ? (showNine.value ? "IX" : matchData.map[props.team]) : "-";
 });
 
 const showNine = ref(false);
 
 const isNineAt9 = computed(() => {
-	let matchData = matchStore.getData();
-	return matchData ? matchData[`team_${props.team}`]?.score == 9 && matchData[`team_${props.team}`]?.name?.toUpperCase() == "9INE" : false
+	let matchData = matchStore.getScore();
+	return matchData ? matchData.map[props.team] == 9 && matchData.teams[props.team]?.toUpperCase() == "9INE" : false
 })
 
 watch(isNineAt9, (val) => {

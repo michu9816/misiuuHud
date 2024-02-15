@@ -9,26 +9,26 @@ const matchStore = useMatchStore();
 const props = defineProps(["playerId"]);
 
 const playerData = computed(() => {
-	return playersStore.getPlayerDataById(props.playerId);
+	return playersStore.getPlayerBottomDataById(props.playerId);
 });
 
 const kills = computed(() => {
-	return playerData.value?.match_stats.kills;
+	return playerData.value?.statistics.kills;
 });
 const roundKills = computed(() => {
-	return playerData.value?.state.round_kills;
+	return playerData.value?.statistics.roundKills;
 });
 const deaths = computed(() => {
-	return playerData.value?.match_stats.deaths;
+	return playerData.value?.statistics.deaths;
 });
 const money = computed(() => {
-	return playerData.value?.state.money;
+	return playerData.value?.statistics.money;
 });
 
 const savedMoney = ref(0);
 
 const phase = computed(() => {
-	return matchStore.getData()?.roundInfo?.data?.phase;
+	return matchStore.getPhase()?.round;
 })
 
 watch(phase, (value) => {
@@ -39,8 +39,8 @@ watch(phase, (value) => {
 
 const matchLive = computed(() => {
 	return (
-		matchStore.getData()?.phase == "live" &&
-		matchStore.getData()?.roundInfo.data.phase != "freezetime"
+		matchStore.getPhase()?.match == "live" &&
+		matchStore.getPhase()?.round != "freezetime"
 	);
 });
 

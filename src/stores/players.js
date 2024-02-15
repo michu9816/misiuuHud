@@ -10,6 +10,9 @@ export const usePlayersStore = defineStore("players", () => {
 	const players = ref([]);
 	const player = ref();
 
+	const watchingPlayer = ref();
+	const playersBottomInformations = ref([]);
+
 	function loadPlayers(playersData, playerData) {
 		players.value = [];
 		if (playersData) {
@@ -30,16 +33,63 @@ export const usePlayersStore = defineStore("players", () => {
 				playerData.availableWeapons = availableWeapons;
 
 				players.value.push(playerData);
+
+				let playerBottomInformations = playersBottomInformations.value.find(obj => obj.id == key);
+				if (!playerBottomInformations) {
+					playersBottomInformations.value.push({
+						id: key,
+						name: undefined,
+						health: undefined,
+						helmet: undefined,
+						armor: undefined,
+						team: undefined,
+						defusekit: undefined,
+						bomb: false,
+						weapons: [],
+						weapon: {
+							ammoClip: undefined,
+							ammoReserve: undefined
+						},
+						statistics: {
+							kills: undefined,
+							roundKills: undefined,
+							deaths: undefined,
+							assists: undefined,
+							money: undefined,
+							equip_value: undefined,
+						}
+					})
+				}
+
+				playerBottomInformations = playersBottomInformations.value.find(obj => obj.id == key);
+
+				playerBottomInformations.health = playerData?.state?.health
+				playerBottomInformations.helmet = playerData?.state?.helmet
+				playerBottomInformations.armor = playerData?.state?.armor
+				playerBottomInformations.team = playerData?.team
+				playerBottomInformations.name = playerData?.name
+				playerBottomInformations.defusekit = playerData?.state?.defusekit
+				playerBottomInformations.bomb = playerData?.availableWeapons?.findIndex(obj => obj.name == 'weapon_c4') != -1
+				playerBottomInformations.weapons = playerData?.availableWeapons?.map(obj => { return { type: obj.type, name: obj.name } })
+				playerBottomInformations.weapon.ammoClip = playerData?.activeWeapon?.ammo_clip
+				playerBottomInformations.weapon.ammoReserve = playerData?.activeWeapon?.ammo_reserve
+				playerBottomInformations.statistics.kills = playerData?.match_stats?.kills
+				playerBottomInformations.statistics.roundKills = playerData?.state?.round_kills
+				playerBottomInformations.statistics.deaths = playerData?.match_stats?.deaths
+				playerBottomInformations.statistics.assists = playerData?.match_stats?.assists
+				playerBottomInformations.statistics.money = playerData?.state?.money
+				playerBottomInformations.statistics.equip_value = playerData?.state?.equip_value
 			}
 
 			player.value = playerData;
+			watchingPlayer.value = playerData?.steamid
 		}
 	}
 
 	function extendedStatistics() {
 		const playerStatistics = guiStore.getData()?.playersStatistics.data
 		const fisrtPlayerStatistics = playerStatistics.filter(obj => obj.player == playerStatistics[0].player);
-		return (fisrtPlayerStatistics.map(obj => obj.round).length >= matchStore.getData()?.round + (matchStore.getData()?.roundInfo?.data?.phase == "over" ? 0 : 1)) && fisrtPlayerStatistics.map(obj => obj.round).filter(obj => obj == 0)?.length >= 0;
+		return (fisrtPlayerStatistics.map(obj => obj.round).length >= matchStore.getScore()?.round + (matchStore.getPhase()?.round == "over" ? 0 : 1)) && fisrtPlayerStatistics.map(obj => obj.round).filter(obj => obj == 0)?.length >= 0;
 	}
 
 	function getPlayers(team) {
@@ -48,37 +98,45 @@ export const usePlayersStore = defineStore("players", () => {
 	}
 
 	function getPlayerDataById(id) {
-		let playerData = players.value.find((obj) => obj.id == id);
+		let playerData = playersBottomInformations.value.find((obj) => obj.id == id);
 		if (!playerData || !id) {
 			return;
 		}
 
-		playerData.statistics = {
-			dmg: guiStore.getPlayerDamage(id),
-			adr: extendedStatistics() ? (
-				guiStore.getPlayerDamage(id) /
-				(matchStore.getData().round || 1)
-			).toFixed(2) : undefined,
-			hs: extendedStatistics() ? (parseInt(
-				(playerData.match_stats.kills
-					? guiStore.getPlayerHS(id) /* eslint-disable */ /
-					playerData.match_stats.kills
-					: 0) * 100)
-			) : undefined,
-			kd: parseFloat(
-				parseInt(playerData.match_stats.kills) /
-				(parseInt(playerData.match_stats.deaths) || 1)
-			).toFixed(1),
-			kills: playerData.match_stats.kills,
-			rounds: matchStore.getData().round,
-			equipment: playerData.state.equip_value,
-			assists: playerData.match_stats.assists,
-		};
+		playerData.statistics.dmg = guiStore.getPlayerDamage(id);
+		playerData.statistics.adr = extendedStatistics() ? (
+			guiStore.getPlayerDamage(id) /
+			(matchStore.getScore().round || 1)
+		).toFixed(2) : undefined;
+		playerData.statistics.hs = extendedStatistics() ? (parseInt(
+			(playerData.statistics.kills
+				? guiStore.getPlayerHS(id) /* eslint-disable */ /
+				playerData.statistics.kills
+				: 0) * 100)
+		) : undefined;
+		playerData.statistics.kd = parseFloat(
+			parseInt(playerData.statistics.kills) /
+			(parseInt(playerData.statistics.deaths) || 1)
+		).toFixed(1);
+		playerData.statistics.kills = playerData.statistics.kills;
+		playerData.statistics.rounds = matchStore.getScore()?.round;
+		playerData.statistics.equipment = playerData.statistics.equip_value;
+		playerData.statistics.assists = playerData.statistics.assists;
+
+		return playerData;
+	}
+
+	function getPlayerBottomDataById(id) {
+		let playerData = playersBottomInformations.value.find((obj) => obj.id == id);
 		return playerData;
 	}
 
 	function getWatchingPlayerData() {
 		return player.value;
+	}
+
+	function getWatchingPlayerBasicData() {
+		return playersBottomInformations.value.find(obj => obj.id == watchingPlayer.value);
 	}
 
 	function anyTeamIsPoor() {
@@ -118,6 +176,8 @@ export const usePlayersStore = defineStore("players", () => {
 		someoneKilled3,
 		someoneHeadshoted3,
 		someoneHighDMG,
-		extendedStatistics
+		extendedStatistics,
+		getPlayerBottomDataById,
+		getWatchingPlayerBasicData
 	};
 });

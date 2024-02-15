@@ -5,26 +5,26 @@ import { computed, ref, watch } from "vue";
 const matchStore = useMatchStore();
 
 const bombPlanted = computed(() => {
-	return matchStore.getData()?.roundInfo?.data?.bomb == "planted";
+	return ["planted", "defusing"].includes(matchStore.getPhase()?.bomb);
 });
 
 const timeLeft = computed(() => {
-	return convertTime(matchStore.getData()?.roundInfo?.timer?.phase_ends_in);
+	return convertTime(matchStore.getPhase()?.roundTimer);
 });
 
 const round = computed(() => {
-	return matchStore.getData()?.round + 1
+	return matchStore.getScore()?.round + 1
 })
 
 const remainingBombTime = ref();
 const remainingBombTimeInterval = ref();
 
 const readedBombTime = computed(() => {
-	return matchStore.getData()?.roundInfo?.bomb?.countdown;
+	return matchStore.getPhase()?.timer;
 })
 
 watch(readedBombTime, (val) => {
-	if (matchStore.getData()?.roundInfo.bomb?.state == "defusing") {
+	if (matchStore.getPhase().bomb == "defusing") {
 		clearInterval(remainingBombTimeInterval.value);
 		remainingBombTimeInterval.value = setInterval(() => {
 			if (remainingBombTime.value > 0) {
@@ -33,7 +33,7 @@ watch(readedBombTime, (val) => {
 				clearInterval(remainingBombTimeInterval.value)
 			}
 		}, 100);
-	} else if (matchStore.getData()?.roundInfo.bomb?.state == "planted") {
+	} else if (matchStore.getPhase().bomb == "planted") {
 		clearInterval(remainingBombTimeInterval.value);
 		remainingBombTime.value = Number.parseFloat(val).toFixed(1);
 	} else {
@@ -45,7 +45,6 @@ const bombTimerHeight = computed(() => {
 	const maxTime = 40;
 	const timeLeft = remainingBombTime.value;
 	const percent = 100 - (timeLeft / maxTime) * 100;
-	// return convertTime(matchStore.getData()?.roundInfo.timer.phase_ends_in);
 	return `${percent}%`;
 });
 

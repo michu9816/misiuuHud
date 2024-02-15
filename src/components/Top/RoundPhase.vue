@@ -10,7 +10,7 @@ const remainingPhaseTime = ref();
 const remainingPhaseTimeInterval = ref();
 
 const readedPhaseTime = computed(() => {
-	return matchStore.getData()?.roundInfo?.bomb?.countdown;
+	return matchStore.getPhase()?.timer;
 })
 
 const matchPhase = computed(() => {
@@ -19,25 +19,25 @@ const matchPhase = computed(() => {
 	let team;
 	let style;
 
-	const roundInfo = matchStore.getData()?.roundInfo;
+	const roundInfo = matchStore.getPhase();
 
-	if (["planting", "defusing"].includes(roundInfo?.bomb?.state)) {
-		phase = roundInfo?.bomb?.state
+	if (["planting", "defusing"].includes(roundInfo?.bomb)) {
+		phase = roundInfo?.bomb
 		team = phase == "planting" ? "t" : "ct";
-		text = `${playerStore.getPlayerDataById(roundInfo?.bomb?.player)?.name} is ${phase} the bomb`
+		text = `${playerStore.getPlayerBottomDataById(roundInfo?.player)?.name} is ${phase} the bomb`
 		// text = `bomb is ${phase}`
-		const remainingTime = team == "t" ? 3 : playerStore.getPlayerDataById(roundInfo?.bomb?.player)?.state?.defusekit ? 5 : 10;
+		const remainingTime = team == "t" ? 3 : playerStore.getPlayerBottomDataById(roundInfo?.player)?.defusekit ? 5 : 10;
 		const percent = (((remainingPhaseTime.value) / remainingTime) * 100) || 0;
 		style = `background-position: ${percent}%`;
-	} else if (roundInfo?.timer?.phase == "timeout_ct") {
+	} else if (roundInfo?.timeout == "CT") {
 		team = "ct";
-		const timeouts = matchStore.getData()["team_" + team]?.timeouts_remaining;
+		const timeouts = matchStore.getScore()?.timeouts[team];
 		text = `${timeouts} TIMEOUTS remaining`;
-	} else if (roundInfo?.timer?.phase == "timeout_t") {
+	} else if (roundInfo?.timeout == "T") {
 		team = "t";
-		const timeouts = matchStore.getData()["team_" + team]?.timeouts_remaining;
+		const timeouts = matchStore.getScore()?.timeouts[team];
 		text = `${timeouts} TIMEOUTS remaining`
-	} else if (roundInfo?.timer?.phase == "paused") {
+	} else if (roundInfo?.timeout == "technical") {
 		text = `match paused`
 	}
 

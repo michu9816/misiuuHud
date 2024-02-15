@@ -7,17 +7,17 @@ const playersStore = usePlayersStore();
 const props = defineProps(["playerId"]);
 
 const playerData = computed(() => {
-	return playersStore.getPlayerDataById(props.playerId);
+	return playersStore.getPlayerBottomDataById(props.playerId);
 });
 
 const getMainWeapon = computed(() => {
-	let betterWeapons = playerData.value?.availableWeapons.filter(
+	let betterWeapons = playerData.value?.weapons.filter(
 		(obj) => !["Knife", "Grenade", "Pistol", "C4"].includes(obj.type)
 	);
 	if (betterWeapons.length) {
 		return betterWeapons[0];
 	} else {
-		return playerData.value?.availableWeapons.filter((obj) =>
+		return playerData.value?.weapons.filter((obj) =>
 			["Pistol"].includes(obj.type)
 		)[0];
 	}
@@ -38,7 +38,7 @@ const getWeaponIcon = function (value) {
 			}" v-if="getMainWeapon" :src="getWeaponIcon(getMainWeapon)" />
 		</div>
 		<div class="right">
-			<img v-for="weapon of playerData?.availableWeapons.filter((obj) =>
+			<img v-for="weapon of playerData?.weapons.filter((obj) =>
 				['Grenade'].includes(obj.type)
 			)" :key="weapon.name" :class="{
 	inactive: weapon.state != 'active',

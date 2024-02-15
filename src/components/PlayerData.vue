@@ -12,9 +12,9 @@ const playersStore = usePlayersStore();
 
 const boxVisible = computed(() => {
 	return (
-		matchStore.getData()?.phase == "live" &&
-		matchStore.getData()?.roundInfo?.data?.phase != "freezetime" &&
-		playersStore.getWatchingPlayerData()?.name
+		matchStore.getPhase()?.match == "live" &&
+		matchStore.getPhase()?.round != "freezetime" &&
+		playersStore.getWatchingPlayerBasicData()?.name
 	);
 });
 </script>

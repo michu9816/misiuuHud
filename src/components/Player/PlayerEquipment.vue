@@ -5,14 +5,12 @@ import { computed } from "vue";
 const playersStore = usePlayersStore();
 
 const playerData = computed(() => {
-	return playersStore.getPlayerDataById(
-		playersStore.getWatchingPlayerData()?.steamid
-	);
+	return playersStore.getWatchingPlayerBasicData();
 });
 
 const ammo = computed(() => {
-	const clipAmmo = playerData.value?.activeWeapon?.ammo_clip;
-	const reserveAmmo = playerData.value?.activeWeapon?.ammo_reserve;
+	const clipAmmo = playerData.value?.weapon?.ammo_clip;
+	const reserveAmmo = playerData.value?.weapon?.ammo_reserve;
 	if (clipAmmo != undefined) {
 		return `${clipAmmo}/${reserveAmmo}`;
 	} else {
@@ -21,13 +19,13 @@ const ammo = computed(() => {
 });
 
 const getMainWeapon = computed(() => {
-	let betterWeapons = playerData.value?.availableWeapons.filter(
+	let betterWeapons = playerData.value?.weapons.filter(
 		(obj) => !["Knife", "Grenade", "Pistol", "C4"].includes(obj.type)
 	);
 	if (betterWeapons?.length) {
 		return betterWeapons[0];
 	} else {
-		return playerData.value?.availableWeapons.filter((obj) =>
+		return playerData.value?.weapons.filter((obj) =>
 			["Pistol"].includes(obj.type)
 		)[0];
 	}
@@ -55,16 +53,15 @@ const getEquipmentIcon = function (type) {
 				inactive: getMainWeapon?.state != 'active',
 			}" v-if="getMainWeapon" :src="getWeaponIcon(getMainWeapon)" />
 
-			<img v-for="weapon of playerData?.availableWeapons.filter((obj) =>
+			<img v-for="weapon of playerData?.weapons.filter((obj) =>
 				['Grenade'].includes(obj.type)
 			)" :key="weapon.name" :class="{
 	inactive: weapon.state != 'active',
 }" :src="getWeaponIcon(weapon)" />
 		</div>
 		<div class="state">
-			<img v-if="playerData?.availableWeapons?.find(obj => obj.name == 'weapon_c4')" :src="getEquipmentIcon('c4')"
-				class="bomb" />
-			<img class="def" v-if="playerData?.state?.defusekit" :src="getEquipmentIcon('defuse')" />
+			<img v-if="playerData?.bomb" :src="getEquipmentIcon('c4')" class="bomb" />
+			<img class="def" v-if="playerData?.defusekit" :src="getEquipmentIcon('defuse')" />
 			<img src="@/assets/img/elements/icon_bullets_default.png" class="ico_ammo" style="margin-left:10px"
 				v-if="ammo" />
 			{{ ammo }}

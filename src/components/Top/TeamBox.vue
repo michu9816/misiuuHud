@@ -7,14 +7,14 @@ const matchStore = useMatchStore();
 const props = defineProps(["team"]);
 
 const name = computed(() => {
-	let matchData = matchStore.getData();
-	return matchData ? matchData[`team_${props.team}`].name : "-";
+	const team = matchStore.getScore()?.teams[props.team];
+	const defaultTeamName = props.team == "t" ? "TT" : "CT"
+	return team || defaultTeamName;
 });
 
 const scoreChanged = computed(() => {
 	return (
-		matchStore.getData()?.roundInfo.data?.win_team ==
-		props.team.toUpperCase()
+		matchStore.getPhase()?.winner == props.team.toUpperCase()
 	);
 });
 </script>

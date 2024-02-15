@@ -19,9 +19,9 @@ const guiStore = useGuiStore();
 const chartVisible = ref(false);
 const chartVisibleClass = ref(false);
 const chartOpacity = computed(() => {
-	const phase = useMatchStore()?.getData()?.roundInfo?.timer?.phase;
-	const showChart = phase?.includes("timeout");
-	const round = parseInt(useMatchStore()?.getData()?.round)
+	const phase = useMatchStore()?.getPhase()?.timeout;
+	const showChart = phase?.includes("technical");
+	const round = parseInt(useMatchStore()?.getScore()?.round)
 	return showChart && round > 5 && usePlayersStore()?.extendedStatistics();
 })
 
@@ -31,8 +31,7 @@ watch(chartOpacity, (value) => {
 	if (value) {
 		chartVisible.value = true;
 
-		const phase = useMatchStore()?.getData()?.roundInfo?.timer?.phase;
-		chartTeam.value = phase?.split("_")[1];
+		chartTeam.value = useMatchStore()?.getPhase()?.timeout;
 		setTimeout(() => {
 			chartVisibleClass.value = true;
 		}, 1000)

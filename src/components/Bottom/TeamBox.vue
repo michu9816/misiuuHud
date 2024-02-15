@@ -15,11 +15,7 @@ const players = computed(() => {
 
 <template>
 	<div class="team" :class="props.team">
-		<PlayerView
-			v-for="player of players"
-			:key="player.id"
-			:playerId="player.id"
-		/>
+		<PlayerView v-for="player of players" :key="player.id" :playerId="player.id" />
 	</div>
 </template>
 
@@ -32,9 +28,11 @@ const players = computed(() => {
 	grid-template-columns: repeat(5, 140px);
 	align-items: end;
 }
+
 .team.CT {
 	left: 10px;
 }
+
 .team.T {
 	right: 10px;
 }

@@ -12,11 +12,11 @@ const playersStore = usePlayersStore();
 const props = defineProps(["playerId"]);
 
 const playerData = computed(() => {
-	return playersStore.getPlayerDataById(props.playerId);
+	return playersStore.getPlayerBottomDataById(props.playerId);
 });
 
 const isThisPlayerWatching = computed(() => {
-	return playerData.value.id == playersStore.getWatchingPlayerData()?.steamid;
+	return playerData.value.id == playersStore.getWatchingPlayerBasicData()?.id;
 });
 </script>
 
@@ -24,7 +24,7 @@ const isThisPlayerWatching = computed(() => {
 	<!-- Access the state directly from the store -->
 	<div>
 		<div class="playerInformations darkBackground" :class="[{
-			dead: !playerData.state.health,
+			dead: !playerData.health,
 			watching: isThisPlayerWatching,
 		}, playerData.team]">
 			<PlayerWeapons :playerId="props.playerId"></PlayerWeapons>

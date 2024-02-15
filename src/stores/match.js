@@ -4,18 +4,60 @@ import { useGuiStore } from "./gui";
 import { usePlayersStore } from "./players";
 
 export const useMatchStore = defineStore("match", () => {
+	const roundPhase = ref({
+		round: undefined,
+		match: undefined,
+		winner: undefined,
+		bomb: undefined,
+		timeout: undefined,
+		timer: undefined,
+		player: undefined,
+		roundTimer: undefined
+	});
+
+	const matchScore = ref({
+		total: {
+			t: undefined,
+			ct: undefined
+		},
+		map: {
+			t: undefined,
+			ct: undefined
+		},
+		teams: {
+			t: undefined,
+			ct: undefined
+		},
+		timeouts: {
+			t: undefined,
+			ct: undefined
+		},
+		round: undefined
+	})
+
 	const match = ref();
 	function loadMatchData(matchData, roundData, timeData, bombData) {
 		const guiStore = useGuiStore();
 
-		match.value = matchData;
-		if (match.value) {
-			match.value.roundInfo = {
-				data: roundData,
-				timer: timeData,
-				bomb: bombData,
-			};
-		}
+		roundPhase.value.round = roundData?.phase
+		roundPhase.value.match = matchData?.phase
+		roundPhase.value.timeout = timeData?.phase == "timeout_ct" ? "CT" : timeData?.phase == "timeout_ct" ? "T" : timeData?.phase == "paused" ? "technical" : undefined
+		roundPhase.value.winner = roundData?.win_team
+		roundPhase.value.bomb = bombData?.state
+		roundPhase.value.timer = bombData?.countdown
+		roundPhase.value.player = bombData?.player
+		roundPhase.value.roundTimer = timeData?.phase_ends_in
+
+		matchScore.value.total.t = matchData?.team_t?.matches_won_this_series
+		matchScore.value.total.ct = matchData?.team_ct?.matches_won_this_series
+		matchScore.value.map.t = matchData?.team_t?.score
+		matchScore.value.map.ct = matchData?.team_ct?.score
+		matchScore.value.teams.t = matchData?.team_t?.name || "Terrorists"
+		matchScore.value.teams.ct = matchData?.team_ct?.name || "Counter-Terrorists"
+		matchScore.value.timeouts.t = matchData?.team_t?.timeouts_remaining
+		matchScore.value.timeouts.ct = matchData?.team_ct?.timeouts_remaining
+		matchScore.value.round = matchData?.round
+
 		if (matchData?.round == 0 && timeData?.phase == "freezetime") {
 			console.log("Restarting statistics on first round");
 			guiStore.restartStatistics();
@@ -62,5 +104,13 @@ export const useMatchStore = defineStore("match", () => {
 	function getData() {
 		return match.value;
 	}
-	return { loadMatchData, getData };
+
+	function getPhase() {
+		return roundPhase.value
+	}
+
+	function getScore() {
+		return matchScore.value
+	}
+	return { loadMatchData, getData, getPhase, getScore };
 });

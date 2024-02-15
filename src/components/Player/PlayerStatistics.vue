@@ -6,20 +6,20 @@ const playersStore = usePlayersStore();
 
 const playerData = computed(() => {
 	return playersStore.getPlayerDataById(
-		playersStore.getWatchingPlayerData()?.steamid
+		playersStore.getWatchingPlayerBasicData()?.id
 	);
 });
 
 const kills = computed(() => {
-	return playerData.value?.match_stats.kills;
+	return playerData.value?.statistics.kills;
 });
 
 const deaths = computed(() => {
-	return playerData.value?.match_stats.deaths;
+	return playerData.value?.statistics.deaths;
 });
 
 const assists = computed(() => {
-	return playerData.value?.match_stats.assists;
+	return playerData.value?.statistics.assists;
 });
 
 const adr = computed(() => {
@@ -42,8 +42,8 @@ const hsp = computed(() => {
 		<div class="statistic" v-if="hsp"><a class="name">HS%</a>{{ hsp }}</div>
 		<div class="statistic" v-if="adr"><a class="name">ADR</a>{{ adr }}</div>
 		<div class="roundKills">
-			{{ playerData?.state.round_kills > 1 ? playerData?.state.round_kills + "x" : "" }}
-			<img src="@/assets/img/elements/icon_skull_default.png" v-if="playerData?.state.round_kills > 0" />
+			{{ playerData?.statistics.roundKills > 1 ? playerData?.statistics.roundKills + "x" : "" }}
+			<img src="@/assets/img/elements/icon_skull_default.png" v-if="playerData?.statistics.roundKills > 0" />
 		</div>
 	</div>
 </template>

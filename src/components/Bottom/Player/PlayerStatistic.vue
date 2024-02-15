@@ -16,8 +16,8 @@ const playerData = computed(() => {
 
 const matchLive = computed(() => {
 	return (
-		matchStore.getData().phase == "live" &&
-		matchStore.getData().roundInfo.data.phase != "freezetime"
+		matchStore.getPhase()?.match == "live" &&
+		matchStore.getPhase()?.round != "freezetime"
 	);
 });
 

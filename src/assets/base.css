@@ -5,12 +5,12 @@
 }
 
 :root {
-  --vt-c-cyan-bright: #0077d8;
-  --vt-c-cyan-dark: #004d8b;
-  --vt-c-cyan-dark-black: #001525;
-  --vt-c-orange-bright: #d86100;
-  --vt-c-orange-dark: #8b3f00;
-  --vt-c-orange-dark-black: #1d0d00;
+  --vt-c-cyan-bright: hsl(189, 100%, 30%);
+  --vt-c-cyan-dark: hsl(190, 100%, 15%);
+  --vt-c-cyan-dark-black: hsl(190, 100%, 5%);
+  --vt-c-orange-bright: hsl(329, 100%, 30%);
+  --vt-c-orange-dark: hsl(329, 100%, 15%);
+  --vt-c-orange-dark-black: hsl(329, 100%, 5%);
   --vt-c-gray: #cecece;
   --vt-c-gray-dark: #303030;
   --vt-c-white: #f2f2f2;
