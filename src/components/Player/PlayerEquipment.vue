@@ -83,7 +83,7 @@ const getEquipmentIcon = function (type) {
 
 .data img {
 	height: 15px;
-	opacity: 0.8;
+	opacity: 1;
 }
 
 .data .weapons {
@@ -92,6 +92,10 @@ const getEquipmentIcon = function (type) {
 
 .data .weapons img {
 	filter: invert(1);
+}
+
+.data .weapons img:not(.inactive) {
+	filter: invert(1) drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.2));
 }
 
 img.bomb {

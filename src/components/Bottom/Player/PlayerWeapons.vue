@@ -33,6 +33,7 @@ const getWeaponIcon = function (value) {
 	<!-- Access the state directly from the store -->
 	<div class="weapons">
 		<div class="left">
+			<div class="ammo"></div>
 			<img :class="{
 				inactive: getMainWeapon?.state != 'active',
 			}" v-if="getMainWeapon" :src="getWeaponIcon(getMainWeapon)" />
@@ -71,6 +72,10 @@ img {
 
 .weapons img.inactive {
 	opacity: 0.6;
+}
+
+.weapons img:not(.inactive) {
+	filter: invert(1) drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.5));
 }
 
 .playerInformations.dead .weapons {

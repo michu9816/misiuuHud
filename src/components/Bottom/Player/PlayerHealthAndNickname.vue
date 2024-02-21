@@ -50,6 +50,10 @@ const kevlarImage = computed(() => {
 	}
 	return null;
 });
+
+const flashedPercent = computed(() => {
+	return (playerData?.value.flashed || 0) / 255;
+})
 //const observerSlot = computed(() => {
 // let slot = playerData.value?.observer_slot + 1;
 // return slot == 10 ? 0 : slot;
@@ -67,6 +71,7 @@ const getWeaponIcon = function (type) {
 <template>
 	<!-- Access the state directly from the store -->
 	<div class="status">
+		<div class="flashBackground" :style="{ opacity: flashedPercent }"></div>
 		<div class="healthBackground bar" :class="[{ low: currentHealth < 30 }, playerData.team]" :style="{
 			height: `${currentHealth}%`,
 		}"></div>
@@ -169,6 +174,16 @@ img.bomb {
 	text-shadow: 0 0 5px black;
 	border-radius: 5px;
 	overflow: hidden;
+}
+
+.flashBackground {
+	background: -webkit-radial-gradient(rgb(255 255 255 / 80%), rgb(255 255 255 / 50%));
+	height: 100%;
+	width: 100%;
+	z-index: 3;
+	position: absolute;
+	margin-top: -5px;
+	transition-duration: 0.5s;
 }
 </style>
 

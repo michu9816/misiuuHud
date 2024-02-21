@@ -66,11 +66,12 @@ export const usePlayersStore = defineStore("players", () => {
 				playerBottomInformations.health = playerData?.state?.health
 				playerBottomInformations.helmet = playerData?.state?.helmet
 				playerBottomInformations.armor = playerData?.state?.armor
+				playerBottomInformations.flashed = playerData?.state?.flashed
 				playerBottomInformations.team = playerData?.team
 				playerBottomInformations.name = playerData?.name
 				playerBottomInformations.defusekit = playerData?.state?.defusekit
 				playerBottomInformations.bomb = playerData?.availableWeapons?.findIndex(obj => obj.name == 'weapon_c4') != -1
-				playerBottomInformations.weapons = playerData?.availableWeapons?.map(obj => { return { type: obj.type, name: obj.name } })
+				playerBottomInformations.weapons = playerData?.availableWeapons?.map(obj => { return { type: obj.type, name: obj.name, state: obj.state } })
 				playerBottomInformations.weapon.ammoClip = playerData?.activeWeapon?.ammo_clip
 				playerBottomInformations.weapon.ammoReserve = playerData?.activeWeapon?.ammo_reserve
 				playerBottomInformations.statistics.kills = playerData?.match_stats?.kills
