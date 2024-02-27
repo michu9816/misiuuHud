@@ -9,8 +9,9 @@ const playerData = computed(() => {
 });
 
 const ammo = computed(() => {
-	const clipAmmo = playerData.value?.weapon?.ammo_clip;
-	const reserveAmmo = playerData.value?.weapon?.ammo_reserve;
+	console.log(playerData.value)
+	const clipAmmo = playerData.value?.weapon?.ammoClip;
+	const reserveAmmo = playerData.value?.weapon?.ammoReserve;
 	if (clipAmmo != undefined) {
 		return `${clipAmmo}/${reserveAmmo}`;
 	} else {
@@ -79,6 +80,10 @@ const getEquipmentIcon = function (type) {
 	font-size: 20px;
 	display: grid;
 	grid-template-columns: auto auto;
+}
+
+.state {
+	font-weight: normal;
 }
 
 .data img {
