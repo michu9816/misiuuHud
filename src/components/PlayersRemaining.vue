@@ -52,5 +52,13 @@ const playersAlive = function (team) {
 .text {
 	font-weight: bold;
 }
+
+.text.ct {
+	color: var(--color-text-ct-bright);
+}
+
+.text.t {
+	color: var(--color-text-t-bright);
+}
 </style>
 

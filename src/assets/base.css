@@ -5,9 +5,11 @@
 }
 
 :root {
+  --vt-c-cyan-brighter: hsl(189, 100%, 50%);
   --vt-c-cyan-bright: hsl(189, 100%, 30%);
   --vt-c-cyan-dark: hsl(190, 100%, 15%);
   --vt-c-cyan-dark-black: hsl(190, 100%, 5%);
+  --vt-c-orange-brighter: hsl(329, 100%, 50%);
   --vt-c-orange-bright: hsl(329, 100%, 30%);
   --vt-c-orange-dark: hsl(329, 100%, 15%);
   --vt-c-orange-dark-black: hsl(329, 100%, 5%);
@@ -38,7 +40,9 @@
 
   --color-background-gray: var(--vt-c-gray-dark);
 
+  --color-text-ct-bright: var(--vt-c-cyan-brighter);
   --color-text-ct: var(--vt-c-cyan-bright);
+  --color-text-t-bright: var(--vt-c-orange-brighter);
   --color-text-t: var(--vt-c-orange-bright);
   --color-text-gray: var(--vt-c-gray);
   --color-text-white: var(--vt-c-white);
