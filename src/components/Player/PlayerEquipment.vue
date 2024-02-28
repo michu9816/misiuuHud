@@ -9,7 +9,6 @@ const playerData = computed(() => {
 });
 
 const ammo = computed(() => {
-	console.log(playerData.value)
 	const clipAmmo = playerData.value?.weapon?.ammoClip;
 	const reserveAmmo = playerData.value?.weapon?.ammoReserve;
 	if (clipAmmo != undefined) {

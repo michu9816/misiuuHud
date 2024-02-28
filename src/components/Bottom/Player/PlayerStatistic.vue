@@ -29,6 +29,11 @@ const statisticValue = computed(() => {
 	return playerData.value.statistics[statisticToShow.value];
 });
 
+const statisticValueWithPrefix = computed(() => {
+	const prefix = statisticToShow.value == "equipment" ? "$" : ""
+	return `${prefix}${statisticValue.value}`;
+});
+
 const statisticHeight = computed(() => {
 	let test = 0;
 
@@ -65,7 +70,7 @@ const statisticHeight = computed(() => {
 		}">
 			<div class="title">{{ statisticToShow }}</div>
 			<div class="value">
-				{{ statisticValue }}
+				{{ statisticValueWithPrefix }}
 			</div>
 		</div>
 	</div>

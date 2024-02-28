@@ -1,41 +1,80 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useMatchStore } from "@/stores/match";
 
 const matchStore = useMatchStore();
 
+const phase = ref();
+const team = ref();
+const winnerTeam = ref();
+const score = ref();
 
 const matchPhase = computed(() => {
-	let phase;
-	let team;
-	let winnerTeam;
-	let score;
+	return matchStore.getPhase()?.round;
+})
 
-	if (matchStore.getPhase()?.round == "over") {
-		phase = matchStore.getPhase()?.round;
-		winnerTeam = matchStore.getPhase()?.winner;
-		team = matchStore.getScore()?.teams[winnerTeam.toLowerCase()];
-		score = matchStore.getScore()?.map[winnerTeam.toLowerCase()];
-	}
+const showWinnerInformations = ref(false);
+const hideInformationsTimeout = ref();
 
-	return {
-		phase,
-		team,
-		winnerTeam,
-		score
+watch(matchPhase, (val) => {
+	if (val == "over") {
+		showWinnerInformations.value = true;
+		phase.value = matchStore.getPhase()?.round;
+		winnerTeam.value = matchStore.getPhase()?.winner;
+		team.value = matchStore.getScore()?.teams[winnerTeam.value.toLowerCase()];
+		score.value = matchStore.getScore()?.map[winnerTeam.value.toLowerCase()];
+	} else {
+		clearTimeout(hideInformationsTimeout)
+		hideInformationsTimeout.value = setTimeout(() => {
+			showWinnerInformations.value = false;
+			matchStore.resetRoundHistoryElement();
+		}, 2000)
 	}
 })
 
+const roundHistory = computed(() => {
+	return matchStore?.getRoundHistory();
+})
+
+const getActionIcon = function (value) {
+	let iconName;
+	switch (value) {
+		case "elimination":
+			iconName = "icon_skull_CT"
+			break;
+		case "planted":
+			iconName = "icon_c4_default"
+			break;
+		case "bomb":
+			iconName = "icon_bomb_explosion_default"
+			break;
+		case "defuse":
+			iconName = "icon_defuse_default"
+			break;
+		case "time":
+			iconName = "icon_hourglass_default"
+			break;
+	}
+	return require(`@/assets/img/elements/${iconName}.png`);
+};
+
+
 </script>
 <template>
-	<div v-if="matchPhase?.team" class="box">
+	<div v-if="showWinnerInformations" class="box" :class="[{ hide: matchPhase != 'over' }, winnerTeam]">
 		<div class="background">
-			<div class="colorBox" :class="[matchPhase?.winnerTeam]"></div>
-			<div class="description">wins the round</div>
-			<div class="name">{{ matchPhase?.team }}</div>
-			<div class="line"></div>
-			<div class="movingName" :class="[matchPhase?.winnerTeam]">{{ matchPhase?.team }}</div>
-			<div class="score">{{ matchPhase?.score }}</div>
+			<div class="scoreOverlay">
+				{{ score }}
+			</div>
+			<div class="content">
+				<div class="description">round winner</div>
+				<div class="name">{{ team }}</div>
+			</div>
+		</div>
+		<div class="roundHistory" v-if="roundHistory.length">
+			<div class="el" v-for=" element  in  roundHistory " :key="element.action">
+				<img class="def" :class="element.team" :src="getActionIcon(element.action)" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -46,7 +85,34 @@ const matchPhase = computed(() => {
 	align-self: center;
 	justify-content: center;
 	font-size: 42px;
-	animation: italic 3s infinite;
+	padding-top: 40px;
+	color: var(--color-background-gray);
+	font-weight: bold;
+	animation: moveDown 3s;
+}
+
+.scoreOverlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 100px;
+	z-index: 2;
+	right: -100%;
+	animation: moveRight 2s;
+}
+
+.T .scoreOverlay,
+.T .description {
+	background: var(--color-background-t);
+}
+
+.CT .scoreOverlay,
+.CT .description {
+	background: var(--color-background-ct);
 }
 
 .score {
@@ -54,85 +120,74 @@ const matchPhase = computed(() => {
 	bottom: 0px;
 	left: 20px;
 	font-size: 70px;
-	opacity: 0.1;
-}
-
-.colorBox {
-	height: 100%;
-	width: 50px;
-	position: absolute;
-	bottom: 0;
-	right: 30px;
-	transform: skewX(-20deg);
-	animation: moveIn 3s;
-}
-
-.colorBox.T {
-	background: var(--color-background-t);
-}
-
-.colorBox.CT {
-	background: var(--color-background-ct);
 }
 
 .description {
 	position: absolute;
-	bottom: 10px;
-	right: 10px;
-	font-variant: all-small-caps;
-	font-size: 28px;
+	padding: 8px 0;
+	top: 2px;
+	left: 2px;
+	text-transform: uppercase;
+	font-size: 18px;
+	color: white;
+	width: calc(100% - 4px);
+	border-radius: 5px;
+	animation: colorIn 3s;
 }
 
-.movingName {
-	position: absolute;
-	top: 20px;
-	left: 0px;
-	font-variant: all-small-caps;
-	font-size: 40px;
-	font-style: italic;
-	opacity: 0.6;
-	white-space: nowrap;
-	animation: move 3s;
-}
-
-.movingName.T {
-	color: var(--color-text-t)
-}
-
-.movingName.CT {
-	color: var(--color-text-ct)
-}
-
-.line {
-	position: absolute;
-	background: white;
-	height: 7px;
-	width: 130px;
-	left: -20px;
-	bottom: 40px;
-	animation: blinking 3s infinite;
-	opacity: 1;
-}
 
 .box {
 	display: flex;
 	justify-content: center;
-	opacity: 1;
-	animation: fadeIn 1s;
+	align-items: center;
+	height: 330px;
 }
 
 .background {
-	margin-top: 100px;
 	display: flex;
 	justify-content: center;
-	height: 150px;
-	min-width: 400px;
-	background: rgba(0, 0, 0, 0.6);
-	color: white;
+	background: white;
 	text-align: center;
+	opacity: 1;
+	border-radius: 5px;
 	position: relative;
-	padding: 0 60px;
+	animation: fadeIn 1s;
+	height: 120px;
+	overflow: hidden;
+	align-items: center;
+}
 
+.content {
+	padding: 0 60px;
+	height: 120px;
+	min-width: 300px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+.roundHistory {
+	position: absolute;
+	background: var(--color-background-gray);
+	padding: 5px 10px;
+	border-radius: 5px;
+	margin-top: 165px;
+	animation: moveDownHistory 3s;
+	z-index: -1;
+	display: flex;
+	gap: 5px;
+}
+
+.roundHistory img {
+	height: 20px;
+}
+
+.roundHistory img.CT {
+	filter: hue-rotate(135deg);
+}
+
+.hide {
+	animation: fadeOut 1s 1s;
 }
 
 @keyframes blinking {
@@ -153,27 +208,53 @@ const matchPhase = computed(() => {
 	}
 }
 
-@keyframes italic {
+@keyframes fadeIn {
+
 	0% {
-		font-style: italic;
+		opacity: 0;
+		height: 0px;
+		background: var(--color-text-t);
 	}
 
-	40% {
-		font-style: normal;
-	}
-
-	80% {
-		font-style: italic;
+	100% {
+		opacity: 1;
+		height: 120px;
+		background: white;
 	}
 }
 
-@keyframes fadeIn {
+@keyframes fadeOut {
+
 	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes colorIn {
+
+	0%,
+	75% {
 		opacity: 0;
 	}
 
 	100% {
 		opacity: 1;
+	}
+}
+
+@keyframes moveRight {
+
+	0%,
+	75% {
+		right: 0%;
+	}
+
+	100% {
+		right: -100%;
 	}
 }
 
@@ -189,24 +270,36 @@ const matchPhase = computed(() => {
 	}
 }
 
-@keyframes move {
-	0% {
-		left: 80%;
-		top: 90px;
+@keyframes moveDown {
 
-	}
-
-	40% {
-		top: 90px;
-	}
-
-	41% {
-		top: 20px;
+	0%,
+	75% {
+		padding-top: 0px;
 	}
 
 	100% {
-		top: 20px;
-		left: 0%;
+		padding-top: 40px;
+	}
+}
+
+@keyframes moveDownHistory {
+
+	0%,
+	75% {
+		margin-top: 0px;
+	}
+
+	0%,
+	40% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	100% {
+		margin-top: 165px;
 	}
 }
 </style>

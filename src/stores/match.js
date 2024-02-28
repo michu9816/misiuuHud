@@ -36,6 +36,7 @@ export const useMatchStore = defineStore("match", () => {
 	})
 
 	const match = ref();
+
 	function loadMatchData(matchData, roundData, timeData, bombData) {
 		const guiStore = useGuiStore();
 
@@ -43,6 +44,19 @@ export const useMatchStore = defineStore("match", () => {
 		roundPhase.value.match = matchData?.phase
 		roundPhase.value.timeout = timeData?.phase == "timeout_ct" ? "CT" : timeData?.phase == "timeout_ct" ? "T" : timeData?.phase == "paused" ? "technical" : undefined
 		roundPhase.value.winner = roundData?.win_team
+		if (["planted"].includes(roundData?.bomb)) {
+			if (!roundHistory.value?.find(obj => obj.action == roundData?.bomb)) {
+				addRoundHistoryElement("default", roundData?.bomb);
+			}
+		}
+		if (matchData?.round_wins && matchData?.round_wins[matchData?.round] && timeData?.phase == "over") {
+			const action = matchData.round_wins[matchData?.round]?.split("_");
+			if (!action[2] != "elimination") {
+				if (roundHistory.value?.findIndex(obj => obj.action == action[2]) == -1) {
+					addRoundHistoryElement(action[0], action[2]);
+				}
+			}
+		}
 		roundPhase.value.bomb = bombData?.state
 		roundPhase.value.timer = bombData?.countdown
 		roundPhase.value.player = bombData?.player
@@ -101,6 +115,18 @@ export const useMatchStore = defineStore("match", () => {
 		}
 	}
 
+	const roundHistory = ref([]);
+
+	const addRoundHistoryElement = function (team, element) {
+		roundHistory.value.push({ team, action: element })
+	}
+	const resetRoundHistoryElement = function () {
+		roundHistory.value = [];
+	}
+
+	function getRoundHistory() {
+		return roundHistory.value;
+	}
 	function getData() {
 		return match.value;
 	}
@@ -112,5 +138,5 @@ export const useMatchStore = defineStore("match", () => {
 	function getScore() {
 		return matchScore.value
 	}
-	return { loadMatchData, getData, getPhase, getScore };
+	return { loadMatchData, getData, getPhase, getScore, addRoundHistoryElement, resetRoundHistoryElement, getRoundHistory };
 });

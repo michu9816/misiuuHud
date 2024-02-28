@@ -47,6 +47,7 @@ const matchLive = computed(() => {
 const showStatisticChangeOverlay = ref(undefined);
 watch(roundKills, (value, oldValue) => {
 	if (value > oldValue) {
+		matchStore.addRoundHistoryElement(playerData.value.team, "elimination")
 		if (!matchLive.value) {
 			return;
 		}

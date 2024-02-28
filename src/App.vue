@@ -11,6 +11,7 @@
 		{{ playersStore.getPlayers().map((obj) => obj.state.round_kills) }}
 		<br /> -->
 		<!-- {{ test }} -->
+		<!-- {{ matchStore.getRoundHistory() }} -->
 	</div>
 	<PlayerData></PlayerData>
 	<PlayersRemaining></PlayersRemaining>
