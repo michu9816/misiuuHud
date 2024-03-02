@@ -12,6 +12,7 @@
 		<br /> -->
 		<!-- {{ test }} -->
 		<!-- {{ matchStore.getRoundHistory() }} -->
+		<TournamentPage></TournamentPage>
 	</div>
 	<PlayerData></PlayerData>
 	<PlayersRemaining></PlayersRemaining>
@@ -26,6 +27,7 @@ import TopPanel from "./components/TopPanel.vue";
 import StatisticsChart from "./components/StatisticsChart.vue";
 import PlayerData from "./components/PlayerData.vue";
 import PlayersRemaining from "./components/PlayersRemaining.vue";
+import TournamentPage from "./views/TournamentView.vue";
 import { ipcRenderer } from "electron";
 import { usePlayersStore } from "./stores/players";
 import { useMatchStore } from "./stores/match";
@@ -38,7 +40,8 @@ export default {
 		TopPanel,
 		PlayerData,
 		StatisticsChart,
-		PlayersRemaining
+		PlayersRemaining,
+		TournamentPage
 	},
 	data() {
 		return {
