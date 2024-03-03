@@ -18,12 +18,15 @@ const isNineAt9 = computed(() => {
 	return matchData ? matchData.map[props.team] == 9 && matchData.teams[props.team]?.toUpperCase() == "9INE" : false
 })
 
+const nineAt9Timeout = ref();
+
 watch(isNineAt9, (val) => {
 	if (val) {
-		setTimeout(() => {
+		nineAt9Timeout.value = setTimeout(() => {
 			showNine.value = val;
 		}, 3800)
 	} else {
+		clearTimeout(nineAt9Timeout.value);
 		showNine.value = val;
 	}
 })
