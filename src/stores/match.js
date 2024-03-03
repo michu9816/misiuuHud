@@ -42,7 +42,7 @@ export const useMatchStore = defineStore("match", () => {
 
 		roundPhase.value.round = roundData?.phase
 		roundPhase.value.match = matchData?.phase
-		roundPhase.value.timeout = timeData?.phase == "timeout_ct" ? "CT" : timeData?.phase == "timeout_ct" ? "T" : timeData?.phase == "paused" ? "technical" : undefined
+		roundPhase.value.timeout = timeData?.phase == "timeout_ct" ? "CT" : timeData?.phase == "timeout_t" ? "T" : timeData?.phase == "paused" ? "technical" : undefined
 		roundPhase.value.winner = roundData?.win_team
 		if (["planted"].includes(roundData?.bomb)) {
 			if (!roundHistory.value?.find(obj => obj.action == roundData?.bomb)) {
