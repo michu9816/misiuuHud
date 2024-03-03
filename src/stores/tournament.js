@@ -3,19 +3,20 @@ import { ref } from "vue";
 import axios from 'axios';
 
 export const useTournamentStore = defineStore("tournament", () => {
-	const searchingTeamMatches = ref('9INE')
-	const tournamentId = ref('bc28f1e0-b185-46b4-b32a-33ce79c8ac64')
-	// const tournamentId = ref('03cca7ca-cea8-4e61-9e90-2c9c00d185ee')
+	const searchingTeamMatches = ref('ITB Esports')
+	// const tournamentId = ref('bc28f1e0-b185-46b4-b32a-33ce79c8ac64')
+	const tournamentId = ref('03cca7ca-cea8-4e61-9e90-2c9c00d185ee')
 	const key = ref('8eade652-61e6-4815-ab9a-c2d7bd6f0b6e')
 
 	const matches = ref([]);
 	const statistics = ref([]);
+	const totalStatistics = ref([]);
 
 	const selectedTeamId = ref();
 
-	async function refreshTeamMatchesList() {
+	async function refreshTeamMatchesList(offset) {
 		try {
-			const response = await axios.get(`https://open.faceit.com/data/v4/championships/${tournamentId.value}/matches?offset=0&limit=500`, { headers: { 'Authorization': `Bearer ${key.value}` } });
+			const response = await axios.get(`https://open.faceit.com/data/v4/championships/${tournamentId.value}/matches?offset=${offset || 0}&limit=${(offset || 0) + 100}`, { headers: { 'Authorization': `Bearer ${key.value}` } });
 			const teamMatches = response.data?.items?.filter(obj => [obj.teams?.faction1?.name?.toUpperCase(), obj.teams?.faction2?.name?.toUpperCase()].includes(searchingTeamMatches.value?.toUpperCase())).sort((a, b) => a.round - b.round);
 
 			teamMatches.forEach(match => {
@@ -26,6 +27,7 @@ export const useTournamentStore = defineStore("tournament", () => {
 				}
 			})
 		} catch (error) {
+			console.log("Tu błąd jest")
 			console.error(error);
 		}
 	}
@@ -41,8 +43,10 @@ export const useTournamentStore = defineStore("tournament", () => {
 					data: matchStatistics
 				});
 			}
+			console.log(totalStatistics.value);
 			// })
 		} catch (error) {
+			console.log("Tu błąd jest też")
 			console.error(error);
 		}
 	}
@@ -53,7 +57,7 @@ export const useTournamentStore = defineStore("tournament", () => {
 	}
 
 	function getTeamMatches() {
-		return matches.value;
+		return matches.value.sort((a, b) => a.round - b.round);
 	}
 
 	function getTeamMatchStatistics(match) {
@@ -70,5 +74,8 @@ export const useTournamentStore = defineStore("tournament", () => {
 	function getSelectedTeamName() {
 		return searchingTeamMatches.value
 	}
-	return { getSelectedTeamName, getTournamentName, refreshTeamMatchesList, getPlayersMatchStatistics, refreshTeamMatcheStatistics, getTeamMatches, getTeamMatchStatistics };
+	function getSelectedTeamId() {
+		return selectedTeamId.value
+	}
+	return { getSelectedTeamId,getSelectedTeamName, getTournamentName, refreshTeamMatchesList, getPlayersMatchStatistics, refreshTeamMatcheStatistics, getTeamMatches, getTeamMatchStatistics };
 });

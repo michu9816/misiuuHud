@@ -1,7 +1,7 @@
 <template>
     <div class="tournamentOverlay">
         <div class="name">{{ tournamentName }}</div>
-        <h2>Today's matches of the {{ selectedTeam }} team</h2>
+        <h2>Tournament matches of the {{ selectedTeam }} team</h2>
         <div class="matches">
             <MatchLayout v-for="match in tournamentMatches" :data="match" :key="match?.match_id"></MatchLayout>
         </div>
@@ -11,8 +11,8 @@
         </div>
         <div class="match">{{ tournamentName }}</div>
 
-        <button @click="tournamentStore.refreshTeamMatchesList()">Test</button>
-        {{ tournamentStatistics }}
+        <button @click="getTournamentMatches()">Test</button>
+        {{ tournamentPlayersStatistics }}
     </div>
 </template>
 
@@ -26,9 +26,7 @@ const tournamentStore = useTournamentStore();
 const tournamentMatches = computed(() => {
     return tournamentStore.getTeamMatches();
 })
-const tournamentStatistics = computed(() => {
-    return tournamentStore.getTeamMatchStatistics();
-})
+
 const tournamentPlayersStatistics = computed(() => {
     return tournamentStore.getPlayersMatchStatistics();
 })
@@ -39,6 +37,15 @@ const selectedTeam = computed(() => {
 const tournamentName = computed(() => {
     return tournamentStore.getTournamentName();
 })
+
+const getTournamentMatches = function(){
+    tournamentStore.refreshTeamMatchesList();
+    tournamentStore.refreshTeamMatchesList(100);
+    tournamentStore.refreshTeamMatchesList(200);
+    tournamentStore.refreshTeamMatchesList(300);
+    tournamentStore.refreshTeamMatchesList(400);
+    tournamentStore.refreshTeamMatchesList(500)
+}
 </script>
 
 <style scoped>
