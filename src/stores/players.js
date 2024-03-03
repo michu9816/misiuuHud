@@ -67,6 +67,7 @@ export const usePlayersStore = defineStore("players", () => {
 				playerBottomInformations.helmet = playerData?.state?.helmet
 				playerBottomInformations.armor = playerData?.state?.armor
 				playerBottomInformations.flashed = playerData?.state?.flashed
+				playerBottomInformations.observer_slot = playerData?.observer_slot
 				playerBottomInformations.team = playerData?.team
 				playerBottomInformations.name = playerData?.name
 				playerBottomInformations.defusekit = playerData?.state?.defusekit

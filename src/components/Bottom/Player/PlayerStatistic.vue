@@ -30,8 +30,14 @@ const statisticValue = computed(() => {
 });
 
 const statisticValueWithPrefix = computed(() => {
-	const prefix = statisticToShow.value == "equipment" ? "$" : ""
-	return `${prefix}${statisticValue.value}`;
+	switch(statisticToShow.value){
+		case "equipment":
+			return `$${statisticValue.value}`;
+		case "hs":
+			return `${statisticValue.value}%`;
+		default:
+			return `${statisticValue.value}`;
+	}
 });
 
 const statisticHeight = computed(() => {

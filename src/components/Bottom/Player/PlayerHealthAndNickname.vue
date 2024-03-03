@@ -54,10 +54,10 @@ const kevlarImage = computed(() => {
 const flashedPercent = computed(() => {
 	return (playerData?.value.flashed || 0) / 255;
 })
-//const observerSlot = computed(() => {
-// let slot = playerData.value?.observer_slot + 1;
-// return slot == 10 ? 0 : slot;
-// })
+const observerSlot = computed(() => {
+let slot = playerData.value?.observer_slot + 1;
+return slot == 10 ? 0 : slot;
+})
 
 const getWeaponIcon = function (type) {
 	if (type == "c4") {
@@ -93,6 +93,7 @@ const getWeaponIcon = function (type) {
 				<img class="def" v-if="playerData?.defusekit" :src="getWeaponIcon('defuse')" />
 			</div>
 		</div>
+		<div class="observerSlot" :class="{hide:currentHealth == 0}">{{ observerSlot }}</div>
 	</div>
 </template>
 
@@ -102,6 +103,12 @@ const getWeaponIcon = function (type) {
 	color: white;
 	z-index: 3;
 	position: relative;
+}
+.nickname .text{
+	white-space: nowrap;
+            width: 100%;
+           overflow: hidden;
+          text-overflow: ellipsis;
 }
 
 .bar {
@@ -123,7 +130,8 @@ const getWeaponIcon = function (type) {
 	position: relative;
 	overflow: hidden;
 	display: flex;
-	justify-content: space-evenly;
+    gap: 5px;
+	justify-content: center;
 	align-items: center;
 }
 
@@ -184,6 +192,25 @@ img.bomb {
 	position: absolute;
 	margin-top: -5px;
 	transition-duration: 0.5s;
+}
+.observerSlot{
+	position: absolute;
+    left: 0;
+	top: calc(50% - 8px);
+	z-index: 3;
+    font-size: 14px;
+    padding: 0 5px;
+    border-radius: 0 5px 5px 0;
+	transition-duration: 0.5s;
+}
+.observerSlot.hide{
+	opacity: 0;
+}
+.T .observerSlot{
+	background: var(--color-background-t);
+}
+.CT .observerSlot{
+	background: var(--color-background-ct);
 }
 </style>
 
