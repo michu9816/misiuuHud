@@ -13,7 +13,13 @@ const timeLeft = computed(() => {
 });
 
 const round = computed(() => {
-	return matchStore.getScore()?.round + 1
+	if(matchStore.getPhase()?.match == "warmup"){
+		return `Warmup`
+	}else if(matchStore.getPhase()?.match){
+	return `Round ${matchStore.getScore()?.round + 1}`;
+	}else{
+		return `No match`;
+	}
 })
 
 const remainingBombTime = ref();
@@ -65,7 +71,7 @@ function convertTime(time) {
 			<img src="@/assets/img/elements/icon_bomb_default.png" />
 		</div>
 		<div class="time" v-if="!bombPlanted">{{ timeLeft }}</div>
-		<div class="round" v-if="!bombPlanted">Round {{ round }}</div>
+		<div class="round" v-if="!bombPlanted">{{ round }}</div>
 	</div>
 </template>
 
