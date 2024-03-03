@@ -28,7 +28,7 @@ const selectedMaps = computed(()=>
     if(!array.length){
         array.push({
             name: "TBD",
-            image: "undefined"
+            image: require('@/assets/img/maps/none.jpg')
         })
     }
     return array
@@ -72,7 +72,7 @@ const round = ref(props.data?.round)
 }
 
 .match {
-    width: 170px;
+    width: 160px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     color: white;

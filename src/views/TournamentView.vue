@@ -12,7 +12,7 @@
         <div class="match">{{ tournamentName }}</div>
 
         <button @click="getTournamentMatches()">Test</button>
-        {{ tournamentPlayersStatistics }}
+        {{ totalStatistics }}
     </div>
 </template>
 
@@ -20,7 +20,7 @@
 import { useTournamentStore } from "@/stores/tournament";
 import MatchLayout from "@/components/Tournament/MatchLayout.vue";
 import PlayerStatistics from "@/components/Tournament/PlayerStatistics.vue";
-import { computed } from "vue";
+import { computed,onMounted,ref } from "vue";
 
 const tournamentStore = useTournamentStore();
 const tournamentMatches = computed(() => {
@@ -38,6 +38,10 @@ const tournamentName = computed(() => {
     return tournamentStore.getTournamentName();
 })
 
+const totalStatistics = computed(() => {
+    return tournamentStore.getTotalStatistics();
+})
+
 const getTournamentMatches = function(){
     tournamentStore.refreshTeamMatchesList();
     tournamentStore.refreshTeamMatchesList(100);
@@ -46,6 +50,14 @@ const getTournamentMatches = function(){
     tournamentStore.refreshTeamMatchesList(400);
     tournamentStore.refreshTeamMatchesList(500)
 }
+
+getTournamentMatches();
+
+const refreshMatchesInterval = ref();
+
+onMounted(()=>{
+    refreshMatchesInterval.value = setInterval(()=>{getTournamentMatches()},120000)
+})
 </script>
 
 <style scoped>
