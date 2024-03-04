@@ -40,7 +40,11 @@ const getTournamentMatches = function(){
     tournamentStore.refreshTeamMatchesList(200);
     tournamentStore.refreshTeamMatchesList(300);
     tournamentStore.refreshTeamMatchesList(400);
-    tournamentStore.refreshTeamMatchesList(500)
+    tournamentStore.refreshTeamMatchesList(500);
+    tournamentStore.refreshTeamMatchesList(600);
+    tournamentStore.refreshTeamMatchesList(700);
+    tournamentStore.refreshTeamMatchesList(800);
+    tournamentStore.refreshTeamMatchesList(900);
 }
 
 getTournamentMatches();

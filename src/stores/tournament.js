@@ -3,9 +3,9 @@ import { ref } from "vue";
 import axios from 'axios';
 
 export const useTournamentStore = defineStore("tournament", () => {
-	const searchingTeamMatches = ref('ECSTATIC')
-	const tournamentId = ref('bc28f1e0-b185-46b4-b32a-33ce79c8ac64')
-	// const tournamentId = ref('03cca7ca-cea8-4e61-9e90-2c9c00d185ee')
+	const searchingTeamMatches = ref('9INE')
+	// const tournamentId = ref('bc28f1e0-b185-46b4-b32a-33ce79c8ac64')
+	const tournamentId = ref('9d25f1ea-f652-4dc6-a9ba-12d3eb6b5df6')
 	const key = ref('8eade652-61e6-4815-ab9a-c2d7bd6f0b6e')
 
 	const matches = ref([]);
