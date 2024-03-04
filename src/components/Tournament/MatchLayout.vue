@@ -7,7 +7,11 @@ const props = defineProps(["data"]);
 
 const teams = ref(props.data?.teams);
 const results = function(index){
-    return tournamentStore.getTeamMatchStatistics(props.data?.match_id)[0]?.data?.rounds[index]?.round_stats?.Score?.replace(" / ", ":") || "-:-";
+    const resultFromMatchStats = tournamentStore.getTeamMatchStatistics(props.data?.match_id)[0]?.data?.rounds[index]?.round_stats?.Score?.replace(" / ", ":");
+    const result1FromMatchInformations = props.data?.detailed_results[index].factions?.faction1?.score;
+    const result2FromMatchInformations = props.data?.detailed_results[index].factions?.faction2?.score;
+    const resultFromMatchInformations = result1FromMatchInformations ? `${result1FromMatchInformations}:${result2FromMatchInformations}` : undefined;
+    return resultFromMatchStats || resultFromMatchInformations ||  "-:-";
 };
 const followingTeamWin = function(index){
     const winner = tournamentStore.getTeamMatchStatistics(props.data?.match_id)[0]?.data?.rounds[index]?.round_stats?.Winner;

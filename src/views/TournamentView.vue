@@ -9,10 +9,6 @@
         <div class="statistics">
             <PlayerStatistics v-for="match in tournamentPlayersStatistics" :data="match" :key="match?.match_id"></PlayerStatistics>
         </div>
-        <div class="match">{{ tournamentName }}</div>
-
-        <button @click="getTournamentMatches()">Test</button>
-        {{ totalStatistics }}
     </div>
 </template>
 
@@ -36,10 +32,6 @@ const selectedTeam = computed(() => {
 
 const tournamentName = computed(() => {
     return tournamentStore.getTournamentName();
-})
-
-const totalStatistics = computed(() => {
-    return tournamentStore.getTotalStatistics();
 })
 
 const getTournamentMatches = function(){
@@ -94,7 +86,7 @@ h2 {
     margin: auto;
     display: grid;
     grid-gap: 10px;
-    width: 750px;
+    width: 850px;
 }
 </style>
 

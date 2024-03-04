@@ -42,35 +42,49 @@ export const useTournamentStore = defineStore("tournament", () => {
 					match: matchId,
 					data: matchStatistics
 				});
-				console.log(matchStatistics)
 				matchStatistics.rounds.forEach((stat,round)=>{
-					console.log(stat,round)
 					stat.teams.forEach(team => {
-						console.log(team)
 						if(team.team_id !== selectedTeamId.value){
 							return;
 						}
 						team.players.forEach(player=>{
-							totalStatistics.value.push({
-								match: matchId,
-								round: round,
-									player: player.player_id,
+							if(totalStatistics.value.findIndex(obj => obj.playerId == player.player_id) == -1){
+								totalStatistics.value.push({
+									playerId: player.player_id,
 									nick: player.nickname,
-									stats: player.player_stats,
-									team: team.team_id
-							})
+									team: team.team_id,
+									matches:[]
+								})
+							}
+							addPlayerStatistics(matchId,round,player);
 						})
 					})
 				})
 			}else{
 				statistics.value.find(statisticsFromList => statisticsFromList.match == matchId).data = matchStatistics
 			}
-			console.log(matchStatistics)
 			console.log(totalStatistics.value);
-			// })
 		} catch (error) {
 			console.log("Tu błąd jest też")
 			console.error(error);
+		}
+	}
+
+	function addPlayerStatistics(match,round,player){
+		const playerData = totalStatistics.value.find(obj => obj.playerId == player.player_id);
+		if(playerData.matches.find(match => match.match == match && match.round == round)){
+			const matchIndex = playerData.matches.findIndex(match => match.match == match && match.round == round)
+			playerData.matches[matchIndex] = {
+				match: match,
+				round: round,
+				stats: player.player_stats,
+			}
+		}else{
+			playerData.matches.push({
+				match: match,
+				round: round,
+				stats: player.player_stats,
+			})
 		}
 	}
 
@@ -88,8 +102,41 @@ export const useTournamentStore = defineStore("tournament", () => {
 	}
 
 
-	function getPlayersMatchStatistics(match) {
-		return statistics.value.filter(obj => match ? obj.match == match : true)[0]?.data?.rounds[0].teams.find(obj => obj.team_id == selectedTeamId.value)?.players;
+	function getPlayersMatchStatistics() {
+		console.log(totalStatistics.value)
+		return totalStatistics.value.map(obj => {
+			const kills = obj.matches.map(obj => parseInt(obj.stats?.Kills)).reduce((accumulator, currentValue) => {
+				return accumulator + currentValue
+			},0)
+			const deaths = obj.matches.map(obj => parseInt(obj.stats?.Deaths)).reduce((accumulator, currentValue) => {
+				return accumulator + currentValue
+			},0)
+			const hs = obj.matches.map(obj => parseInt(obj.stats?.Headshots)).reduce((accumulator, currentValue) => {
+				return accumulator + currentValue
+			},0)
+			const assists = obj.matches.map(obj => parseInt(obj.stats?.Assists)).reduce((accumulator, currentValue) => {
+				return accumulator + currentValue
+			},0);
+
+			return {
+				player:{
+					id: obj.playerId,
+					nickname: obj.nick,
+					team: obj.team
+				},
+				total:{
+					matches: obj.matches.length,
+					kills,
+					deaths,
+					hs,
+					hsp: Math.round((hs / kills)*100),
+					assists,
+					kd: (kills/deaths).toFixed(2)
+				},
+				last: obj.matches[obj.matches.length - 1]
+			}
+		})
+		// return statistics.value.filter(obj => match ? obj.match == match : true)[0]?.data?.rounds[0].teams.find(obj => obj.team_id == selectedTeamId.value)?.players;
 	}
 	function getTotalStatistics() {
 		return totalStatistics.value;

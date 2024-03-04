@@ -24,28 +24,46 @@ const player = ref(props.data)
             Assists
         </div>
         <div class="title">
-            HS%
+            Headshots
         </div>
         <div class="title">
-            K/R
+            K/D
         </div>
         <div>
-            {{ player.nickname }}
+            {{ player.player.nickname }}
         </div>
         <div>
-            {{ player.player_stats["Kills"] }}
+            {{ player.total.kills }}
         </div>
         <div>
-            {{ player.player_stats["Deaths"] }}
+            {{ player.total.deaths }}
         </div>
         <div>
-            {{ player.player_stats["Assists"] }}
+            {{ player.total.assists }}
         </div>
         <div>
-            {{ player.player_stats["Headshots %"] }}
+            {{ player.total.hsp }}%
         </div>
         <div>
-            {{ player.player_stats["K/R Ratio"] }}
+            {{ player.total.kd }}
+        </div>
+        <div class="perMatch">
+            last match
+        </div>
+        <div class="perMatch">
+            {{ player.last.stats["Kills"] }}
+        </div>
+        <div class="perMatch">
+            {{ player.last.stats["Deaths"] }}
+        </div>
+        <div class="perMatch">
+            {{ player.last.stats["Assists"] }}
+        </div>
+        <div class="perMatch">
+            {{ player.last.stats["Headshots %"] }}%
+        </div>
+        <div class="perMatch">
+            {{ player.last.stats["K/D Ratio"] }}
         </div>
     </div>
 </template>
@@ -55,7 +73,7 @@ const player = ref(props.data)
     background: rgb(48 48 48 / 30%);
     border-radius: 5px;
     display: grid;
-    grid-template-columns: 320px 80px 80px 80px 80px 80px;
+    grid-template-columns: 320px repeat(5, 100px);
     padding: 10px;
     color:white;
     font-size: 24px;
@@ -107,6 +125,11 @@ const player = ref(props.data)
     font-size: 14px;
     color: var(--color-text-ct-bright);
     margin-bottom: 5px;
+}
+.perMatch {
+    font-size: 18px;
+    margin-top: 3px;
+    color: #ababab;
 }
 </style>
 
