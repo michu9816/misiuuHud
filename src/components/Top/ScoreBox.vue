@@ -12,6 +12,7 @@ const score = computed(() => {
 });
 
 const showNine = ref(false);
+const showNineAsRoman = ref(false);
 
 const isNineAt9 = computed(() => {
 	let matchData = matchStore.getScore();
@@ -21,10 +22,15 @@ const isNineAt9 = computed(() => {
 const nineAt9Timeout = ref();
 
 watch(isNineAt9, (val) => {
+	showNineAsRoman.value = val;
 	if (val) {
 		nineAt9Timeout.value = setTimeout(() => {
 			showNine.value = val;
 		}, 3800)
+		setTimeout(() => {
+			showNine.value = false;
+			showNineAsRoman.value = false;
+		}, 20000)
 	} else {
 		clearTimeout(nineAt9Timeout.value);
 		showNine.value = val;
@@ -36,7 +42,7 @@ watch(isNineAt9, (val) => {
 <template>
 	<div class="score" :class="[team]">
 		<div class="text" :class="{
-			nine: isNineAt9
+			nine: showNineAsRoman
 		}">{{ score }}</div>
 	</div>
 </template>
