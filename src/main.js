@@ -4,7 +4,7 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 import App from "./App.vue";
 
 import HudView from './views/HudView.vue'
-import HudSettings from './views/HudView.vue'
+import HudSettings from './views/HudSettings.vue'
 
 import "./assets/main.css";
 

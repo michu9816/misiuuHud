@@ -1,6 +1,7 @@
 <template>
 	<p>
-    <strong>Current route path:</strong> {{ $route.fullPath }}
+    {{ $route.fullPath }}
+    <RouterLink to="/settings">Go to About</RouterLink>
   </p>
 	<main>
     <RouterView />
