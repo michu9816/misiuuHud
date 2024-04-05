@@ -53,8 +53,8 @@ const getTeamScore = computed(() => {
 		?.filter(
 			(obj) =>
 				obj.picked &&
-				obj.scores.find((score) => score.team == teams.value[props.team]).points >
-					obj.scores.find((score) => score.team == teams.value[props.team == 'ct' ? 't' : 'ct']).points
+				parseInt(obj.scores.find((score) => score.team == teams.value[props.team])?.points) >
+					parseInt(obj.scores.find((score) => score.team == teams.value[props.team == 'ct' ? 't' : 'ct'])?.points)
 		).length;
 });
 </script>
