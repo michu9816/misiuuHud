@@ -5,27 +5,27 @@
             <div class="content">
                 <div class="item">Series settings
                     <div class="options">
-                        <div class="option" :class="{selected:seriesType==undefined}" @click="seriesStore.setSeriesType(undefined)">N/D</div>
-                        <div class="option" :class="{selected:seriesType=='bo1'}" @click="seriesStore.setSeriesType('bo1')">BO1</div>
-                        <div class="option" :class="{selected:seriesType=='bo3'}" @click="seriesStore.setSeriesType('bo3')">BO3</div>
+                        <div class="option" :class="{selected:seriesType==undefined}" @click="setSeriesType(undefined)">N/D</div>
+                        <div class="option" :class="{selected:seriesType=='bo1'}" @click="setSeriesType('bo1')">BO1</div>
+                        <div class="option" :class="{selected:seriesType=='bo3'}" @click="setSeriesType('bo3')">BO3</div>
                     </div>
                 </div>
                 <div class="item">Score completing
                     <div class="options">
-                        <div class="option" :class="{selected: completeType == 'auto'}" @click="seriesStore.setCompleteType('auto')">Auto</div>
-                        <div class="option" :class="{selected: completeType == 'manual'}" @click="seriesStore.setCompleteType('manual')">Manual</div>
+                        <div class="option" :class="{selected: completeType == 'auto'}" @click="setCompleteType('auto')">Auto</div>
+                        <div class="option" :class="{selected: completeType == 'manual'}" @click="setCompleteType('manual')">Manual</div>
                     </div>
                 </div>
                 
             </div>
         </div>
         <div class="veto tab" v-if="seriesType == 'bo3'">
-            <div class="title">Maps <span style="float: right;" @click="seriesStore.reset()">Reset</span></div>
+            <div class="title">Maps <span style="float: right;" @click="reset()">Reset</span></div>
             <div class="content">
 
             <div class="teams">
-                <div class="team ct">Team 1</div>
-                <div class="team t">Team 1</div>
+                <div class="team ct">{{teams[0]}}</div>
+                <div class="team t">{{teams[1]}}</div>
             </div>
 
             <div class="map">
@@ -36,26 +36,37 @@
                 <div>Pick</div>
             </div>
             <div class="map list" v-for="map in maps" :key="map" :class="{disabled: !map.picked && maps.filter(obj => obj.picked && obj.order).length > 2}">
-                <div class="pick" :class="[map.picked == 'ct' && map.order < 3 ? 'ct' : '',{disabled: map.picked && map.picked != 'ct' || map.order == 3}]" @click="pickMap('ct',map.name)">PICK</div>
-                <div><input/></div>
+                <div class="pick" :class="[map.picked == teams[0] && map.order < 3 ? 'ct' : '',{disabled: map.picked && map.picked != teams[0] || map.order == 3}]" @click="pickMap(teams[0],map.name)">PICK</div>
+                <div><input v-model="map.scores[0].points" :disabled="!map.picked || completeType=='auto'"/></div>
                 <div>{{map.name}}</div>
-                <div><input/></div>
-                <div class="pick" :class="[map.picked == 't' && map.order < 3 ? 't' : '',{disabled: map.picked && map.picked != 't' || map.order == 3}]" @click="pickMap('t',map.name)">PICK</div>
+                <div><input v-model="map.scores[1].points" :disabled="!map.picked || completeType=='auto'"/></div>
+                <div class="pick" :class="[map.picked == teams[1] && map.order < 3 ? 't' : '',{disabled: map.picked && map.picked != teams[1] || map.order == 3}]" @click="pickMap(teams[1],map.name)">PICK</div>
             </div>
-
+            <div class="button" @click="saveResults" v-show="completeType == 'manual'">Save results</div>
         </div>
-        {{ teams }}
         </div>
     </div>
 </template>
 
 <script setup>
-import {computed} from "vue";
+import {computed,ref} from "vue";
 import {useSeriesStore} from "@/stores/series.js";
-import { useMatchStore } from "@/stores/match";
+import { ipcRenderer } from "electron";
+
+const teams = ref(["T","CT"]);
+
+ipcRenderer.on("series-teams", (event, arg) => {
+    const teamsList = [JSON.parse(arg).ct,JSON.parse(arg).t];
+    if(teamsList.every(team => team)){
+        console.log("Teams Exists");
+        if(!teamsList.every(team =>  teams.value.includes(team))){
+            console.log("Teams changed");
+            teams.value = JSON.parse(JSON.stringify(teamsList));
+        }
+    }
+});
 
 const seriesStore = useSeriesStore();
-const matchStore = useMatchStore();
 
 const seriesType = computed(()=>{
     return seriesStore.getSeriesType();
@@ -64,17 +75,37 @@ const completeType = computed(()=>{
     return seriesStore.getCompleteType();
 })
 
-const teams = computed(()=>{
-    return matchStore.getScore()?.teams;
-})
+const setCompleteType = function(type){
+    seriesStore.setCompleteType(type);
+    ipcRenderer.send("series-complete-type", type);
+}
+
+const setSeriesType = function(type){
+    seriesStore.setSeriesType(type);
+    ipcRenderer.send("series-series-type", type);
+}
 
 const pickMap = function(team,map) {
+    if(maps.value.filter(obj => obj.picked).length >= 3){
+        return;
+    }
     seriesStore.pickMap(team,map)
+    ipcRenderer.send("series-series-pick", {team,map});
+}
+
+const reset = function(){
+    seriesStore.reset();
+    ipcRenderer.send("series-series-reset", true);
 }
 
 const maps = computed(()=>{
     return seriesStore.getMaps();
 })
+
+const saveResults = function(){
+    maps.value.filter(obj => obj.picked).forEach(obj => {obj.scores[0].team = teams.value[0];obj.scores[1].team = teams.value[1]})
+    ipcRenderer.send("series-maps-results", JSON.stringify(maps.value.filter(obj => obj.picked)));
+}
 </script>
 
 <style scoped>
@@ -174,5 +205,13 @@ const maps = computed(()=>{
 .disabled{
     filter: grayscale(1);
     opacity: 0.3;
+}
+.button{
+    background: var(--color-text-white);
+    text-align: center;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 </style>

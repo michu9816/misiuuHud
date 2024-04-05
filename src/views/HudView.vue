@@ -1,21 +1,4 @@
 <template>
-	<div>
-		<!-- {{ playersStore.extendedStatistics() }} -->
-		<!-- {{ guiStore.getData() }}<br /><br /> -->
-		<!-- {{ matchStore.getData() }} -->
-		<!--{{ matchStore.getData()?.roundInfo }} <br />
-		moreThan3: {{ playersStore.someoneKilled3() ? "tak" : "nie" }}
-		<br />dmghigh: {{ playersStore.someoneHighDMG() ? "tak" : "nie" }}<br />
-		hs3:
-		{{ playersStore.someoneHeadshoted3() ? "tak" : "nie" }}<br />
-		{{ playersStore.getPlayers().map((obj) => obj.state.round_kills) }}
-		<br /> -->
-		<!-- {{ test }} -->
-		<!-- {{ matchStore.getRoundHistory() }} -->
-	</div>
-	<main>
-    <RouterView />
-  </main>
 	<PlayerData></PlayerData>
 	<PlayersRemaining></PlayersRemaining>
 	<TopPanel></TopPanel>
@@ -32,6 +15,7 @@ import PlayersRemaining from "@/components/PlayersRemaining.vue";
 import { ipcRenderer } from "electron";
 import { usePlayersStore } from "@/stores/players";
 import { useMatchStore } from "@/stores/match";
+import { useSeriesStore } from "@/stores/series";
 import { useGuiStore } from "@/stores/gui";
 
 export default {
@@ -49,6 +33,7 @@ export default {
 			playersStore: usePlayersStore(),
 			matchStore: useMatchStore(),
 			guiStore: useGuiStore(),
+			seriesStore: useSeriesStore()
 		};
 	},
 	created() {
@@ -66,7 +51,34 @@ export default {
 			let roundsNumber = arg.round?.phase == "over" ? arg.map?.round - 1 : arg.map?.round;
 			vm.guiStore.setPlayersDamage(arg.allplayers, roundsNumber);
 		});
+		ipcRenderer.on("series-complete-type", (event, arg) => {
+			vm.seriesStore.setCompleteType(arg);
+		});
+		ipcRenderer.on("series-series-type", (event, arg) => {
+			vm.seriesStore.setSeriesType(arg);
+		});
+		ipcRenderer.on("series-series-pick", (event, arg) => {
+			console.log(arg);
+			vm.seriesStore.pickMap(arg.team,arg.map)
+		});
+		ipcRenderer.on("series-series-reset", () => {
+			vm.seriesStore.reset()
+		});
+		ipcRenderer.on("series-maps-results", (event,arg) => {
+			vm.seriesStore.refreshScores(arg);
+		});
 	},
+	computed:{
+		teams(){
+			return JSON.stringify(this.matchStore.getScore().teams)
+		}
+	},
+	watch:{
+		teams(val){
+			ipcRenderer.send("series-teams", val);
+			console.log(val);
+		}
+	}
 };
 </script>
 

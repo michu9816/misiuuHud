@@ -1,18 +1,23 @@
 <script setup>
 import { computed } from "vue";
 import { useMatchStore } from "@/stores/match";
+import { useSeriesStore } from "@/stores/series";
+
 // import { usePlayersStore } from "@/stores/players";
 
 const matchStore = useMatchStore();
+const seriesStore = useSeriesStore();
+
 // const playerStore = usePlayersStore();
 
 const score = computed(() => {
 	const ct = matchStore.getScore()?.total?.ct;
 	const t = matchStore.getScore()?.total?.t;
-
-	const show = (ct || t) && matchStore.getPhase().round != "live";
+	const isBo1 = seriesStore.getSeriesType() == 'bo1';
+	const show = (ct || t || isBo1) && matchStore.getPhase().round != "live" && seriesStore.getSeriesType() != 'bo3';
 
 	return {
+		isBo1,
 		ct,
 		t,
 		show
@@ -22,7 +27,8 @@ const score = computed(() => {
 <template>
 	<div class="box" v-if="score.show">
 		<div class="information">
-			<div class="score">{{ score.ct }} - {{ score.t }}</div>
+			<div class="score" v-if="score.isBo1">BO1</div>
+			<div class="score" v-else>{{ score.ct }} - {{ score.t }}</div>
 			<div class="background"></div>
 		</div>
 	</div>

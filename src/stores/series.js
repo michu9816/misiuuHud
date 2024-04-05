@@ -2,16 +2,58 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useSeriesStore = defineStore("series", () => {
-	const type = ref('bo1');
-	const completeType = ref('auto');
+	const type = ref(undefined);
+	const completeType = ref('manual');
 	const maps = ref([
-		{name:'ancient', picked: undefined, order: 101},
-	{name:'anubis', picked: undefined, order: 102},
-	{name:'inferno', picked: undefined, order: 103},
-	{name:'nuke', picked: undefined, order: 104},
-	{name:'mirage', picked: undefined, order: 105},
-	{name:'overpass', picked: undefined, order: 106},
-	{name:'vertigo', picked: undefined, order: 107}])
+		{name:'ancient', picked: undefined, order: 101,scores: [{
+			team:undefined,
+			points:undefined
+		},{
+			team:undefined,
+			points:undefined
+		}]},
+	{name:'anubis', picked: undefined, order: 102,scores: [{
+		team:undefined,
+		points:undefined
+	},{
+		team:undefined,
+		points:undefined
+	}]},
+	{name:'inferno', picked: undefined, order: 103,scores: [{
+		team:undefined,
+		points:undefined
+	},{
+		team:undefined,
+		points:undefined
+	}]},
+	{name:'nuke', picked: undefined, order: 104,scores: [{
+		team:undefined,
+		points:undefined
+	},{
+		team:undefined,
+		points:undefined
+	}]},
+	{name:'mirage', picked: undefined, order: 105,scores: [{
+		team:undefined,
+		points:undefined
+	},{
+		team:undefined,
+		points:undefined
+	}]},
+	{name:'overpass', picked: undefined, order: 106,scores: [{
+		team:undefined,
+		points:undefined
+	},{
+		team:undefined,
+		points:undefined
+	}]},
+	{name:'vertigo', picked: undefined, order: 107,scores: [{
+		team:undefined,
+		points:undefined
+	},{
+		team:undefined,
+		points:undefined
+	}]}])
 
 	function setSeriesType(value) {
 		return type.value = value
@@ -42,8 +84,24 @@ export const useSeriesStore = defineStore("series", () => {
 		maps.value.forEach((element,index) => {
 			element.picked = undefined;
 			element.order = index + 100;
+			element.scores = [{
+				team:undefined,
+				points:undefined
+			},{
+				team:undefined,
+				points:undefined
+			}];
 		});
 	}
 
-	return { getSeriesType,setSeriesType,setCompleteType, getCompleteType, pickMap, getMaps,reset};
+	
+	function refreshScores(data){
+		const mapsArray = JSON.parse(data)
+		mapsArray.forEach(obj => {
+			const map = maps.value.find(map => map.name == obj.name);
+			map.scores = obj.scores;
+		})
+	}
+
+	return { refreshScores, getSeriesType,setSeriesType,setCompleteType, getCompleteType, pickMap, getMaps,reset};
 });

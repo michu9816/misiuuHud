@@ -47,7 +47,7 @@ async function createWindow() {
         width: 500,
         height: 600,
         show: false,
-        frame: true,
+        frame: false,
         fullscreenable: false,
         resizable: false,
         transparent: false,
@@ -73,7 +73,7 @@ async function createWindow() {
 
 	winSettings.on('blur', () => {
 		if (!winSettings.webContents.isDevToolsOpened()) {
-			// winSettings.hide()
+			winSettings.hide()
 		}
 	  })
 
@@ -96,9 +96,28 @@ async function createWindow() {
 		console.log(arg);
 	});
 
+	ipcMain.on("series-complete-type", (event, arg) => {
+		win.webContents.send("series-complete-type", arg);
+	});
+	ipcMain.on("series-series-type", (event, arg) => {
+		win.webContents.send("series-series-type", arg);
+	});
+	ipcMain.on("series-series-pick", (event, arg) => {
+		win.webContents.send("series-series-pick", arg);
+	});
+	ipcMain.on("series-series-reset", (event, arg) => {
+		win.webContents.send("series-series-reset", arg);
+	});
+	ipcMain.on("series-maps-results", (event, arg) => {
+		win.webContents.send("series-maps-results", arg);
+	});
+	ipcMain.on("series-teams", (event, arg) => {
+		winSettings.webContents.send("series-teams", arg);
+	});
+
 	if (process.env.WEBPACK_DEV_SERVER_URL) {
 		// Load the url of the dev server if in development mode
-		await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL + "/settings");
+		await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
 		if (!process.env.IS_TEST) win.webContents.openDevTools();
 	} else {
 		createProtocol("app");
@@ -158,10 +177,10 @@ const createTray = () => {
 	const trayBounds = tray.getBounds()
   
 	// Center window horizontally below the tray icon
-	const x = Math.round(trayBounds.x + (trayBounds.width / 2) - (windowBounds.width / 2))
+	const x = Math.round(trayBounds.x + (trayBounds.width / 2) - (windowBounds.width / 2) - 50)
   
 	// Position window 4 pixels vertically below the tray icon
-	const y = Math.round(trayBounds.y + trayBounds.height + 3)
+	const y = Math.round(trayBounds.y - 520 + 4)
   
 	return {x: x, y: y}
   }
