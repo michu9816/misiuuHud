@@ -14,7 +14,7 @@ const score = computed(() => {
 	const ct = matchStore.getScore()?.total?.ct;
 	const t = matchStore.getScore()?.total?.t;
 	const isBo1 = seriesStore.getSeriesType() == 'bo1';
-	const show = (ct || t || isBo1) && matchStore.getPhase().round != "live" && seriesStore.getSeriesType() != 'bo3';
+	const show = (ct || t || isBo1) && matchStore.getPhase().round == "freezetime" && seriesStore.getSeriesType() != 'bo3';
 
 	return {
 		isBo1,

@@ -14,14 +14,9 @@ const teams = computed(()=>{
 });
 
 const score = computed(() => {
-	const ct = matchStore.getScore()?.total?.ct;
-	const t = matchStore.getScore()?.total?.t;
-
-	const show = (ct || t) && matchStore.getPhase().round != "live" && seriesStore.getSeriesType() == "bo3";
+	const show = matchStore.getPhase().round == "freezetime" && seriesStore.getSeriesType() == "bo3";
 
 	return {
-		ct,
-		t,
 		show
 	}
 })
