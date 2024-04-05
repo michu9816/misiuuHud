@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, computed, ref, watch } from 'vue';
 import { useMatchStore } from '@/stores/match';
+import { useSeriesStore } from '@/stores/series';
 
 const matchStore = useMatchStore();
 
@@ -36,16 +37,40 @@ watch(isNineAt9, (val) => {
 		showNine.value = val;
 	}
 });
+
+const seriesStore = useSeriesStore();
+const isBo3 = computed(() => {
+	return seriesStore.getSeriesType() == 'bo3';
+});
+
+const teams = computed(() => {
+	return matchStore.getScore().teams;
+});
+
+const getTeamScore = computed(() => {
+	return seriesStore
+		.getMaps()
+		?.filter(
+			(obj) =>
+				obj.picked &&
+				obj.scores.find((score) => score.team == teams.value[props.team]).points >
+					obj.scores.find((score) => score.team == teams.value[props.team == 'ct' ? 't' : 'ct']).points
+		).length;
+});
 </script>
 
 <template>
-	<div class="score" :class="[team]">
+	<div class="score" :class="[team, { bo3: isBo3 }]">
 		<div
 			class="text"
 			:class="{
 				nine: showNineAsRoman,
 			}">
 			{{ score }}
+		</div>
+		<div class="seriesScore">
+			<div :class="{ active: getTeamScore == 2 }"></div>
+			<div :class="{ active: getTeamScore }"></div>
 		</div>
 	</div>
 </template>
@@ -84,7 +109,12 @@ watch(isNineAt9, (val) => {
 .score.t .text {
 	transform: skewX(10deg);
 }
-
+.score.bo3.t .text {
+	margin-right: 10px;
+}
+.score.bo3.ct .text {
+	margin-left: 10px;
+}
 .score .text.nine {
 	animation: nineAt9 5s;
 	transition: transform 0s 3.8s, font-family 0s 5s;
@@ -95,7 +125,33 @@ watch(isNineAt9, (val) => {
 .score.ct .text.nine {
 	transform: rotate(270deg) skewY(10deg);
 }
-
+.score:not(.bo3) .seriesScore {
+	display: none;
+}
+.seriesScore {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 5px;
+	height: calc(100% - 10px);
+	display: grid;
+	padding: 5px;
+	grid-template-rows: calc((100% - 5px) / 2);
+	grid-gap: 5px;
+}
+.t .seriesScore {
+	right: 0;
+	left: auto;
+}
+.seriesScore div {
+	background: var(--color-background-gray);
+}
+.t .seriesScore div.active {
+	background: var(--color-text-t);
+}
+.ct .seriesScore div.active {
+	background: var(--color-text-ct);
+}
 @keyframes nineAt9 {
 	20% {
 		font-style: italic;
