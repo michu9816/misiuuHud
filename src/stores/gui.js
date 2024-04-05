@@ -1,12 +1,12 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-export const useGuiStore = defineStore("gui", () => {
+export const useGuiStore = defineStore('gui', () => {
 	const data = ref({
 		playersStatistics: {
 			data: [],
 			show: false,
-			type: "adr",
+			type: 'adr',
 		},
 	});
 
@@ -35,10 +35,10 @@ export const useGuiStore = defineStore("gui", () => {
 					player,
 					dmg: playerData.state.round_totaldmg,
 					hs: playerData.state.round_killhs,
-					round
-				}
+					round,
+				};
 
-				const playerStatisticInThisRound = data.value.playersStatistics.data.find(obj => obj.player == player && obj.round == round);
+				const playerStatisticInThisRound = data.value.playersStatistics.data.find((obj) => obj.player == player && obj.round == round);
 
 				if (playerStatisticInThisRound) {
 					if (playerStatisticInThisRound.dmg != playerData.state.round_totaldmg || playerStatisticInThisRound.hs != playerData.state.round_killhs) {
@@ -46,7 +46,7 @@ export const useGuiStore = defineStore("gui", () => {
 						playerStatisticInThisRound.hs = playerData.state.round_killhs;
 					}
 				} else {
-					data.value.playersStatistics.data.push(dmgData)
+					data.value.playersStatistics.data.push(dmgData);
 				}
 			}
 		} catch (e) {
@@ -55,22 +55,22 @@ export const useGuiStore = defineStore("gui", () => {
 	}
 
 	function getPlayerDamage(id, round) {
-		let damageList = data.value.playersStatistics.data.filter(obj => obj.player == id && (round !== undefined ? obj.round <= round : true))?.map(obj => {
-			return obj.dmg
-		})
-		let damageSum = damageList.reduce(
-			(a, b) => a + b,
-			0
-		);
+		let damageList = data.value.playersStatistics.data
+			.filter((obj) => obj.player == id && (round !== undefined ? obj.round <= round : true))
+			?.map((obj) => {
+				return obj.dmg;
+			});
+		let damageSum = damageList.reduce((a, b) => a + b, 0);
 		return damageSum;
 	}
 
 	function getPlayerHS(id) {
-		let hsSum = data.value.playersStatistics.data.filter(obj => obj.player == id)?.map(obj => obj.hs).reduce(
-			function (a, b) {
+		let hsSum = data.value.playersStatistics.data
+			.filter((obj) => obj.player == id)
+			?.map((obj) => obj.hs)
+			.reduce(function (a, b) {
 				return a + b;
-			},
-			0);
+			}, 0);
 		return hsSum;
 	}
 
@@ -78,8 +78,8 @@ export const useGuiStore = defineStore("gui", () => {
 		data.value.playersStatistics = {
 			data: [],
 			show: false,
-			type: "adr",
-		}
+			type: 'adr',
+		};
 	}
 
 	function getOrderedStatistics() {
@@ -93,6 +93,6 @@ export const useGuiStore = defineStore("gui", () => {
 		setPlayerStatisticType,
 		setPlayerStatisticVisibility,
 		restartStatistics,
-		getOrderedStatistics
+		getOrderedStatistics,
 	};
 });

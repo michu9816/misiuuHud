@@ -1,14 +1,14 @@
 <script setup>
-import { ref, watch } from "vue";
-import { usePlayersStore } from "@/stores/players";
-import { computed, defineProps } from "vue";
-import { useMatchStore } from "@/stores/match";
-import { useGuiStore } from "@/stores/gui";
+import { ref, watch } from 'vue';
+import { usePlayersStore } from '@/stores/players';
+import { computed, defineProps } from 'vue';
+import { useMatchStore } from '@/stores/match';
+import { useGuiStore } from '@/stores/gui';
 
 const playersStore = usePlayersStore();
 const matchStore = useMatchStore();
 
-const props = defineProps(["playerId"]);
+const props = defineProps(['playerId']);
 
 const playerData = computed(() => {
 	return playersStore.getPlayerBottomDataById(props.playerId);
@@ -35,33 +35,29 @@ watch(currentHealth, (val) => {
 const guiStore = useGuiStore();
 
 const matchLive = computed(() => {
-	return (
-		(matchStore.getPhase()?.match == "live" &&
-			matchStore.getPhase()?.round != "freezetime") ||
-		!guiStore.getData().playersStatistics.show
-	);
+	return (matchStore.getPhase()?.match == 'live' && matchStore.getPhase()?.round != 'freezetime') || !guiStore.getData().playersStatistics.show;
 });
 
 const kevlarImage = computed(() => {
 	if (playerData.value.helmet) {
-		return require("@/assets/img/elements/icon_armor_helmet_default.png");
+		return require('@/assets/img/elements/icon_armor_helmet_default.png');
 	} else if (playerData.value.armor) {
-		return require("@/assets/img/elements/icon_armor_none_default.png");
+		return require('@/assets/img/elements/icon_armor_none_default.png');
 	}
 	return null;
 });
 
 const flashedPercent = computed(() => {
 	return (playerData?.value.flashed || 0) / 255;
-})
+});
 const observerSlot = computed(() => {
-let slot = playerData.value?.observer_slot + 1;
-return slot == 10 ? 0 : slot;
-})
+	let slot = playerData.value?.observer_slot + 1;
+	return slot == 10 ? 0 : slot;
+});
 
 const getWeaponIcon = function (type) {
-	if (type == "c4") {
-		return require(`@/assets/img/weapons/c4.png`)
+	if (type == 'c4') {
+		return require(`@/assets/img/weapons/c4.png`);
 	} else {
 		return require(`@/assets/img/elements/icon_defuse_default.png`);
 	}
@@ -72,28 +68,35 @@ const getWeaponIcon = function (type) {
 	<!-- Access the state directly from the store -->
 	<div class="status">
 		<div class="flashBackground" :style="{ opacity: flashedPercent }"></div>
-		<div class="healthBackground bar" :class="[{ low: currentHealth < 30 }, playerData.team]" :style="{
-			height: `${currentHealth}%`,
-		}"></div>
-		<div class="oldHealthBackground bar" :style="{
-			height: `${oldHealth}%`,
-		}"></div>
+		<div
+			class="healthBackground bar"
+			:class="[{ low: currentHealth < 30 }, playerData.team]"
+			:style="{
+				height: `${currentHealth}%`,
+			}"></div>
+		<div
+			class="oldHealthBackground bar"
+			:style="{
+				height: `${oldHealth}%`,
+			}"></div>
 		<div class="nickname" :class="playerData.team">
 			<div class="text">{{ playerData?.name }}</div>
 		</div>
-		<div class="health" :class="{
-			hide: currentHealth == 0 || !matchLive,
-		}">
-			<div style="width: 20px;">
+		<div
+			class="health"
+			:class="{
+				hide: currentHealth == 0 || !matchLive,
+			}">
+			<div style="width: 20px">
 				<img :src="kevlarImage" v-if="kevlarImage" class="ico_kevlar" />
 			</div>
 			{{ currentHealth }}
-			<div style="width: 20px;">
+			<div style="width: 20px">
 				<img class="bomb" v-if="playerData?.bomb" :src="getWeaponIcon('c4')" />
 				<img class="def" v-if="playerData?.defusekit" :src="getWeaponIcon('defuse')" />
 			</div>
 		</div>
-		<div class="observerSlot" :class="{hide:currentHealth == 0}">{{ observerSlot }}</div>
+		<div class="observerSlot" :class="{ hide: currentHealth == 0 }">{{ observerSlot }}</div>
 	</div>
 </template>
 
@@ -104,11 +107,11 @@ const getWeaponIcon = function (type) {
 	z-index: 3;
 	position: relative;
 }
-.nickname .text{
+.nickname .text {
 	white-space: nowrap;
-            width: 100%;
-           overflow: hidden;
-          text-overflow: ellipsis;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .bar {
@@ -130,7 +133,7 @@ const getWeaponIcon = function (type) {
 	position: relative;
 	overflow: hidden;
 	display: flex;
-    gap: 5px;
+	gap: 5px;
 	justify-content: center;
 	align-items: center;
 }
@@ -168,11 +171,11 @@ img {
 	height: 18px;
 	opacity: 0.8;
 	float: right;
-	filter: drop-shadow(0 0 5px black)
+	filter: drop-shadow(0 0 5px black);
 }
 
 img.bomb {
-	filter: invert(1)
+	filter: invert(1);
 }
 
 .status {
@@ -193,24 +196,23 @@ img.bomb {
 	margin-top: -5px;
 	transition-duration: 0.5s;
 }
-.observerSlot{
+.observerSlot {
 	position: absolute;
-    left: 0;
+	left: 0;
 	top: calc(50% - 8px);
 	z-index: 3;
-    font-size: 14px;
-    padding: 0 5px;
-    border-radius: 0 5px 5px 0;
+	font-size: 14px;
+	padding: 0 5px;
+	border-radius: 0 5px 5px 0;
 	transition-duration: 0.5s;
 }
-.observerSlot.hide{
+.observerSlot.hide {
 	opacity: 0;
 }
-.T .observerSlot{
+.T .observerSlot {
 	background: var(--color-background-t);
 }
-.CT .observerSlot{
+.CT .observerSlot {
 	background: var(--color-background-ct);
 }
 </style>
-

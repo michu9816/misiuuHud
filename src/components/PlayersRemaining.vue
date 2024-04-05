@@ -1,31 +1,29 @@
 <script setup>
-import { computed } from "vue";
-import { useMatchStore } from "@/stores/match";
-import { usePlayersStore } from "@/stores/players";
+import { computed } from 'vue';
+import { useMatchStore } from '@/stores/match';
+import { usePlayersStore } from '@/stores/players';
 
 // import TeamBox from "@/components/Bottom/TeamBox.vue";
 const matchStore = useMatchStore();
 const playersStore = usePlayersStore();
 
 const matchLive = computed(() => {
-	return (
-		matchStore.getPhase()?.match == "live" &&
-		matchStore.getPhase()?.round != "freezetime"
-	);
+	return matchStore.getPhase()?.match == 'live' && matchStore.getPhase()?.round != 'freezetime';
 });
 
 const playersAlive = function (team) {
-	return playersStore.getPlayers(team).filter((player) => player.state.health)
-		.length;
+	return playersStore.getPlayers(team).filter((player) => player.state.health).length;
 };
 </script>
 
 <template>
-	<div class="players" :class="{
-		hidden: !matchLive,
-	}">
-		<a class="text ct">{{ playersAlive("ct") }}</a> v
-		<a class="text t">{{ playersAlive("t") }}</a>
+	<div
+		class="players"
+		:class="{
+			hidden: !matchLive,
+		}">
+		<a class="text ct">{{ playersAlive('ct') }}</a> v
+		<a class="text t">{{ playersAlive('t') }}</a>
 	</div>
 </template>
 
@@ -61,4 +59,3 @@ const playersAlive = function (team) {
 	color: var(--color-text-t-bright);
 }
 </style>
-

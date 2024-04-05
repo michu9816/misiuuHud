@@ -1,7 +1,7 @@
 <script setup>
-import { computed, ref, watch } from "vue";
-import { useMatchStore } from "@/stores/match";
-import { usePlayersStore } from "@/stores/players";
+import { computed, ref, watch } from 'vue';
+import { useMatchStore } from '@/stores/match';
+import { usePlayersStore } from '@/stores/players';
 
 const matchStore = useMatchStore();
 const playerStore = usePlayersStore();
@@ -11,7 +11,7 @@ const remainingPhaseTimeInterval = ref();
 
 const readedPhaseTime = computed(() => {
 	return matchStore.getPhase()?.timer;
-})
+});
 
 const matchPhase = computed(() => {
 	let phase;
@@ -21,34 +21,33 @@ const matchPhase = computed(() => {
 
 	const roundInfo = matchStore.getPhase();
 
-	if (["planting", "defusing"].includes(roundInfo?.bomb)) {
-		phase = roundInfo?.bomb
-		team = phase == "planting" ? "t" : "ct";
-		text = `${playerStore.getPlayerBottomDataById(roundInfo?.player)?.name} is ${phase} the bomb`
+	if (['planting', 'defusing'].includes(roundInfo?.bomb)) {
+		phase = roundInfo?.bomb;
+		team = phase == 'planting' ? 't' : 'ct';
+		text = `${playerStore.getPlayerBottomDataById(roundInfo?.player)?.name} is ${phase} the bomb`;
 		// text = `bomb is ${phase}`
-		const remainingTime = team == "t" ? 3 : playerStore.getPlayerBottomDataById(roundInfo?.player)?.defusekit ? 5 : 10;
-		const percent = (((remainingPhaseTime.value) / remainingTime) * 100) || 0;
+		const remainingTime = team == 't' ? 3 : playerStore.getPlayerBottomDataById(roundInfo?.player)?.defusekit ? 5 : 10;
+		const percent = (remainingPhaseTime.value / remainingTime) * 100 || 0;
 		style = `background-position: ${percent}%`;
-	} else if (roundInfo?.timeout == "CT") {
-		team = "ct";
+	} else if (roundInfo?.timeout == 'CT') {
+		team = 'ct';
 		const timeouts = matchStore.getScore()?.timeouts[team];
 		text = `${timeouts} TIMEOUTS remaining`;
-	} else if (roundInfo?.timeout == "T") {
-		team = "t";
+	} else if (roundInfo?.timeout == 'T') {
+		team = 't';
 		const timeouts = matchStore.getScore()?.timeouts[team];
-		text = `${timeouts} TIMEOUTS remaining`
-	} else if (roundInfo?.timeout == "technical") {
-		text = `match paused`
+		text = `${timeouts} TIMEOUTS remaining`;
+	} else if (roundInfo?.timeout == 'technical') {
+		text = `match paused`;
 	}
 
 	return {
 		phase,
 		text,
 		team,
-		style
-	}
-})
-
+		style,
+	};
+});
 
 watch(readedPhaseTime, (val) => {
 	if (val > 15) {
@@ -56,23 +55,29 @@ watch(readedPhaseTime, (val) => {
 		return;
 	}
 	clearInterval(remainingPhaseTimeInterval.value);
-	remainingPhaseTime.value = (parseFloat(val).toFixed(1)) || 0.0;
+	remainingPhaseTime.value = parseFloat(val).toFixed(1) || 0.0;
 	remainingPhaseTimeInterval.value = setInterval(() => {
 		if (remainingPhaseTime.value > 0) {
 			remainingPhaseTime.value = (Number(parseFloat(remainingPhaseTime.value)) - 0.1).toFixed(1) || 0.0;
 		} else {
-			clearInterval(remainingPhaseTimeInterval.value)
+			clearInterval(remainingPhaseTimeInterval.value);
 		}
 	}, 100);
 });
 </script>
 <template>
 	<div class="box">
-		<div class="information" :class="[matchPhase?.team, {
-			visible: matchPhase?.text
-		}]" :style="matchPhase?.style">
+		<div
+			class="information"
+			:class="[
+				matchPhase?.team,
+				{
+					visible: matchPhase?.text,
+				},
+			]"
+			:style="matchPhase?.style">
 			<div>{{ matchPhase?.text }}</div>
-			<div class="counter">{{ isNaN(remainingPhaseTime) ? "" : remainingPhaseTime }}</div>
+			<div class="counter">{{ isNaN(remainingPhaseTime) ? '' : remainingPhaseTime }}</div>
 		</div>
 	</div>
 </template>
@@ -125,4 +130,3 @@ watch(readedPhaseTime, (val) => {
 	transition: top 0.5s, background 0.2s;
 }
 </style>
-

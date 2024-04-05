@@ -1,6 +1,6 @@
 <script setup>
-import { ref, watch, computed } from "vue";
-import { usePlayersStore } from "@/stores/players";
+import { ref, watch, computed } from 'vue';
+import { usePlayersStore } from '@/stores/players';
 
 const playersStore = usePlayersStore();
 
@@ -32,7 +32,6 @@ watch(currentHealth, (val) => {
 
 const requireBackgroundChange = ref(false);
 
-
 watch(currentPlayerId, () => {
 	clearTimeout(decreaseOldHealth.value);
 
@@ -40,18 +39,17 @@ watch(currentPlayerId, () => {
 	requireBackgroundChange.value = true;
 	setTimeout(() => {
 		requireBackgroundChange.value = false;
-	}, 500)
+	}, 500);
 });
 
 const kevlarImage = computed(() => {
 	if (playerData.value?.helmet) {
-		return require("@/assets/img/elements/icon_armor_helmet_default.png");
+		return require('@/assets/img/elements/icon_armor_helmet_default.png');
 	} else if (playerData.value?.armor) {
-		return require("@/assets/img/elements/icon_armor_none_default.png");
+		return require('@/assets/img/elements/icon_armor_none_default.png');
 	}
 	return null;
 });
-
 </script>
 
 <template>
@@ -63,14 +61,20 @@ const kevlarImage = computed(() => {
 	</div>
 	<div class="statusBar" :class="[playerData?.team]">
 		<div class="nickname">{{ playerData?.name }}</div>
-		<div class="healthBackground bar" :class="[playerData?.team]" :style="{
-			width: `${currentHealth}%`,
-		}"></div>
-		<div class="oldHealthBackground bar" :class="{
-			requireBackgroundChange: requireBackgroundChange
-		}" :style="{
-	width: `${oldHealth}%`,
-}"></div>
+		<div
+			class="healthBackground bar"
+			:class="[playerData?.team]"
+			:style="{
+				width: `${currentHealth}%`,
+			}"></div>
+		<div
+			class="oldHealthBackground bar"
+			:class="{
+				requireBackgroundChange: requireBackgroundChange,
+			}"
+			:style="{
+				width: `${oldHealth}%`,
+			}"></div>
 	</div>
 </template>
 
@@ -103,11 +107,11 @@ const kevlarImage = computed(() => {
 }
 
 .bar.health.T {
-	color: var(--color-background-t)
+	color: var(--color-background-t);
 }
 
 .bar.health.CT {
-	color: var(--color-background-ct)
+	color: var(--color-background-ct);
 }
 
 .currentHealth {

@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref, watch } from "vue";
-import { useMatchStore } from "@/stores/match";
+import { computed, ref, watch } from 'vue';
+import { useMatchStore } from '@/stores/match';
 
 const matchStore = useMatchStore();
 
@@ -11,54 +11,52 @@ const score = ref();
 
 const matchPhase = computed(() => {
 	return matchStore.getPhase()?.round;
-})
+});
 
 const showWinnerInformations = ref(false);
 const hideInformationsTimeout = ref();
 
 watch(matchPhase, (val) => {
-	if (val == "over") {
+	if (val == 'over') {
 		showWinnerInformations.value = true;
 		phase.value = matchStore.getPhase()?.round;
 		winnerTeam.value = matchStore.getPhase()?.winner;
 		team.value = matchStore.getScore()?.teams[winnerTeam.value.toLowerCase()];
 		score.value = matchStore.getScore()?.map[winnerTeam.value.toLowerCase()];
 	} else {
-		clearTimeout(hideInformationsTimeout)
+		clearTimeout(hideInformationsTimeout);
 		hideInformationsTimeout.value = setTimeout(() => {
 			showWinnerInformations.value = false;
 			matchStore.resetRoundHistoryElement();
-		}, 2000)
+		}, 2000);
 	}
-})
+});
 
 const roundHistory = computed(() => {
 	return matchStore?.getRoundHistory();
-})
+});
 
 const getActionIcon = function (value) {
 	let iconName;
 	switch (value) {
-		case "elimination":
-			iconName = "icon_skull_CT"
+		case 'elimination':
+			iconName = 'icon_skull_CT';
 			break;
-		case "planted":
-			iconName = "icon_c4_default"
+		case 'planted':
+			iconName = 'icon_c4_default';
 			break;
-		case "bomb":
-			iconName = "icon_bomb_explosion_default"
+		case 'bomb':
+			iconName = 'icon_bomb_explosion_default';
 			break;
-		case "defuse":
-			iconName = "icon_defuse_default"
+		case 'defuse':
+			iconName = 'icon_defuse_default';
 			break;
-		case "time":
-			iconName = "icon_hourglass_default"
+		case 'time':
+			iconName = 'icon_hourglass_default';
 			break;
 	}
 	return require(`@/assets/img/elements/${iconName}.png`);
 };
-
-
 </script>
 <template>
 	<div v-if="showWinnerInformations" class="box" :class="[{ hide: matchPhase != 'over' }, winnerTeam]">
@@ -72,7 +70,7 @@ const getActionIcon = function (value) {
 			</div>
 		</div>
 		<div class="roundHistory" v-if="roundHistory.length">
-			<div class="el" v-for=" element  in  roundHistory " :key="element.action">
+			<div class="el" v-for="element in roundHistory" :key="element.action">
 				<img class="def" :class="element.team" :src="getActionIcon(element.action)" />
 			</div>
 		</div>
@@ -135,7 +133,6 @@ const getActionIcon = function (value) {
 	animation: colorIn 3s;
 }
 
-
 .box {
 	display: flex;
 	justify-content: center;
@@ -191,7 +188,6 @@ const getActionIcon = function (value) {
 }
 
 @keyframes blinking {
-
 	0%,
 	9%,
 	20%,
@@ -209,7 +205,6 @@ const getActionIcon = function (value) {
 }
 
 @keyframes fadeIn {
-
 	0% {
 		opacity: 0;
 		height: 0px;
@@ -224,7 +219,6 @@ const getActionIcon = function (value) {
 }
 
 @keyframes fadeOut {
-
 	0% {
 		opacity: 1;
 	}
@@ -235,7 +229,6 @@ const getActionIcon = function (value) {
 }
 
 @keyframes colorIn {
-
 	0%,
 	75% {
 		opacity: 0;
@@ -247,7 +240,6 @@ const getActionIcon = function (value) {
 }
 
 @keyframes moveRight {
-
 	0%,
 	75% {
 		right: 0%;
@@ -271,7 +263,6 @@ const getActionIcon = function (value) {
 }
 
 @keyframes moveDown {
-
 	0%,
 	75% {
 		padding-top: 0px;
@@ -283,7 +274,6 @@ const getActionIcon = function (value) {
 }
 
 @keyframes moveDownHistory {
-
 	0%,
 	75% {
 		margin-top: 0px;
@@ -303,4 +293,3 @@ const getActionIcon = function (value) {
 	}
 }
 </style>
-

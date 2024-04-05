@@ -1,19 +1,19 @@
 <template>
 	<main>
-    <RouterView />
-  </main>
+		<RouterView />
+	</main>
 </template>
 
 <script setup>
-import {onMounted} from "vue";
-import { useRouter } from 'vue-router'
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
+const router = useRouter();
 
-onMounted(()=>{
-  const width = window.innerWidth;
-  if (width < 600){
-    router.push('/settings')
-  }
-})
+onMounted(() => {
+	const width = window.innerWidth;
+	if (width < 600) {
+		router.push('/settings');
+	}
+});
 </script>

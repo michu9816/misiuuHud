@@ -1,28 +1,26 @@
 <script setup>
-import Nickname from "@/components/Player/PlayerNick.vue";
-import PlayerEquipment from "@/components/Player/PlayerEquipment.vue";
-import PlayerStatistic from "@/components/Player/PlayerStatistics.vue";
-import { useMatchStore } from "@/stores/match";
-import { usePlayersStore } from "@/stores/players";
+import Nickname from '@/components/Player/PlayerNick.vue';
+import PlayerEquipment from '@/components/Player/PlayerEquipment.vue';
+import PlayerStatistic from '@/components/Player/PlayerStatistics.vue';
+import { useMatchStore } from '@/stores/match';
+import { usePlayersStore } from '@/stores/players';
 
-import { computed } from "vue";
+import { computed } from 'vue';
 
 const matchStore = useMatchStore();
 const playersStore = usePlayersStore();
 
 const boxVisible = computed(() => {
-	return (
-		matchStore.getPhase()?.match == "live" &&
-		matchStore.getPhase()?.round != "freezetime" &&
-		playersStore.getWatchingPlayerBasicData()?.name
-	);
+	return matchStore.getPhase()?.match == 'live' && matchStore.getPhase()?.round != 'freezetime' && playersStore.getWatchingPlayerBasicData()?.name;
 });
 </script>
 
 <template>
-	<div class="playerBox" :class="{
-		hidden: !boxVisible,
-	}">
+	<div
+		class="playerBox"
+		:class="{
+			hidden: !boxVisible,
+		}">
 		<Nickname></Nickname>
 		<PlayerEquipment></PlayerEquipment>
 		<PlayerStatistic></PlayerStatistic>
@@ -44,4 +42,3 @@ const boxVisible = computed(() => {
 	opacity: 0;
 }
 </style>
-

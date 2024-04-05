@@ -1,5 +1,5 @@
 <script setup>
-import { usePlayersStore } from "@/stores/players";
+import { usePlayersStore } from '@/stores/players';
 
 const counter = usePlayersStore();
 
@@ -18,4 +18,3 @@ const increment = () => {
 	<!-- Access the state directly from the store -->
 	<div @click="increment">Current Count: {{ counter.count }}</div>
 </template>
-

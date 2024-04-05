@@ -1,6 +1,6 @@
 {
   "name": "misiuuHud",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -54,5 +54,14 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "semi": true,
+    "bracketSameLine": true,
+    "printWidth": 150,
+    "tabWidth": 2,
+    "endOfLine": "crlf",
+    "useTabs": true
+  }
 }

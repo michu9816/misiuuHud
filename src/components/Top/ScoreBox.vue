@@ -1,14 +1,14 @@
 <script setup>
-import { defineProps, computed, ref, watch } from "vue";
-import { useMatchStore } from "@/stores/match";
+import { defineProps, computed, ref, watch } from 'vue';
+import { useMatchStore } from '@/stores/match';
 
 const matchStore = useMatchStore();
 
-const props = defineProps(["team"]);
+const props = defineProps(['team']);
 
 const score = computed(() => {
 	let matchData = matchStore.getScore();
-	return matchData ? (showNine.value ? "IX" : matchData.map[props.team]) : "-";
+	return matchData ? (showNine.value ? 'IX' : matchData.map[props.team]) : '-';
 });
 
 const showNine = ref(false);
@@ -16,8 +16,8 @@ const showNineAsRoman = ref(false);
 
 const isNineAt9 = computed(() => {
 	let matchData = matchStore.getScore();
-	return matchData ? matchData.map[props.team] == 9 && matchData.teams[props.team]?.toUpperCase() == "9INE" : false
-})
+	return matchData ? matchData.map[props.team] == 9 && matchData.teams[props.team]?.toUpperCase() == '9INE' : false;
+});
 
 const nineAt9Timeout = ref();
 
@@ -26,24 +26,27 @@ watch(isNineAt9, (val) => {
 	if (val) {
 		nineAt9Timeout.value = setTimeout(() => {
 			showNine.value = val;
-		}, 3800)
+		}, 3800);
 		setTimeout(() => {
 			showNine.value = false;
 			showNineAsRoman.value = false;
-		}, 20000)
+		}, 20000);
 	} else {
 		clearTimeout(nineAt9Timeout.value);
 		showNine.value = val;
 	}
-})
-
+});
 </script>
 
 <template>
 	<div class="score" :class="[team]">
-		<div class="text" :class="{
-			nine: showNineAsRoman
-		}">{{ score }}</div>
+		<div
+			class="text"
+			:class="{
+				nine: showNineAsRoman,
+			}">
+			{{ score }}
+		</div>
 	</div>
 </template>
 
@@ -94,7 +97,6 @@ watch(isNineAt9, (val) => {
 }
 
 @keyframes nineAt9 {
-
 	20% {
 		font-style: italic;
 	}
@@ -117,7 +119,5 @@ watch(isNineAt9, (val) => {
 	80% {
 		font-family: Arial, Helvetica, sans-serif;
 	}
-
 }
 </style>
-

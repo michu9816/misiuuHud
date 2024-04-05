@@ -1,11 +1,11 @@
 <script setup>
-import { useMatchStore } from "@/stores/match";
-import { computed, ref, watch } from "vue";
+import { useMatchStore } from '@/stores/match';
+import { computed, ref, watch } from 'vue';
 
 const matchStore = useMatchStore();
 
 const bombPlanted = computed(() => {
-	return ["planted", "defusing"].includes(matchStore.getPhase()?.bomb);
+	return ['planted', 'defusing'].includes(matchStore.getPhase()?.bomb);
 });
 
 const timeLeft = computed(() => {
@@ -13,33 +13,33 @@ const timeLeft = computed(() => {
 });
 
 const round = computed(() => {
-	if(matchStore.getPhase()?.match == "warmup"){
-		return `Warmup`
-	}else if(matchStore.getPhase()?.match){
-	return `Round ${matchStore.getScore()?.round + 1}`;
-	}else{
+	if (matchStore.getPhase()?.match == 'warmup') {
+		return `Warmup`;
+	} else if (matchStore.getPhase()?.match) {
+		return `Round ${matchStore.getScore()?.round + 1}`;
+	} else {
 		return `No match`;
 	}
-})
+});
 
 const remainingBombTime = ref();
 const remainingBombTimeInterval = ref();
 
 const readedBombTime = computed(() => {
 	return matchStore.getPhase()?.timer;
-})
+});
 
 watch(readedBombTime, (val) => {
-	if (matchStore.getPhase().bomb == "defusing") {
+	if (matchStore.getPhase().bomb == 'defusing') {
 		clearInterval(remainingBombTimeInterval.value);
 		remainingBombTimeInterval.value = setInterval(() => {
 			if (remainingBombTime.value > 0) {
 				remainingBombTime.value = Number(parseFloat(remainingBombTime.value)).toFixed(1) - 0.1;
 			} else {
-				clearInterval(remainingBombTimeInterval.value)
+				clearInterval(remainingBombTimeInterval.value);
 			}
 		}, 100);
-	} else if (matchStore.getPhase().bomb == "planted") {
+	} else if (matchStore.getPhase().bomb == 'planted') {
 		clearInterval(remainingBombTimeInterval.value);
 		remainingBombTime.value = Number.parseFloat(val).toFixed(1);
 	} else {
@@ -57,17 +57,20 @@ const bombTimerHeight = computed(() => {
 function convertTime(time) {
 	let minutes = Math.floor(time / 60);
 	let seconds = parseInt(time % 60);
-	seconds = seconds.toLocaleString("pl-PL", { minimumIntegerDigits: 2 });
+	seconds = seconds.toLocaleString('pl-PL', { minimumIntegerDigits: 2 });
 
-	return time > 0 ? `${minutes}:${seconds}` : "--:--";
+	return time > 0 ? `${minutes}:${seconds}` : '--:--';
 }
 </script>
 
 <template>
 	<div class="timeBackground">
-		<div class="bomb" v-if="bombPlanted" :style="{
-			height: bombTimerHeight,
-		}">
+		<div
+			class="bomb"
+			v-if="bombPlanted"
+			:style="{
+				height: bombTimerHeight,
+			}">
 			<img src="@/assets/img/elements/icon_bomb_default.png" />
 		</div>
 		<div class="time" v-if="!bombPlanted">{{ timeLeft }}</div>
@@ -111,7 +114,6 @@ function convertTime(time) {
 }
 
 @keyframes bombTicking {
-
 	0%,
 	100% {
 		background: rgb(135, 0, 0);
@@ -122,4 +124,3 @@ function convertTime(time) {
 	}
 }
 </style>
-

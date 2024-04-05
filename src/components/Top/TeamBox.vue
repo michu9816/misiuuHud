@@ -1,21 +1,19 @@
 <script setup>
-import { defineProps, computed } from "vue";
-import { useMatchStore } from "@/stores/match";
+import { defineProps, computed } from 'vue';
+import { useMatchStore } from '@/stores/match';
 
 const matchStore = useMatchStore();
 
-const props = defineProps(["team"]);
+const props = defineProps(['team']);
 
 const name = computed(() => {
 	const team = matchStore.getScore()?.teams[props.team];
-	const defaultTeamName = props.team == "t" ? "TT" : "CT"
+	const defaultTeamName = props.team == 't' ? 'TT' : 'CT';
 	return team || defaultTeamName;
 });
 
 const scoreChanged = computed(() => {
-	return (
-		matchStore.getPhase()?.winner == props.team.toUpperCase()
-	);
+	return matchStore.getPhase()?.winner == props.team.toUpperCase();
 });
 </script>
 <template>
@@ -57,4 +55,3 @@ const scoreChanged = computed(() => {
 	background: var(--color-background-t);
 }
 </style>
-

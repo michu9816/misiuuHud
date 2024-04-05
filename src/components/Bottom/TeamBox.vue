@@ -1,12 +1,12 @@
 <script setup>
-import PlayerView from "@/components/Bottom/PlayerView.vue";
-import { defineProps } from "vue";
-import { usePlayersStore } from "@/stores/players";
-import { computed } from "vue";
+import PlayerView from '@/components/Bottom/PlayerView.vue';
+import { defineProps } from 'vue';
+import { usePlayersStore } from '@/stores/players';
+import { computed } from 'vue';
 
 const playersStore = usePlayersStore();
 
-const props = defineProps(["team"]);
+const props = defineProps(['team']);
 
 const players = computed(() => {
 	return playersStore.getPlayers(props.team);
@@ -37,4 +37,3 @@ const players = computed(() => {
 	right: 10px;
 }
 </style>
-

@@ -1,15 +1,15 @@
 <script setup>
-import { defineProps, computed } from "vue";
-import { usePlayersStore } from "@/stores/players";
+import { defineProps, computed } from 'vue';
+import { usePlayersStore } from '@/stores/players';
 
-import PlayerHealthAndNickname from "@/components/Bottom/Player/PlayerHealthAndNickname.vue";
-import PlayerKDMoney from "@/components/Bottom/Player/PlayerKDMoney.vue";
-import PlayerStatistic from "@/components/Bottom/Player/PlayerStatistic.vue";
-import PlayerWeapons from "@/components/Bottom/Player/PlayerWeapons.vue";
+import PlayerHealthAndNickname from '@/components/Bottom/Player/PlayerHealthAndNickname.vue';
+import PlayerKDMoney from '@/components/Bottom/Player/PlayerKDMoney.vue';
+import PlayerStatistic from '@/components/Bottom/Player/PlayerStatistic.vue';
+import PlayerWeapons from '@/components/Bottom/Player/PlayerWeapons.vue';
 
 const playersStore = usePlayersStore();
 
-const props = defineProps(["playerId"]);
+const props = defineProps(['playerId']);
 
 const playerData = computed(() => {
 	return playersStore.getPlayerBottomDataById(props.playerId);
@@ -23,10 +23,15 @@ const isThisPlayerWatching = computed(() => {
 <template>
 	<!-- Access the state directly from the store -->
 	<div>
-		<div class="playerInformations darkBackground" :class="[{
-			dead: !playerData.health,
-			watching: isThisPlayerWatching,
-		}, playerData.team]">
+		<div
+			class="playerInformations darkBackground"
+			:class="[
+				{
+					dead: !playerData.health,
+					watching: isThisPlayerWatching,
+				},
+				playerData.team,
+			]">
 			<PlayerWeapons :playerId="props.playerId"></PlayerWeapons>
 			<PlayerHealthAndNickname :playerId="props.playerId" />
 			<PlayerKDMoney :playerId="props.playerId" />
@@ -65,4 +70,3 @@ const isThisPlayerWatching = computed(() => {
 	background: var(--color-background-ct-dark);
 }
 </style>
-

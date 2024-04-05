@@ -1,13 +1,11 @@
 <script setup>
-import { usePlayersStore } from "@/stores/players";
-import { computed } from "vue";
+import { usePlayersStore } from '@/stores/players';
+import { computed } from 'vue';
 
 const playersStore = usePlayersStore();
 
 const playerData = computed(() => {
-	return playersStore.getPlayerDataById(
-		playersStore.getWatchingPlayerBasicData()?.id
-	);
+	return playersStore.getPlayerDataById(playersStore.getWatchingPlayerBasicData()?.id);
 });
 
 const kills = computed(() => {
@@ -36,13 +34,11 @@ const hsp = computed(() => {
 		<div class="statistic"><a class="name">K</a>{{ kills }}</div>
 		<div class="statistic"><a class="name">D</a>{{ deaths }}</div>
 		<div class="statistic"><a class="name">A</a>{{ assists }}</div>
-		<div class="statistic">
-			<a class="name">K/D</a>{{ playerData?.statistics.kd }}
-		</div>
+		<div class="statistic"><a class="name">K/D</a>{{ playerData?.statistics.kd }}</div>
 		<div class="statistic" v-if="hsp"><a class="name">HS%</a>{{ hsp }}</div>
 		<div class="statistic" v-if="adr"><a class="name">ADR</a>{{ adr }}</div>
 		<div class="roundKills">
-			{{ playerData?.statistics.roundKills > 1 ? playerData?.statistics.roundKills + "x" : "" }}
+			{{ playerData?.statistics.roundKills > 1 ? playerData?.statistics.roundKills + 'x' : '' }}
 			<img src="@/assets/img/elements/icon_skull_default.png" v-if="playerData?.statistics.roundKills > 0" />
 		</div>
 	</div>

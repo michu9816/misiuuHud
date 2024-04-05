@@ -1,6 +1,6 @@
 <script setup>
-import { usePlayersStore } from "@/stores/players";
-import { computed } from "vue";
+import { usePlayersStore } from '@/stores/players';
+import { computed } from 'vue';
 
 const playersStore = usePlayersStore();
 
@@ -19,27 +19,22 @@ const ammo = computed(() => {
 });
 
 const getMainWeapon = computed(() => {
-	let betterWeapons = playerData.value?.weapons.filter(
-		(obj) => !["Knife", "Grenade", "Pistol", "C4"].includes(obj.type)
-	);
+	let betterWeapons = playerData.value?.weapons.filter((obj) => !['Knife', 'Grenade', 'Pistol', 'C4'].includes(obj.type));
 	if (betterWeapons?.length) {
 		return betterWeapons[0];
 	} else {
-		return playerData.value?.weapons.filter((obj) =>
-			["Pistol"].includes(obj.type)
-		)[0];
+		return playerData.value?.weapons.filter((obj) => ['Pistol'].includes(obj.type))[0];
 	}
 });
 
 const getWeaponIcon = function (value) {
-	const weaponName = value?.name.split("weapon_")[1];
+	const weaponName = value?.name.split('weapon_')[1];
 	return require(`@/assets/img/weapons/${weaponName}.png`);
 };
 
-
 const getEquipmentIcon = function (type) {
-	if (type == "c4") {
-		return require(`@/assets/img/weapons/c4.png`)
+	if (type == 'c4') {
+		return require(`@/assets/img/weapons/c4.png`);
 	} else {
 		return require(`@/assets/img/elements/icon_defuse_default.png`);
 	}
@@ -49,21 +44,25 @@ const getEquipmentIcon = function (type) {
 <template>
 	<div class="data">
 		<div class="weapons">
-			<img :class="{
-				inactive: getMainWeapon?.state != 'active',
-			}" v-if="getMainWeapon" :src="getWeaponIcon(getMainWeapon)" />
+			<img
+				:class="{
+					inactive: getMainWeapon?.state != 'active',
+				}"
+				v-if="getMainWeapon"
+				:src="getWeaponIcon(getMainWeapon)" />
 
-			<img v-for="weapon of playerData?.weapons.filter((obj) =>
-				['Grenade'].includes(obj.type)
-			)" :key="weapon.name" :class="{
-	inactive: weapon.state != 'active',
-}" :src="getWeaponIcon(weapon)" />
+			<img
+				v-for="weapon of playerData?.weapons.filter((obj) => ['Grenade'].includes(obj.type))"
+				:key="weapon.name"
+				:class="{
+					inactive: weapon.state != 'active',
+				}"
+				:src="getWeaponIcon(weapon)" />
 		</div>
 		<div class="state">
 			<img v-if="playerData?.bomb" :src="getEquipmentIcon('c4')" class="bomb" />
 			<img class="def" v-if="playerData?.defusekit" :src="getEquipmentIcon('defuse')" />
-			<img src="@/assets/img/elements/icon_bullets_default.png" class="ico_ammo" style="margin-left:10px"
-				v-if="ammo" />
+			<img src="@/assets/img/elements/icon_bullets_default.png" class="ico_ammo" style="margin-left: 10px" v-if="ammo" />
 			{{ ammo }}
 		</div>
 	</div>

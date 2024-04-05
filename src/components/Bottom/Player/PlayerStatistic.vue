@@ -1,24 +1,21 @@
 <script setup>
-import { useGuiStore } from "@/stores/gui";
-import { useMatchStore } from "@/stores/match";
-import { usePlayersStore } from "@/stores/players";
-import { computed, defineProps } from "vue";
+import { useGuiStore } from '@/stores/gui';
+import { useMatchStore } from '@/stores/match';
+import { usePlayersStore } from '@/stores/players';
+import { computed, defineProps } from 'vue';
 
 const playersStore = usePlayersStore();
 const matchStore = useMatchStore();
 const guiStore = useGuiStore();
 
-const props = defineProps(["playerId"]);
+const props = defineProps(['playerId']);
 
 const playerData = computed(() => {
 	return playersStore.getPlayerDataById(props.playerId);
 });
 
 const matchLive = computed(() => {
-	return (
-		matchStore.getPhase()?.match == "live" &&
-		matchStore.getPhase()?.round != "freezetime"
-	);
+	return matchStore.getPhase()?.match == 'live' && matchStore.getPhase()?.round != 'freezetime';
 });
 
 const statisticToShow = computed(() => {
@@ -30,10 +27,10 @@ const statisticValue = computed(() => {
 });
 
 const statisticValueWithPrefix = computed(() => {
-	switch(statisticToShow.value){
-		case "equipment":
+	switch (statisticToShow.value) {
+		case 'equipment':
 			return `$${statisticValue.value}`;
-		case "hs":
+		case 'hs':
 			return `${statisticValue.value}%`;
 		default:
 			return `${statisticValue.value}`;
@@ -49,15 +46,15 @@ const statisticHeight = computed(() => {
 
 	function getMultiplier() {
 		switch (statisticToShow.value) {
-			case "kd":
+			case 'kd':
 				return 30;
-			case "kills":
+			case 'kills':
 				return 2;
-			case "assists":
+			case 'assists':
 				return 8;
-			case "equipment":
+			case 'equipment':
 				return 0.01;
-			case "adr":
+			case 'adr':
 				return 0.45;
 			default:
 				return 1;
@@ -71,9 +68,12 @@ const statisticHeight = computed(() => {
 	<!-- Access the state directly from the store -->
 	<!-- {{ playerData.statistics }} -->
 	<div class="statisticsBackground" :class="{ visible: statisticHeight > 0 }">
-		<div class="darkBackground" :class="[playerData.team]" :style="{
-			height: statisticHeight + 'px',
-		}">
+		<div
+			class="darkBackground"
+			:class="[playerData.team]"
+			:style="{
+				height: statisticHeight + 'px',
+			}">
 			<div class="title">{{ statisticToShow }}</div>
 			<div class="value">
 				{{ statisticValueWithPrefix }}
@@ -126,7 +126,5 @@ const statisticHeight = computed(() => {
 .value {
 	font-weight: bold;
 	text-shadow: 0 0 5px black;
-
 }
 </style>
-

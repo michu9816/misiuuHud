@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from "vue";
-import { useMatchStore } from "@/stores/match";
-import { useSeriesStore } from "@/stores/series";
+import { computed } from 'vue';
+import { useMatchStore } from '@/stores/match';
+import { useSeriesStore } from '@/stores/series';
 
 // import { usePlayersStore } from "@/stores/players";
 
@@ -14,15 +14,15 @@ const score = computed(() => {
 	const ct = matchStore.getScore()?.total?.ct;
 	const t = matchStore.getScore()?.total?.t;
 	const isBo1 = seriesStore.getSeriesType() == 'bo1';
-	const show = (ct || t || isBo1) && matchStore.getPhase().round == "freezetime" && seriesStore.getSeriesType() != 'bo3';
+	const show = (ct || t || isBo1) && matchStore.getPhase().round == 'freezetime' && seriesStore.getSeriesType() != 'bo3';
 
 	return {
 		isBo1,
 		ct,
 		t,
-		show
-	}
-})
+		show,
+	};
+});
 </script>
 <template>
 	<div class="box" v-if="score.show">
@@ -71,13 +71,11 @@ const score = computed(() => {
 }
 
 @keyframes fadeIn {
-	0%{
+	0% {
 		opacity: 0;
 	}
-	100%{
+	100% {
 		opacity: 1;
 	}
-	
 }
 </style>
-

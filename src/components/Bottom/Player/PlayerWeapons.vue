@@ -1,30 +1,26 @@
 <script setup>
-import { defineProps, computed } from "vue";
-import { usePlayersStore } from "@/stores/players";
+import { defineProps, computed } from 'vue';
+import { usePlayersStore } from '@/stores/players';
 
 const playersStore = usePlayersStore();
 
-const props = defineProps(["playerId"]);
+const props = defineProps(['playerId']);
 
 const playerData = computed(() => {
 	return playersStore.getPlayerBottomDataById(props.playerId);
 });
 
 const getMainWeapon = computed(() => {
-	let betterWeapons = playerData.value?.weapons.filter(
-		(obj) => !["Knife", "Grenade", "Pistol", "C4"].includes(obj.type)
-	);
+	let betterWeapons = playerData.value?.weapons.filter((obj) => !['Knife', 'Grenade', 'Pistol', 'C4'].includes(obj.type));
 	if (betterWeapons.length) {
 		return betterWeapons[0];
 	} else {
-		return playerData.value?.weapons.filter((obj) =>
-			["Pistol"].includes(obj.type)
-		)[0];
+		return playerData.value?.weapons.filter((obj) => ['Pistol'].includes(obj.type))[0];
 	}
 });
 
 const getWeaponIcon = function (value) {
-	const weaponName = value?.name.split("weapon_")[1];
+	const weaponName = value?.name.split('weapon_')[1];
 	return require(`@/assets/img/weapons/${weaponName}.png`);
 };
 </script>
@@ -34,16 +30,21 @@ const getWeaponIcon = function (value) {
 	<div class="weapons">
 		<div class="left">
 			<div class="ammo"></div>
-			<img :class="{
-				inactive: getMainWeapon?.state != 'active',
-			}" v-if="getMainWeapon" :src="getWeaponIcon(getMainWeapon)" />
+			<img
+				:class="{
+					inactive: getMainWeapon?.state != 'active',
+				}"
+				v-if="getMainWeapon"
+				:src="getWeaponIcon(getMainWeapon)" />
 		</div>
 		<div class="right">
-			<img v-for="weapon of playerData?.weapons.filter((obj) =>
-				['Grenade'].includes(obj.type)
-			)" :key="weapon.name" :class="{
-	inactive: weapon.state != 'active',
-}" :src="getWeaponIcon(weapon)" />
+			<img
+				v-for="weapon of playerData?.weapons.filter((obj) => ['Grenade'].includes(obj.type))"
+				:key="weapon.name"
+				:class="{
+					inactive: weapon.state != 'active',
+				}"
+				:src="getWeaponIcon(weapon)" />
 		</div>
 		<!-- {{ playerData?.availableWeapons }} -->
 	</div>
@@ -83,4 +84,3 @@ img {
 	padding: 0px 5px;
 }
 </style>
-

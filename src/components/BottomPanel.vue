@@ -1,5 +1,5 @@
 <script setup>
-import TeamBox from "@/components/Bottom/TeamBox.vue";
+import TeamBox from '@/components/Bottom/TeamBox.vue';
 </script>
 
 <template>
@@ -8,4 +8,3 @@ import TeamBox from "@/components/Bottom/TeamBox.vue";
 		<TeamBox team="T" />
 	</div>
 </template>
-

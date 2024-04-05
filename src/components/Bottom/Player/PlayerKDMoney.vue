@@ -1,12 +1,12 @@
 <script setup>
-import { useMatchStore } from "@/stores/match";
-import { usePlayersStore } from "@/stores/players";
-import { computed, defineProps, ref, watch } from "vue";
+import { useMatchStore } from '@/stores/match';
+import { usePlayersStore } from '@/stores/players';
+import { computed, defineProps, ref, watch } from 'vue';
 
 const playersStore = usePlayersStore();
 const matchStore = useMatchStore();
 
-const props = defineProps(["playerId"]);
+const props = defineProps(['playerId']);
 
 const playerData = computed(() => {
 	return playersStore.getPlayerBottomDataById(props.playerId);
@@ -29,55 +29,56 @@ const savedMoney = ref(0);
 
 const phase = computed(() => {
 	return matchStore.getPhase()?.round;
-})
+});
 
 watch(phase, (value) => {
-	if (value == "freezetime") {
+	if (value == 'freezetime') {
 		savedMoney.value = money.value;
 	}
 });
 
 const matchLive = computed(() => {
-	return (
-		matchStore.getPhase()?.match == "live" &&
-		matchStore.getPhase()?.round != "freezetime"
-	);
+	return matchStore.getPhase()?.match == 'live' && matchStore.getPhase()?.round != 'freezetime';
 });
 
 const showStatisticChangeOverlay = ref(undefined);
 watch(roundKills, (value, oldValue) => {
 	if (value > oldValue) {
-		matchStore.addRoundHistoryElement(playerData.value.team, "elimination")
+		matchStore.addRoundHistoryElement(playerData.value.team, 'elimination');
 		if (!matchLive.value) {
 			return;
 		}
 		switch (value) {
 			case 3:
-				showStatisticChangeOverlay.value = "3K";
+				showStatisticChangeOverlay.value = '3K';
 				break;
 			case 4:
-				showStatisticChangeOverlay.value = "4K";
+				showStatisticChangeOverlay.value = '4K';
 				break;
 			case 5:
-				showStatisticChangeOverlay.value = "ACE";
+				showStatisticChangeOverlay.value = 'ACE';
 				break;
 			default:
-				showStatisticChangeOverlay.value = "Kill";
+				showStatisticChangeOverlay.value = 'Kill';
 				break;
-
 		}
-		setTimeout(function () {
-			showStatisticChangeOverlay.value = undefined;
-		}, value == 5 ? 1450 : 450)
+		setTimeout(
+			function () {
+				showStatisticChangeOverlay.value = undefined;
+			},
+			value == 5 ? 1450 : 450
+		);
 	}
-})
+});
 </script>
 
 <template>
 	<!-- Access the state directly from the store -->
-	<div class="statistics" :class="{
-		buyTime: !matchLive,
-	}">
+	<div
+		class="statistics"
+		:class="{
+			buyTime: !matchLive,
+		}">
 		<div class="statisticChangeOverlay" v-if="showStatisticChangeOverlay" :class="[playerData.team]">
 			<div class="text">
 				{{ showStatisticChangeOverlay }}
@@ -86,8 +87,7 @@ watch(roundKills, (value, oldValue) => {
 		<div class="statistic">
 			<div class="title">K</div>
 			<div>
-				{{ kills
-				}}<span class="roundKills" :class="[playerData.team]" v-if="roundKills">{{ roundKills }}</span>
+				{{ kills }}<span class="roundKills" :class="[playerData.team]" v-if="roundKills">{{ roundKills }}</span>
 			</div>
 		</div>
 		<div class="statistic">
@@ -96,7 +96,7 @@ watch(roundKills, (value, oldValue) => {
 		</div>
 		<div class="statistic">
 			<div class="title money">
-				{{ matchLive ? "Money" : `-$${Math.abs(money - savedMoney)}` }}
+				{{ matchLive ? 'Money' : `-$${Math.abs(money - savedMoney)}` }}
 			</div>
 			<div>${{ money }}</div>
 		</div>
@@ -169,7 +169,6 @@ watch(roundKills, (value, oldValue) => {
 }
 
 @keyframes stretchHorizontal {
-
 	0%,
 	99% {
 		width: 0%;
@@ -190,4 +189,3 @@ watch(roundKills, (value, oldValue) => {
 	}
 }
 </style>
-
