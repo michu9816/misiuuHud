@@ -43,11 +43,12 @@ const maps = computed(()=>{
 	display: flex;
 	justify-content: center;
 	color:white;
-	margin-top: 5px;
+	animation: fadeIn 0.5s;
 }
 .maps{
 	background: black;
 	border-radius: 0 0 5px 5px;
+	margin-top: 5px;
 }
 .map{
 	display:grid;
@@ -80,6 +81,16 @@ border-radius: 5px 0 0 5px;
 }
 .pick:not(.t,.ct){
 	opacity: 0;
+}
+
+@keyframes fadeIn {
+	0%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 1;
+	}
+	
 }
 </style>
 

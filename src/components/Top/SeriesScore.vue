@@ -38,6 +38,7 @@ const score = computed(() => {
 .box {
 	display: flex;
 	justify-content: center;
+	animation: fadeIn 0.5s;
 }
 
 .score {
@@ -67,6 +68,16 @@ const score = computed(() => {
 	border-left: 15px solid transparent;
 	border-right: 15px solid transparent;
 	border-top: 19px solid #000000;
+}
+
+@keyframes fadeIn {
+	0%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 1;
+	}
+	
 }
 </style>
 
