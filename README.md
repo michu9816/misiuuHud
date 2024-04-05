@@ -45,6 +45,9 @@ Aby wyłączyć HUD należy kliknąć na niego, aby był aktywny (lub dać ALT +
 ## Wyświetlanie nad grą i integracja w OBS
 Aby aplikacja wyświetliła się nad grą wymagane jest włączenie CS w trybie „Pełny ekran w oknie”. 
 Nakładka pojawia się nad grą co pozwala komentować z widocznym HUD’em.
+
+*Nakładka nie będzie wyświetlała się nad grą, gdy w komendach startowych znajduje się parametr "vulcan"*
+
 Jeżeli w OBS przechwytywany jest obraz gry, ekranu HUD nie będzie widoczny. Wymagane będzie 
 dodane kolejnego źródła obrazu – programu „HUD” który będzie wyświetlany nad grą. 
 
@@ -55,7 +58,19 @@ danych z gry. Dane dostarczane są za pomocą GSI ( Game State Integration ) w C
 odpowiedniemu pliku .cfg umieszczonemu w plikach gry.
 O GSI można poczytać na stronie https://developer.valvesoftware.com/wiki/CounterStrike:_Global_Offensive_Game_State_Integration
 
-## SStatystyki wyświetlanie w trakcie gry
+## Ustawienia meczu
+W zasobniku windows dostępne są ustawienia meczu:
+### Series settings
+- N/D - Pobieranie wyniku spotkania z API (matches_won_this_series)
+- BO1 - Wyświetlanie pod wynikiem napisu "BO1" w trakcie freezetime
+- BO3 - Wyświetlanie listy map pod wynikiem w trakcie freezetime
+### Score completing
+- Auto - Gdy nakładka jest włączona a mapa z serii BO3 zakończy się, wynik zostanie automatycznie zapisany // OBECNIE FUNKCJA NIE JEST URUCHOMIONA
+- Manual - Ręczne zapisywanie wyników map dla serii BO3
+### Veto
+Możliwość przeprowadzenia VETO dla drużyn. Wymagany wybór serii "BO3". Po najechaniu na mapę można kliknąć "Pick" dla odpowiedniej drużyny, co zostanie wyświetlone na HUDzie.
+
+## Statystyki wyświetlanie w trakcie gry
 Po każdej rundzie (zaczynając od 3) zostają wyświetlane statystyki w formacie wykresu słupkowego. 
 Statystyki zmieniają się w zależność od przebiegu rundy. W trakcie pokazywania statystyk zostają 
 ukryte informacje o HP graczy.
