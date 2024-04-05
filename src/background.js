@@ -41,6 +41,12 @@ async function createWindow() {
 	// win.setFocusable(false);
 	win.moveTop();
 
+	
+	win.on("closed",()=>{
+		tray.destroy();
+	})
+
+
 	createTray();
 
 	winSettings = new BrowserWindow({
