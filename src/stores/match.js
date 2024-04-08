@@ -4,6 +4,8 @@ import { useGuiStore } from './gui';
 import { usePlayersStore } from './players';
 
 export const useMatchStore = defineStore('match', () => {
+	const roundWinsHistory = ref([]);
+
 	const roundPhase = ref({
 		round: undefined,
 		match: undefined,
@@ -32,10 +34,6 @@ export const useMatchStore = defineStore('match', () => {
 			t: undefined,
 			ct: undefined,
 		},
-		lossBonus: {
-			t: undefined,
-			ct: undefined,
-		},
 		round: undefined,
 	});
 
@@ -43,6 +41,10 @@ export const useMatchStore = defineStore('match', () => {
 
 	function loadMatchData(matchData, roundData, timeData, bombData) {
 		const guiStore = useGuiStore();
+
+		if (matchData.round_wins) {
+			roundWinsHistory.value = Object.values(matchData.round_wins);
+		}
 
 		roundPhase.value.round = roundData?.phase;
 		roundPhase.value.match = matchData?.phase;
@@ -75,8 +77,6 @@ export const useMatchStore = defineStore('match', () => {
 		matchScore.value.teams.ct = matchData?.team_ct?.name || 'Counter-Terrorists';
 		matchScore.value.timeouts.t = matchData?.team_t?.timeouts_remaining;
 		matchScore.value.timeouts.ct = matchData?.team_ct?.timeouts_remaining;
-		matchScore.value.lossBonus.t = matchData?.team_t?.consecutive_round_losses;
-		matchScore.value.lossBonus.ct = matchData?.team_ct?.consecutive_round_losses;
 		matchScore.value.round = matchData?.round;
 
 		if (matchData?.round == 0 && timeData?.phase == 'freezetime') {
@@ -144,5 +144,24 @@ export const useMatchStore = defineStore('match', () => {
 	function getScore() {
 		return matchScore.value;
 	}
-	return { loadMatchData, getData, getPhase, getScore, addRoundHistoryElement, resetRoundHistoryElement, getRoundHistory };
+
+	function getLossBonus(team) {
+		let bonus = 1;
+		console.log(team, bonus);
+		roundWinsHistory.value.forEach((element) => {
+			const winnerTeam = element.split('_')[0];
+			if (winnerTeam == team) {
+				bonus--;
+			} else {
+				bonus++;
+			}
+			if (bonus < 0) {
+				bonus = 0;
+			} else if (bonus > 4) {
+				bonus = 4;
+			}
+		});
+		return bonus;
+	}
+	return { getLossBonus, loadMatchData, getData, getPhase, getScore, addRoundHistoryElement, resetRoundHistoryElement, getRoundHistory };
 });

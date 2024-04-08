@@ -7,16 +7,10 @@ import { usePlayersStore } from '@/stores/players';
 import MoneyInformation from '@/components/Bottom/Money/MoneyInformation.vue';
 
 const matchStore = useMatchStore();
-// const seriesStore = useSeriesStore();
-
 const playerStore = usePlayersStore();
 
-// const teams = computed(() => {
-// 	return matchStore.getScore().teams;
-// });
-
 const score = computed(() => {
-	const show = matchStore.getPhase().round == 'freezetime';
+	const show = matchStore.getPhase().round == 'freezetime' && matchStore.getScore().round > 1;
 
 	return {
 		show,
@@ -24,8 +18,8 @@ const score = computed(() => {
 });
 
 const lossBonus = computed(() => {
-	const lossBonusCT = matchStore.getScore().lossBonus.ct;
-	const lossBonusT = matchStore.getScore().lossBonus.t;
+	let lossBonusCT = matchStore.getLossBonus('ct');
+	let lossBonusT = matchStore.getLossBonus('t');
 	return [
 		{ value: 1400 + 500 * lossBonusCT, steps: lossBonusCT },
 		{ value: 1400 + 500 * lossBonusT, steps: lossBonusT },
