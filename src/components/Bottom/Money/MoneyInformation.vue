@@ -58,6 +58,7 @@ const name = computed(() => {
 	background: var(--color-background-gray);
 	height: 5px;
 	transform: skewX(30deg);
+	transition-duration: 0.5s;
 }
 .steps.t div {
 	transform: skewX(-30deg);

@@ -44,6 +44,8 @@ export const useMatchStore = defineStore('match', () => {
 
 		if (matchData?.round_wins) {
 			roundWinsHistory.value = Object.values(matchData.round_wins);
+		} else {
+			roundWinsHistory.value = [];
 		}
 
 		roundPhase.value.round = roundData?.phase;
@@ -147,10 +149,10 @@ export const useMatchStore = defineStore('match', () => {
 
 	function getLossBonus(team) {
 		let bonus = 1;
-		roundWinsHistory.value.forEach((element) => {
+		roundWinsHistory.value.forEach((element, index) => {
 			const winnerTeam = element.split('_')[0];
 			if (winnerTeam == team) {
-				bonus--;
+				bonus -= 2;
 			} else {
 				bonus++;
 			}
@@ -158,6 +160,9 @@ export const useMatchStore = defineStore('match', () => {
 				bonus = 0;
 			} else if (bonus > 4) {
 				bonus = 4;
+			}
+			if (index == 11 || (matchScore.value.round > 23 ? (index + 1) % 3 == 0 : false)) {
+				bonus = 1;
 			}
 		});
 		return bonus;
