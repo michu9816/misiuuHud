@@ -10,7 +10,7 @@ const matchStore = useMatchStore();
 const playerStore = usePlayersStore();
 
 const score = computed(() => {
-	const show = matchStore.getPhase().round == 'freezetime' && matchStore.getScore().round > 1;
+	const show = matchStore.getPhase().round == 'freezetime' && matchStore.getScore().round >= 1;
 
 	return {
 		show,
@@ -74,7 +74,7 @@ const equipment = computed(() => {
 	bottom: 10px;
 }
 .informations {
-	background: black;
+	background: var(--color-background-dark-transparent);
 	border-radius: 5px;
 	margin-top: 5px;
 	width: 240px;

@@ -42,7 +42,7 @@ export const useMatchStore = defineStore('match', () => {
 	function loadMatchData(matchData, roundData, timeData, bombData) {
 		const guiStore = useGuiStore();
 
-		if (matchData.round_wins) {
+		if (matchData?.round_wins) {
 			roundWinsHistory.value = Object.values(matchData.round_wins);
 		}
 
@@ -147,7 +147,6 @@ export const useMatchStore = defineStore('match', () => {
 
 	function getLossBonus(team) {
 		let bonus = 1;
-		console.log(team, bonus);
 		roundWinsHistory.value.forEach((element) => {
 			const winnerTeam = element.split('_')[0];
 			if (winnerTeam == team) {
