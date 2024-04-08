@@ -32,6 +32,10 @@ export const useMatchStore = defineStore('match', () => {
 			t: undefined,
 			ct: undefined,
 		},
+		lossBonus: {
+			t: undefined,
+			ct: undefined,
+		},
 		round: undefined,
 	});
 
@@ -71,6 +75,8 @@ export const useMatchStore = defineStore('match', () => {
 		matchScore.value.teams.ct = matchData?.team_ct?.name || 'Counter-Terrorists';
 		matchScore.value.timeouts.t = matchData?.team_t?.timeouts_remaining;
 		matchScore.value.timeouts.ct = matchData?.team_ct?.timeouts_remaining;
+		matchScore.value.lossBonus.t = matchData?.team_t?.consecutive_round_losses;
+		matchScore.value.lossBonus.ct = matchData?.team_ct?.consecutive_round_losses;
 		matchScore.value.round = matchData?.round;
 
 		if (matchData?.round == 0 && timeData?.phase == 'freezetime') {
