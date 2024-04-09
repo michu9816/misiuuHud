@@ -4,7 +4,10 @@ import { useGuiStore } from './gui';
 import { usePlayersStore } from './players';
 
 export const useMatchStore = defineStore('match', () => {
-	const roundWinsHistory = ref([]);
+	const lossBonus = ref({
+		t: undefined,
+		ct: undefined,
+	});
 
 	const roundPhase = ref({
 		round: undefined,
@@ -42,12 +45,6 @@ export const useMatchStore = defineStore('match', () => {
 	function loadMatchData(matchData, roundData, timeData, bombData) {
 		const guiStore = useGuiStore();
 
-		if (matchData?.round_wins) {
-			roundWinsHistory.value = Object.values(matchData.round_wins);
-		} else {
-			roundWinsHistory.value = [];
-		}
-
 		roundPhase.value.round = roundData?.phase;
 		roundPhase.value.match = matchData?.phase;
 		roundPhase.value.timeout =
@@ -80,6 +77,8 @@ export const useMatchStore = defineStore('match', () => {
 		matchScore.value.timeouts.t = matchData?.team_t?.timeouts_remaining;
 		matchScore.value.timeouts.ct = matchData?.team_ct?.timeouts_remaining;
 		matchScore.value.round = matchData?.round;
+		lossBonus.value.t = Math.min(4, matchData?.team_t?.consecutive_round_losses);
+		lossBonus.value.ct = Math.min(4, matchData?.team_ct?.consecutive_round_losses);
 
 		if (matchData?.round == 0 && timeData?.phase == 'freezetime') {
 			console.log('Restarting statistics on first round');
@@ -148,24 +147,7 @@ export const useMatchStore = defineStore('match', () => {
 	}
 
 	function getLossBonus(team) {
-		let bonus = 1;
-		roundWinsHistory.value.forEach((element, index) => {
-			const winnerTeam = element.split('_')[0];
-			if (winnerTeam == team) {
-				bonus -= 2;
-			} else {
-				bonus++;
-			}
-			if (bonus < 0) {
-				bonus = 0;
-			} else if (bonus > 4) {
-				bonus = 4;
-			}
-			if (index == 11 || (matchScore.value.round > 23 ? (index + 1) % 3 == 0 : false)) {
-				bonus = 1;
-			}
-		});
-		return bonus;
+		return lossBonus.value[team];
 	}
 	return { getLossBonus, loadMatchData, getData, getPhase, getScore, addRoundHistoryElement, resetRoundHistoryElement, getRoundHistory };
 });
