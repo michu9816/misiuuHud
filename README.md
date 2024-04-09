@@ -1,7 +1,9 @@
 # MisiuU HUD
 
-## Uruchomienie HUD
-- Dodaj do folderu "cfg" gry CS2 (.../csgo/cfg) plik "gamestate_integration_misiuuHud.cfg" z zawartością
+## Setup
+
+- Add file "gamestate_integration_misiuuHud.cfg" to your CS2 "cfg" directory (.../csgo/cfg) with content:
+
 ```
 "Observer All Players v.1"
 {
@@ -21,78 +23,88 @@
    "round"               "1"
    "player_id"           "1"
    "allplayers_id"       "1"      // Same as 'player_id' but for all players. 'allplayers' versions are only valid for HLTV and observers
-   "player_state"        "1"      
-   "allplayers_state"    "1"      
-   "allplayers_match_stats"  "1"  
-   "allplayers_weapons"  "1"      
+   "player_state"        "1"
+   "allplayers_state"    "1"
+   "allplayers_match_stats"  "1"
+   "allplayers_weapons"  "1"
    "bomb"                "1"
-   "allplayers_position" "1"      // output the player world positions, only valid for GOTV or spectators. 
-   "phase_countdowns"    "1"      // countdowns of each second remaining for game phases, eg round time left, time until bomb explode, freezetime. Only valid for GOTV or spectators. 
+   "allplayers_position" "1"      // output the player world positions, only valid for GOTV or spectators.
+   "phase_countdowns"    "1"      // countdowns of each second remaining for game phases, eg round time left, time until bomb explode, freezetime. Only valid for GOTV or spectators.
    "allgrenades"    "1"           // output information about all grenades and inferno flames in the world, only valid for GOTV or spectators.
  }
 }
 ```
-- Uruchom program misiuuHud.exe (najnowszy plik instalacyjny można pobrać z sekcji Release https://github.com/michu9816/misiuuHud/releases)
-- Włącz grę i przejdź do dema / odtwarzania meczu LIVE
-- Wpisz komendy, które spowodują wyłączenie domyślnego HUD
+
+- Run misiuuHud.exe (you can download latest setup file from Release https://github.com/michu9816/misiuuHud/releases)
+- Type in your console commands that will disable default HUD
+
 ```
 cl_draw_only_deathnotices true;cl_drawhud_force_radar 1;cl_drawhud_force_teamid_overhead 1
 ```
 
-Aby wyłączyć HUD należy kliknąć na niego, aby był aktywny (lub dać ALT + TAB) i kliknąć ALT + F4.
+Commands will be copied automatically on program start "MisiuuHUD"
 
-**Ważne! Przeczytaj kolejny punkt, aby wyświetlać HUD nad grą**n
-## Wyświetlanie nad grą i integracja w OBS
-Aby aplikacja wyświetliła się nad grą wymagane jest włączenie CS w trybie „Pełny ekran w oknie”. 
-Nakładka pojawia się nad grą co pozwala komentować z widocznym HUD’em.
+To turn off the HUD press ALT + F4 on active window (ALT + TAB to select "MisiuuHUD").
 
-*Nakładka nie będzie wyświetlała się nad grą, gdy w komendach startowych znajduje się parametr "vulcan"*
+**Warning! Read next step to show HUD above the game**
 
-Jeżeli w OBS przechwytywany jest obraz gry, ekranu HUD nie będzie widoczny. Wymagane będzie 
-dodane kolejnego źródła obrazu – programu „HUD” który będzie wyświetlany nad grą. 
+## Display HUD above CS2 and integrate with OBS
 
-## Działanie aplikacji
-Aplikacja napisana w electron stawia serwer na porcie 8080. 
-Za pomocą biblioteki „express” na porcie „3000” dostępny jest serwer http, który służy do odbierania 
-danych z gry. Dane dostarczane są za pomocą GSI ( Game State Integration ) w CS:GO dzięki 
-odpowiedniemu pliku .cfg umieszczonemu w plikach gry.
-O GSI można poczytać na stronie https://developer.valvesoftware.com/wiki/CounterStrike:_Global_Offensive_Game_State_Integration
+CS must be turned on in "Full screen in window" mode to display HUD properly.
 
-## Ustawienia meczu
-W zasobniku windows dostępne są ustawienia meczu:
+_HUD will not be showing above the game when you have "vulcan" param in your launch options_
+
+If a game image is captured in OBS, the HUD screen will not be visible. It will be necessary to add another image source - the "HUD" program, which will be displayed above the game.
+
+## How it works?
+
+The application written in electron puts the server on port 8080.
+Using the "express" library, an http server is available on port "3000", which is used to receive data from the game. Data is provided using GSI (Game State Integration) in CS:GO thanks to the appropriate .cfg file placed in the game files.
+You can read about GSI at https://developer.valvesoftware.com/wiki/CounterStrike:_Global_Offensive_Game_State_Integration
+
+## Match settings
+
+The match settings are available in the windows tray:
+
 ### Series settings
-- N/D - Pobieranie wyniku spotkania z API (matches_won_this_series)
-- BO1 - Wyświetlanie pod wynikiem napisu "BO1" w trakcie freezetime
-- BO3 - Wyświetlanie listy map pod wynikiem w trakcie freezetime
+
+- N/A - Getting match result from API (matches_won_this_series)
+- BO1 - Displaying the word "BO1" under the result during freezetime
+- BO3 - Display a list of maps under the result during freezetime
+
 ### Score completing
-- Auto - Gdy nakładka jest włączona a mapa z serii BO3 zakończy się, wynik zostanie automatycznie zapisany // OBECNIE FUNKCJA NIE JEST URUCHOMIONA
-- Manual - Ręczne zapisywanie wyników map dla serii BO3
+
+- Auto - When the overlay is turned on and the BO3 series map is finished, the result will be automatically saved // CURRENTLY THE FUNCTION IS NOT WORKING
+- Manual - Manually saving map results for the BO3 series
+
 ### Veto
-Możliwość przeprowadzenia VETO dla drużyn. Wymagany wybór serii "BO3". Po najechaniu na mapę można kliknąć "Pick" dla odpowiedniej drużyny, co zostanie wyświetlone na HUDzie.
 
-## Statystyki wyświetlanie w trakcie gry
-Po każdej rundzie (zaczynając od 3) zostają wyświetlane statystyki w formacie wykresu słupkowego. 
-Statystyki zmieniają się w zależność od przebiegu rundy. W trakcie pokazywania statystyk zostają 
-ukryte informacje o HP graczy.
-- Jeżeli jeden z graczy zdobędzie pow. 2 HS – pokazywany zostanie HS% (1)
-- Jeżeli jeden z graczy zdobędzie pow. 2 K – pokazywany zostanie K/D
-- Jeżeli jeden z graczy zdobędzie pow. 300 obr. – pokazywana zostanie liczba asyst
-- Jeżeli jedna z drużyn będzie miała ekwipunek o wartości < 3000$ - pokazana wartość ekwipunków
-- Pozostałe przypadki – pokazywany ADR (1)
-  
-(1) Statystyki rozszerzone. Będą dostępne tylko, jeżeli interfejs graficzny był właczony od pierwszej 
-rundy. GSI nie dostarcza informacji na temat liczby zabójstw przez HS w trakcie meczu, ani o 
-zadanych obrażeniach. Te statystyki są zbierane co rundę do tablicy i wykorzystywane przez aplikację
+Possibility to conduct a VETO for teams. Required selection of the "BO3" series. After hovering over the map, you can click "Pick" for the appropriate team, which will be displayed on the HUD.
 
-## Ręczne włączenie i przebudowanie projektu
+## Statistics displayed during the game
 
-### Uruchomienie projektu
+After each round (starting from 3), statistics are displayed in a bar chart format.
+Statistics change depending on the course of the round.
+
+- If one of the players gets above 2 HS – HS% (1) will be shown
+- If one of the players gets above 2 K – K/D will be shown
+- If one of the players gets above 300 dmg – the number of assists will be shown
+- If one of the teams has equipment worth <$3000 - the value of the equipment is shown
+- Other cases – ADR shown (1)
+
+(1) Extended statistics. They will only be available if the HUD was enabled from the first one rounds. GSI does not provide information on HS kills during the match or damage dealt. These statistics are collected every round into the board and used by the application.
+
+## Manual run and build project
+
+### Run project
+
 ```
 npm install
 npm run electron:serve
 ```
 
-### Budowanie pliku .exe
+### Build .exe file
+
 ```
 npm install
 npm run electron:build
