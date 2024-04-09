@@ -1,5 +1,7 @@
 # MisiuU HUD
 
+![Alt text](/src/assets/git/screen1.png?raw=true 'Preview')
+
 ## Setup
 
 - Add file "gamestate_integration_misiuuHud.cfg" to your CS2 "cfg" directory (.../csgo/cfg) with content:

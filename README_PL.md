@@ -1,5 +1,7 @@
 # MisiuU HUD
 
+![Alt text](/src/assets/git/screen1.png?raw=true 'Podgląd')
+
 ## Uruchomienie HUD
 
 - Dodaj do folderu "cfg" gry CS2 (.../csgo/cfg) plik "gamestate_integration_misiuuHud.cfg" z zawartością
