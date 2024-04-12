@@ -40,9 +40,11 @@ export const useMatchStore = defineStore('match', () => {
 		round: undefined,
 	});
 
+	const grenades = ref([]);
+
 	const match = ref();
 
-	function loadMatchData(matchData, roundData, timeData, bombData) {
+	function loadMatchData(matchData, roundData, timeData, bombData, grenadesList) {
 		const guiStore = useGuiStore();
 
 		roundPhase.value.round = roundData?.phase;
@@ -64,6 +66,7 @@ export const useMatchStore = defineStore('match', () => {
 			}
 		}
 		roundPhase.value.bomb = bombData?.state;
+		roundPhase.value.bombData = bombData;
 		roundPhase.value.timer = bombData?.countdown;
 		roundPhase.value.player = bombData?.player;
 		roundPhase.value.roundTimer = timeData?.phase_ends_in;
@@ -120,6 +123,12 @@ export const useMatchStore = defineStore('match', () => {
 			}
 			guiStore.setPlayerStatisticType(statistic);
 		}
+
+		if (grenadesList) {
+			grenades.value = Object.values(grenadesList);
+		}
+
+		match.value = matchData?.name;
 	}
 
 	const roundHistory = ref([]);
@@ -149,5 +158,9 @@ export const useMatchStore = defineStore('match', () => {
 	function getLossBonus(team) {
 		return lossBonus.value[team];
 	}
-	return { getLossBonus, loadMatchData, getData, getPhase, getScore, addRoundHistoryElement, resetRoundHistoryElement, getRoundHistory };
+
+	function getGrenades() {
+		return grenades.value;
+	}
+	return { getLossBonus, getGrenades, loadMatchData, getData, getPhase, getScore, addRoundHistoryElement, resetRoundHistoryElement, getRoundHistory };
 });

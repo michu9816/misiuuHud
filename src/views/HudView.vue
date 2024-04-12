@@ -4,6 +4,7 @@
 	<TopPanel></TopPanel>
 	<StatisticsChart></StatisticsChart>
 	<BottomPanel></BottomPanel>
+	<MapRadar></MapRadar>
 </template>
 
 <script>
@@ -12,6 +13,7 @@ import TopPanel from '@/components/TopPanel.vue';
 import StatisticsChart from '@/components/StatisticsChart.vue';
 import PlayerData from '@/components/PlayerData.vue';
 import PlayersRemaining from '@/components/PlayersRemaining.vue';
+import MapRadar from '@/components/MapRadar.vue';
 import { ipcRenderer } from 'electron';
 import { usePlayersStore } from '@/stores/players';
 import { useMatchStore } from '@/stores/match';
@@ -26,6 +28,7 @@ export default {
 		PlayerData,
 		StatisticsChart,
 		PlayersRemaining,
+		MapRadar,
 	},
 	data() {
 		return {
@@ -42,7 +45,7 @@ export default {
 		ipcRenderer.on('data', (event, arg) => {
 			vm.test = arg;
 			vm.playersStore.loadPlayers(arg.allplayers, arg.player);
-			vm.matchStore.loadMatchData(arg.map, arg.round, arg.phase_countdowns, arg.bomb);
+			vm.matchStore.loadMatchData(arg.map, arg.round, arg.phase_countdowns, arg.bomb, arg.grenades);
 			let roundsNumber = arg.round?.phase == 'over' ? arg.map?.round - 1 : arg.map?.round;
 			vm.guiStore.setPlayersDamage(arg.allplayers, roundsNumber);
 		});
