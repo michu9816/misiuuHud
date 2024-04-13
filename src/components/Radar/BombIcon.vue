@@ -14,10 +14,31 @@ const position = computed(() => {
 		return undefined;
 	}
 
-	const leftInPercent = ((parseInt(positions[0]) + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
-	const topInPercent = ((parseInt(positions[1]) + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	let leftInPercent = ((parseInt(positions[0]) + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
+	let topInPercent = ((parseInt(positions[1]) + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	const percentCorrection = getPercentCorrection(positions);
+	if (percentCorrection !== undefined) {
+		leftInPercent += percentCorrection?.x;
+		topInPercent += percentCorrection?.y;
+	}
 	return `left:calc(${leftInPercent}% - 10px);bottom:calc(${topInPercent}% - 10px)`;
 });
+
+const getPercentCorrection = function (positions) {
+	let z = parseFloat(positions[2]);
+	if (props.mapSettings.splits?.length > 0 && typeof z == 'number') {
+		for (let i in props.mapSettings.splits) {
+			const split = props.mapSettings.splits[i];
+			if (z > split.bounds.bottom && z < split.bounds.top) {
+				return {
+					x: props.mapSettings?.splits[i]?.offset?.x,
+					y: props.mapSettings?.splits[i]?.offset?.y,
+				};
+			}
+		}
+	}
+	return undefined;
+};
 
 const showIcon = computed(() => {
 	return props.data?.state != 'carried' && props.data?.state;

@@ -23,8 +23,13 @@ const position = computed(() => {
 		return undefined;
 	}
 
-	const leftInPercent = ((parseInt(positions[0]) + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
-	const topInPercent = ((parseInt(positions[1]) + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	let leftInPercent = ((parseInt(positions[0]) + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
+	let topInPercent = ((parseInt(positions[1]) + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	const percentCorrection = getPercentCorrection(positions[2]);
+	if (percentCorrection !== undefined) {
+		leftInPercent += percentCorrection?.x;
+		topInPercent += percentCorrection?.y;
+	}
 	return `left:calc(${leftInPercent}% - 10px);bottom:calc(${topInPercent}% - 10px)`;
 });
 
@@ -34,9 +39,30 @@ const flamePosition = function (flame) {
 		return undefined;
 	}
 
-	const leftInPercent = ((parseInt(positions[0]) / 2 + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
-	const topInPercent = ((parseInt(positions[1]) / 2 + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	let leftInPercent = ((parseInt(positions[0]) / 2 + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
+	let topInPercent = ((parseInt(positions[1]) / 2 + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	const percentCorrection = getPercentCorrection(positions[2] / 2);
+	if (percentCorrection !== undefined) {
+		leftInPercent += percentCorrection?.x;
+		topInPercent += percentCorrection?.y;
+	}
 	return `left:calc(${leftInPercent}% - 10px);bottom:calc(${topInPercent}% - 10px)`;
+};
+
+const getPercentCorrection = function (positionZ) {
+	let z = parseFloat(positionZ);
+	if (props.mapSettings.splits?.length > 0 && typeof z == 'number') {
+		for (let i in props.mapSettings.splits) {
+			const split = props.mapSettings.splits[i];
+			if (z > split.bounds.bottom && z < split.bounds.top) {
+				return {
+					x: props.mapSettings?.splits[i]?.offset?.x,
+					y: props.mapSettings?.splits[i]?.offset?.y,
+				};
+			}
+		}
+	}
+	return undefined;
 };
 
 const showIcon = computed(() => {

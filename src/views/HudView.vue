@@ -4,7 +4,7 @@
 	<TopPanel></TopPanel>
 	<StatisticsChart></StatisticsChart>
 	<BottomPanel></BottomPanel>
-	<MapRadar></MapRadar>
+	<MapRadar v-if="showRadar"></MapRadar>
 </template>
 
 <script>
@@ -49,6 +49,9 @@ export default {
 			let roundsNumber = arg.round?.phase == 'over' ? arg.map?.round - 1 : arg.map?.round;
 			vm.guiStore.setPlayersDamage(arg.allplayers, roundsNumber);
 		});
+		ipcRenderer.on('set-radar-status', (event, arg) => {
+			vm.seriesStore.setRadarStatus(arg);
+		});
 		ipcRenderer.on('series-complete-type', (event, arg) => {
 			vm.seriesStore.setCompleteType(arg);
 		});
@@ -69,6 +72,9 @@ export default {
 	computed: {
 		teams() {
 			return JSON.stringify(this.matchStore.getScore().teams);
+		},
+		showRadar() {
+			return this.seriesStore.getRadarStatus();
 		},
 	},
 	watch: {

@@ -121,6 +121,8 @@ export const usePlayersStore = defineStore('players', () => {
 
 			player.value = playerData;
 			watchingPlayer.value = playerData?.steamid;
+		} else {
+			playersRadarInformations.value = [];
 		}
 	}
 

@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 export const useSeriesStore = defineStore('series', () => {
 	const type = ref(undefined);
+	const showRadar = ref(true);
 	const completeType = ref('manual');
 	const maps = ref([
 		{
@@ -162,5 +163,13 @@ export const useSeriesStore = defineStore('series', () => {
 		});
 	}
 
-	return { refreshScores, getSeriesType, setSeriesType, setCompleteType, getCompleteType, pickMap, getMaps, reset };
+	function setRadarStatus(value) {
+		showRadar.value = value;
+	}
+
+	function getRadarStatus() {
+		return showRadar.value;
+	}
+
+	return { setRadarStatus, getRadarStatus, refreshScores, getSeriesType, setSeriesType, setCompleteType, getCompleteType, pickMap, getMaps, reset };
 });

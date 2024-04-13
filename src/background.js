@@ -99,6 +99,10 @@ async function createWindow() {
 		console.log(arg);
 	});
 
+	ipcMain.on('set-radar-status', (event, arg) => {
+		win.webContents.send('set-radar-status', arg);
+	});
+
 	ipcMain.on('series-complete-type', (event, arg) => {
 		win.webContents.send('series-complete-type', arg);
 	});
