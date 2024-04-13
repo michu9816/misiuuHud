@@ -1,5 +1,5 @@
 <template>
-	<div class="player" :class="[data.team, { dead: !data.health }]" :style="[position]" v-if="showPlayer">
+	<div class="player" :class="[data.team, { dead: !data.health, disableAnimation: splitedClass }]" :style="[position]" v-if="showPlayer">
 		<img class="bomb" src="@/assets/img/elements/icon_bomb_default.png" v-if="data.bomb" />
 		<div class="icon" :class="{ watching }" :style="[rotation]"></div>
 		<div class="number">{{ observerSlot }}</div>
@@ -7,11 +7,21 @@
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, ref, watch } from 'vue';
 const props = defineProps(['data', 'watching', 'mapSettings']);
 
+let splited = ref(false);
+let splitedClass = ref(false);
+
+watch(splited, () => {
+	splitedClass.value = true;
+	setTimeout(() => {
+		splitedClass.value = false;
+	}, 500);
+});
+
 const position = computed(() => {
-	const positions = props.data.lastPostion?.position?.split(',');
+	const positions = props.data.lastPosition?.position?.split(',');
 	if (!positions?.length) {
 		return undefined;
 	}
@@ -31,10 +41,13 @@ const getPercentCorrection = function (positions) {
 		for (let i in props.mapSettings.splits) {
 			const split = props.mapSettings.splits[i];
 			if (z > split.bounds.bottom && z < split.bounds.top) {
+				splited.value = true;
 				return {
 					x: props.mapSettings?.splits[i]?.offset?.x,
 					y: props.mapSettings?.splits[i]?.offset?.y,
 				};
+			} else {
+				splited.value = false;
 			}
 		}
 	}
@@ -43,7 +56,7 @@ const getPercentCorrection = function (positions) {
 
 const rotation = computed(() => {
 	let rotation;
-	const rotations = props.data?.lastPostion?.forward?.split(',');
+	const rotations = props.data?.lastPosition?.forward?.split(',');
 	if (!rotations?.length) {
 		return undefined;
 	}
@@ -66,13 +79,17 @@ const observerSlot = computed(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .player {
 	width: 20px;
 	height: 20px;
 	z-index: 2;
 	position: absolute;
 	transition-duration: 0.1s;
+}
+.player.disableAnimation {
+	transition-duration: 0s;
+	animation: fadeIn 0.5s;
 }
 .icon {
 	width: 18px;
@@ -118,5 +135,13 @@ img.bomb {
 	margin-top: 15px;
 	z-index: 10;
 	position: absolute;
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 </style>

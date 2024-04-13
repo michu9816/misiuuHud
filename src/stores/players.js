@@ -103,7 +103,7 @@ export const usePlayersStore = defineStore('players', () => {
 				playerRadarInformations = playersRadarInformations.value.find((obj) => obj.id == key);
 
 				if (playerRadarInformations?.health > 0) {
-					playerRadarInformations.lastPostion = {
+					playerRadarInformations.lastPosition = {
 						position: playerData.position,
 						forward: playerData.forward,
 					};
