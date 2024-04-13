@@ -136,6 +136,7 @@ img {
 	border-radius: 50%;
 	opacity: 1;
 	transition-duration: 4s;
+	animation: growUp 1s;
 }
 .T .smoke {
 	background: -webkit-radial-gradient(rgb(170, 147, 147) 20%, rgb(158, 137, 137) 50%, transparent 80%);
@@ -157,5 +158,13 @@ img {
 }
 .flame.hide {
 	opacity: 0;
+}
+@keyframes growUp {
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 </style>

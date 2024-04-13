@@ -7,7 +7,7 @@
 			:key="player.observer_slot"
 			:data="player"
 			:watching="player?.observer_slot == watchingPlayer?.observer_slot"></RadarPlayer>
-		<RadarGrenade :map-settings="mapSettings" v-for="grenade in grenades" :key="grenade.observer_slot" :data="grenade"></RadarGrenade>
+		<RadarGrenade :map-settings="mapSettings" v-for="grenade in grenades" :key="grenade.owner" :data="grenade"></RadarGrenade>
 		<BombIcon :map-settings="mapSettings" :data="matchStore.getPhase()?.bombData"></BombIcon>
 	</div>
 </template>
