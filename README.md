@@ -111,3 +111,7 @@ npm run electron:serve
 npm install
 npm run electron:build
 ```
+
+## Radar
+
+Rada inspired by project boltgolt https://github.com/boltgolt/boltobserv. Maps graphics by https://readtldr.gg/simpleradar

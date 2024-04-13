@@ -1,14 +1,16 @@
 <template>
 	<div class="minimap" v-if="showRadar">
-		<div class="map" :style="{ backgroundImage: 'url(' + getMapBackground + ')' }"></div>
-		<RadarPlayer
-			:map-settings="mapSettings"
-			v-for="player in players"
-			:key="player.observer_slot"
-			:data="player"
-			:watching="player?.observer_slot == watchingPlayer?.observer_slot"></RadarPlayer>
-		<RadarGrenade :map-settings="mapSettings" v-for="grenade in grenades" :key="grenade.id" :data="grenade.data"></RadarGrenade>
-		<BombIcon :map-settings="mapSettings" :data="matchStore.getPhase()?.bombData"></BombIcon>
+		<div class="zoomable">
+			<div class="map" :style="{ backgroundImage: 'url(' + getMapBackground + ')' }"></div>
+			<RadarPlayer
+				:map-settings="mapSettings"
+				v-for="player in players"
+				:key="player.observer_slot"
+				:data="player"
+				:watching="player?.observer_slot == watchingPlayer?.observer_slot"></RadarPlayer>
+			<RadarGrenade :map-settings="mapSettings" v-for="grenade in grenades" :key="grenade.id" :data="grenade.data"></RadarGrenade>
+			<BombIcon :map-settings="mapSettings" :data="matchStore.getPhase()?.bombData"></BombIcon>
+		</div>
 	</div>
 </template>
 
@@ -60,6 +62,11 @@ const mapSettings = computed(() => {
 	width: 350px;
 	height: 350px;
 	border-radius: 5px;
+	overflow: hidden;
+}
+.zoomable {
+	height: 100%;
+	width: 100%;
 }
 .map {
 	height: 100%;
