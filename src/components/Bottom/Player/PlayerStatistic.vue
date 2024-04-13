@@ -56,6 +56,8 @@ const statisticHeight = computed(() => {
 				return 0.01;
 			case 'adr':
 				return 0.45;
+			case 'hs':
+				return 0.7;
 			default:
 				return 1;
 		}
