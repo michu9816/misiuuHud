@@ -155,6 +155,7 @@ img {
 	position: absolute;
 	transition-duration: 1s;
 	opacity: 1;
+	filter: drop-shadow(0px 0px 5px red);
 }
 .flame.hide {
 	opacity: 0;
