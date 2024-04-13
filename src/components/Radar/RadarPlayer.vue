@@ -60,13 +60,13 @@ const rotation = computed(() => {
 	if (!rotations?.length) {
 		return undefined;
 	}
-	if (rotations[0] > 0) {
-		rotation = 90 + parseFloat(rotations[1]) * -1 * 90;
+	if (rotations[0] >= 0) {
+		rotation = 135 + parseFloat(rotations[1]) * -1 * 90;
 	} else {
-		rotation = 270 + parseFloat(rotations[1]) * 90;
+		rotation = 305 + parseFloat(rotations[1]) * 90;
 	}
 
-	return `transform:rotate(${rotation + 45}deg)`;
+	return `transform:rotate(${rotation}deg)`;
 });
 
 const showPlayer = computed(() => {
