@@ -10,10 +10,10 @@
 "Observer All Players v.1"
 {
  "uri" "http://localhost:3000/api/data"
- "timeout" "5.0"
- "buffer"  "0.1"
- "throttle" "0.1"
- "heartbeat" "30.0"
+ "timeout" "0.1"
+ "buffer"  "0.0"
+ "throttle" "0.0"
+ "heartbeat" "2.0"
  "auth"
  {
    "token" "Q79v5tcxVQ8u"
