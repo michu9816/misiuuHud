@@ -124,6 +124,8 @@ export const usePlayersStore = defineStore('players', () => {
 		} else {
 			playersRadarInformations.value = [];
 		}
+
+		playersRadarInformations.value = playersRadarInformations.value.filter((obj) => players.value?.map((player) => player.id).includes(obj.id));
 	}
 
 	function extendedStatistics() {
