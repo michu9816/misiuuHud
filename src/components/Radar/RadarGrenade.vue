@@ -46,7 +46,7 @@ const flamePosition = function (flame) {
 		leftInPercent += percentCorrection?.x;
 		topInPercent += percentCorrection?.y;
 	}
-	return `left:calc(${leftInPercent}% - 10px);bottom:calc(${topInPercent}% - 10px)`;
+	return `left:calc(${leftInPercent}% - 2px);bottom:calc(${topInPercent}% - 2px)`;
 };
 
 const getPercentCorrection = function (positionZ) {
