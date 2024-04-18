@@ -42,7 +42,7 @@
 - Wpisz komendy, które spowodują wyłączenie domyślnego HUD
 
 ```
-cl_draw_only_deathnotices true;cl_drawhud_force_radar 1;cl_drawhud_force_teamid_overhead 1
+cl_draw_only_deathnotices true;cl_drawhud_force_teamid_overhead 1
 ```
 
 Komendy zostają skopiowane automatycznie od razu po uruchomieniu "MisiuuHUD"
@@ -83,6 +83,10 @@ W zasobniku windows dostępne są ustawienia meczu:
 
 - Auto - Gdy nakładka jest włączona a mapa z serii BO3 zakończy się, wynik zostanie automatycznie zapisany // OBECNIE FUNKCJA NIE JEST URUCHOMIONA
 - Manual - Ręczne zapisywanie wyników map dla serii BO3
+
+### Show radar
+
+Właczanie i wyłączanie radaru w grze
 
 ### Veto
 

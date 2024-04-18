@@ -126,13 +126,13 @@ const scale = computed(() => {
 	let xPercentage = xDiff / 100 + 0.4;
 	let yPercentage = yDiff / 100 + 0.4;
 	const scale = Math.max(2 - Math.max(xPercentage, yPercentage, 0).toFixed(1), 1);
-	return scale > 1.2 ? scale : 1;
+	return scale > 1.2 ? Math.min(scale, 1.4) : 1;
 });
 
 const mapCenter = computed(() => {
 	let xAvg = (50 - (playersEdgePositions.value?.x?.max + playersEdgePositions.value?.x?.min) / 2) * (scale.value - 1);
 	let yAvg = -50 + ((playersEdgePositions.value?.y?.max + playersEdgePositions.value?.y?.min) / 2) * Math.min(1, scale.value - 0.3);
-	return `margin-left:calc(${xAvg}%);margin-top:calc(${scale.value > 1.2 ? yAvg : 0}%)`;
+	return `margin-left:calc(${Math.round(xAvg)}%);margin-top:calc(${scale.value > 1.2 ? Math.round(yAvg) : 0}%)`;
 });
 </script>
 
