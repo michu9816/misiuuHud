@@ -115,6 +115,7 @@ const getGrenadeIcon = computed(() => {
 	height: 20px;
 	z-index: 2;
 	position: absolute;
+	animation: 0.2s;
 }
 .grenade.inferno {
 	top: 0;
