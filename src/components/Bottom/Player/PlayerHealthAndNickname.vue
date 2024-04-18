@@ -205,14 +205,9 @@ img.bomb {
 	padding: 0 5px;
 	border-radius: 0 5px 5px 0;
 	transition-duration: 0.5s;
+	background: rgba(0, 0, 0, 0.5);
 }
 .observerSlot.hide {
 	opacity: 0;
-}
-.T .observerSlot {
-	background: var(--color-background-t);
-}
-.CT .observerSlot {
-	background: var(--color-background-ct);
 }
 </style>

@@ -99,6 +99,10 @@ async function createWindow() {
 		console.log(arg);
 	});
 
+	ipcMain.on('set-radar-status', (event, arg) => {
+		win.webContents.send('set-radar-status', arg);
+	});
+
 	ipcMain.on('series-complete-type', (event, arg) => {
 		win.webContents.send('series-complete-type', arg);
 	});
@@ -160,7 +164,7 @@ app.on('ready', async () => {
 		}
 	}
 	createWindow();
-	clipboard.writeText('cl_draw_only_deathnotices true;cl_drawhud_force_radar 1;cl_drawhud_force_teamid_overhead 1');
+	clipboard.writeText('cl_draw_only_deathnotices true;cl_drawhud_force_teamid_overhead 1');
 });
 
 const createTray = () => {

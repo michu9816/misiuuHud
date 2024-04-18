@@ -12,6 +12,7 @@ export const usePlayersStore = defineStore('players', () => {
 
 	const watchingPlayer = ref();
 	const playersBottomInformations = ref([]);
+	const playersRadarInformations = ref([]);
 
 	function loadPlayers(playersData, playerData) {
 		players.value = [];
@@ -83,11 +84,48 @@ export const usePlayersStore = defineStore('players', () => {
 				playerBottomInformations.statistics.assists = playerData?.match_stats?.assists;
 				playerBottomInformations.statistics.money = playerData?.state?.money;
 				playerBottomInformations.statistics.equip_value = playerData?.state?.equip_value;
+
+				let playerRadarInformations = playersRadarInformations.value.find((obj) => obj.id == key);
+				if (!playerRadarInformations) {
+					playersRadarInformations.value.push({
+						id: key,
+						health: undefined,
+						team: undefined,
+						defusekit: undefined,
+						bomb: false,
+						weapon: {
+							ammoClip: undefined,
+							ammoReserve: undefined,
+						},
+					});
+				}
+
+				playerRadarInformations = playersRadarInformations.value.find((obj) => obj.id == key);
+
+				if (playerRadarInformations?.health > 0) {
+					playerRadarInformations.lastPosition = {
+						position: playerData.position,
+						forward: playerData.forward,
+					};
+				}
+
+				playerRadarInformations.health = playerData?.state?.health;
+				playerRadarInformations.flashed = playerData?.state?.flashed;
+				playerRadarInformations.observer_slot = playerData?.observer_slot;
+				playerRadarInformations.team = playerData?.team;
+				playerRadarInformations.defusekit = playerData?.state?.defusekit;
+				playerRadarInformations.bomb = playerData?.availableWeapons?.findIndex((obj) => obj.name == 'weapon_c4') != -1;
+				playerRadarInformations.weapon.ammoClip = playerData?.activeWeapon?.ammo_clip;
+				playerRadarInformations.weapon.ammoReserve = playerData?.activeWeapon?.ammo_reserve;
 			}
 
 			player.value = playerData;
 			watchingPlayer.value = playerData?.steamid;
+		} else {
+			playersRadarInformations.value = [];
 		}
+
+		playersRadarInformations.value = playersRadarInformations.value.filter((obj) => players.value?.map((player) => player.id).includes(obj.id));
 	}
 
 	function extendedStatistics() {
@@ -102,6 +140,11 @@ export const usePlayersStore = defineStore('players', () => {
 	function getPlayers(team) {
 		team = team?.toUpperCase();
 		return players.value.filter((obj) => (team ? obj.team == team : obj) && !obj.isCoach);
+	}
+
+	function getRadarPlayers(team) {
+		team = team?.toUpperCase();
+		return playersRadarInformations.value.filter((obj) => (team ? obj.team == team : obj) && !obj.isCoach);
 	}
 
 	function getPlayerDataById(id) {
@@ -168,6 +211,7 @@ export const usePlayersStore = defineStore('players', () => {
 	return {
 		loadPlayers,
 		getPlayers,
+		getRadarPlayers,
 		getPlayerDataById,
 		getWatchingPlayerData,
 		anyTeamIsPoor,

@@ -10,10 +10,10 @@
 "Observer All Players v.1"
 {
  "uri" "http://localhost:3000/api/data"
- "timeout" "5.0"
- "buffer"  "0.1"
- "throttle" "0.1"
- "heartbeat" "30.0"
+ "timeout" "0.1"
+ "buffer"  "0.0"
+ "throttle" "0.0"
+ "heartbeat" "2.0"
  "auth"
  {
    "token" "Q79v5tcxVQ8u"
@@ -41,7 +41,7 @@
 - Type in your console commands that will disable default HUD
 
 ```
-cl_draw_only_deathnotices true;cl_drawhud_force_radar 1;cl_drawhud_force_teamid_overhead 1
+cl_draw_only_deathnotices true;cl_drawhud_force_teamid_overhead 1
 ```
 
 Commands will be copied automatically on program start "MisiuuHUD"
@@ -79,6 +79,10 @@ The match settings are available in the windows tray:
 - Auto - When the overlay is turned on and the BO3 series map is finished, the result will be automatically saved // CURRENTLY THE FUNCTION IS NOT WORKING
 - Manual - Manually saving map results for the BO3 series
 
+### Show radar
+
+Enable / disable custom radar
+
 ### Veto
 
 Possibility to conduct a VETO for teams. Required selection of the "BO3" series. After hovering over the map, you can click "Pick" for the appropriate team, which will be displayed on the HUD.
@@ -111,3 +115,7 @@ npm run electron:serve
 npm install
 npm run electron:build
 ```
+
+## Radar
+
+Rada based on project boltgolt https://github.com/boltgolt/boltobserv. Maps graphics by https://readtldr.gg/simpleradar
