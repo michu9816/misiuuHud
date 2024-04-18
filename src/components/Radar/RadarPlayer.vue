@@ -85,7 +85,7 @@ const observerSlot = computed(() => {
 	height: 20px;
 	z-index: 2;
 	position: absolute;
-	transition-duration: 0.1s;
+	transition-duration: 0.2s;
 }
 .player.disableAnimation {
 	transition-duration: 0s;
