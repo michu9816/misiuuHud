@@ -1,63 +1,63 @@
 /* color palette from <https://github.com/vuejs/theme> */
 @font-face {
-  font-family: 'Lexend Deca';
-  src: url('@/assets/fonts/Lexend_Deca/LexendDeca-VariableFont_wght.ttf');
+	font-family: 'Lexend Deca';
+	src: url('@/assets/fonts/Lexend_Deca/LexendDeca-VariableFont_wght.ttf');
 }
 
 :root {
-  --vt-c-cyan-brighter: hsl(189, 100%, 50%);
-  --vt-c-cyan-bright: hsl(189, 100%, 30%);
-  --vt-c-cyan-dark: hsl(190, 100%, 15%);
-  --vt-c-cyan-dark-black: hsl(190, 100%, 5%);
-  --vt-c-orange-brighter: hsl(329, 100%, 50%);
-  --vt-c-orange-bright: hsl(329, 100%, 30%);
-  --vt-c-orange-dark: hsl(329, 100%, 15%);
-  --vt-c-orange-dark-black: hsl(329, 100%, 5%);
-  --vt-c-gray: #cecece;
-  --vt-c-gray-dark: #303030;
-  --vt-c-white: #f2f2f2;
+	--vt-c-cyan-brighter: hsl(189, 100%, 50%);
+	--vt-c-cyan-bright: hsl(189, 100%, 30%);
+	--vt-c-cyan-dark: hsl(190, 100%, 15%);
+	--vt-c-cyan-dark-black: hsl(190, 100%, 5%);
+	--vt-c-orange-brighter: hsl(329, 100%, 50%);
+	--vt-c-orange-bright: hsl(329, 100%, 30%);
+	--vt-c-orange-dark: hsl(329, 100%, 15%);
+	--vt-c-orange-dark-black: hsl(329, 100%, 5%);
+	--vt-c-gray: #cecece;
+	--vt-c-gray-dark: #303030;
+	--vt-c-white: #f2f2f2;
 
-  --vt-c-red: rgb(161, 0, 0);
-  --vt-c-red-dark: rgb(68, 0, 0);
-  --vt-c-dark-transparent: rgba(0, 0, 0, 0.9);
-  --vt-c-dark-transparent-9: rgba(0, 0, 0, 0.9);
+	--vt-c-red: rgb(161, 0, 0);
+	--vt-c-red-dark: rgb(68, 0, 0);
+	--vt-c-dark-transparent: rgba(0, 0, 0, 0.9);
+	--vt-c-dark-transparent-9: rgba(0, 0, 0, 0.9);
 }
 
 /* semantic color variables for this project */
 :root {
-  --color-background: var(--vt-c-white);
-  --color-background-dark-transparent: var(--vt-c-dark-transparent);
-  --color-background-dark-red: var(--vt-c-red);
+	--color-background: var(--vt-c-white);
+	--color-background-dark-transparent: var(--vt-c-dark-transparent);
+	--color-background-dark-red: var(--vt-c-red);
 
-  --color-background-ct: var(--vt-c-cyan-dark);
-  --color-background-t: var(--vt-c-orange-dark);
+	--color-background-ct: var(--vt-c-cyan-dark);
+	--color-background-t: var(--vt-c-orange-dark);
 
-  --color-background-ct-bright: var(--vt-c-cyan-bright);
-  --color-background-t-bright: var(--vt-c-orange-bright);
+	--color-background-ct-bright: var(--vt-c-cyan-bright);
+	--color-background-t-bright: var(--vt-c-orange-bright);
 
-  --color-background-ct-dark: var(--vt-c-cyan-dark-black);
-  --color-background-t-dark: var(--vt-c-orange-dark-black);
+	--color-background-ct-dark: var(--vt-c-cyan-dark-black);
+	--color-background-t-dark: var(--vt-c-orange-dark-black);
 
-  --color-background-gray: var(--vt-c-gray-dark);
+	--color-background-gray: var(--vt-c-gray-dark);
 
-  --color-text-ct-bright: var(--vt-c-cyan-brighter);
-  --color-text-ct: var(--vt-c-cyan-bright);
-  --color-text-t-bright: var(--vt-c-orange-brighter);
-  --color-text-t: var(--vt-c-orange-bright);
-  --color-text-gray: var(--vt-c-gray);
-  --color-text-white: var(--vt-c-white);
+	--color-text-ct-bright: var(--vt-c-cyan-brighter);
+	--color-text-ct: var(--vt-c-cyan-bright);
+	--color-text-t-bright: var(--vt-c-orange-brighter);
+	--color-text-t: var(--vt-c-orange-bright);
+	--color-text-gray: var(--vt-c-gray);
+	--color-text-white: var(--vt-c-white);
 
-  --gradient-health-low: var(--vt-c-red-dark);
+	--gradient-health-low: var(--vt-c-red-dark);
 
-  --gradient-health-ct: -webkit-linear-gradient(0deg, var(--vt-c-cyan-bright), var(--vt-c-cyan-dark));
-  --gradient-health-ct-vertical: -webkit-linear-gradient(90deg, var(--vt-c-cyan-bright), var(--vt-c-cyan-dark));
+	--gradient-health-ct: -webkit-linear-gradient(0deg, var(--vt-c-cyan-bright), var(--vt-c-cyan-dark));
+	--gradient-health-ct-vertical: -webkit-linear-gradient(90deg, var(--vt-c-cyan-bright), var(--vt-c-cyan-dark));
 
-  --gradient-health-t: -webkit-linear-gradient(0deg, var(--vt-c-orange-bright), var(--vt-c-orange-dark));
-  --gradient-health-t-vertical: -webkit-linear-gradient(90deg, var(--vt-c-orange-bright), var(--vt-c-orange-dark));
+	--gradient-health-t: -webkit-linear-gradient(0deg, var(--vt-c-orange-bright), var(--vt-c-orange-dark));
+	--gradient-health-t-vertical: -webkit-linear-gradient(90deg, var(--vt-c-orange-bright), var(--vt-c-orange-dark));
 }
 
 body {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  font-size: 15px;
+	font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	font-size: 15px;
 }

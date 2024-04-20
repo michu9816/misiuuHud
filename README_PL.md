@@ -126,4 +126,5 @@ npm run electron:build
 
 ## Radar
 
-Rada inspirowany radarem z projektu boltgolt https://github.com/boltgolt/boltobserv. Grafiki map pochodzą z simpleradar https://readtldr.gg/simpleradar
+https://readtldr.gg/simpleradar
+https://github.com/boltgolt/boltobserv

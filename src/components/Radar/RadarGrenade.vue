@@ -23,8 +23,8 @@ const position = computed(() => {
 		return undefined;
 	}
 
-	let leftInPercent = ((parseInt(positions[0]) + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
-	let topInPercent = ((parseInt(positions[1]) + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	let leftInPercent = ((parseInt(positions[0]) + props.mapSettings?.offset.x) / props.mapSettings?.scale / 1024) * 100;
+	let topInPercent = ((parseInt(positions[1]) + props.mapSettings?.offset.y) / props.mapSettings?.scale / 1024) * 100;
 	const percentCorrection = getPercentCorrection(positions[2]);
 	if (percentCorrection !== undefined) {
 		leftInPercent += percentCorrection?.x;
@@ -39,8 +39,8 @@ const flamePosition = function (flame) {
 		return undefined;
 	}
 
-	let leftInPercent = ((parseInt(positions[0]) / 2 + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
-	let topInPercent = ((parseInt(positions[1]) / 2 + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	let leftInPercent = ((parseInt(positions[0]) / 2 + props.mapSettings?.offset.x) / props.mapSettings?.scale / 1024) * 100;
+	let topInPercent = ((parseInt(positions[1]) / 2 + props.mapSettings?.offset.y) / props.mapSettings?.scale / 1024) * 100;
 	const percentCorrection = getPercentCorrection(positions[2] / 2);
 	if (percentCorrection !== undefined) {
 		leftInPercent += percentCorrection?.x;

@@ -14,8 +14,8 @@ const position = computed(() => {
 		return undefined;
 	}
 
-	let leftInPercent = ((parseInt(positions[0]) + props.mapSettings?.offset.x) / props.mapSettings?.resolution / 1024) * 100;
-	let topInPercent = ((parseInt(positions[1]) + props.mapSettings?.offset.y) / props.mapSettings?.resolution / 1024) * 100;
+	let leftInPercent = ((parseInt(positions[0]) + props.mapSettings?.offset.x) / props.mapSettings?.scale / 1024) * 100;
+	let topInPercent = ((parseInt(positions[1]) + props.mapSettings?.offset.y) / props.mapSettings?.scale / 1024) * 100;
 	const percentCorrection = getPercentCorrection(positions);
 	if (percentCorrection !== undefined) {
 		leftInPercent += percentCorrection?.x;

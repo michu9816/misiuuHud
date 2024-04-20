@@ -118,4 +118,5 @@ npm run electron:build
 
 ## Radar
 
-Rada based on project boltgolt https://github.com/boltgolt/boltobserv. Maps graphics by https://readtldr.gg/simpleradar
+https://readtldr.gg/simpleradar
+https://github.com/boltgolt/boltobserv

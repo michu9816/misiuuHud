@@ -95,7 +95,7 @@ const playersEdgePositions = computed(() => {
 			return undefined;
 		}
 		const position = parseFloat(positions?.split(',')[typesOrder.findIndex((obj) => obj == type)]);
-		let percent = ((position + mapSettings.value?.offset[type]) / mapSettings.value?.resolution / 1024) * 100;
+		let percent = ((position + mapSettings.value?.offset[type]) / mapSettings.value?.scale / 1024) * 100;
 		const percentCorrection = getPercentCorrection(positions?.split(',')[2]);
 		if (percentCorrection !== undefined) {
 			percent += percentCorrection[type];

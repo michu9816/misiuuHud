@@ -1,9 +1,5 @@
 {
-	"version": {
-		"radar": 3,
-		"format": 3
-	},
-	"resolution": 4.96,
+	"scale": 4.96,
 	"offset": {
 		"x": 3890,
 		"y": 3800
@@ -24,10 +20,6 @@
 			}
 		}
 	],
-	"advisoryPosition": {
-		"x": 68,
-		"y": 84
-	},
 	"zRange": {
 		"min": 11680,
 		"max": 11920
