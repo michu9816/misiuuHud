@@ -41,36 +41,27 @@ const statisticHeight = computed(() => {
 	let height = 0;
 
 	if (!matchLive.value && guiStore.getData().playersStatistics.show) {
-		height = getHeightInPercent() * 0.7 + 50;
+		height = parseInt(statisticValue.value) * getMultiplier() + 50;
 	}
 
-	function getHeightInPercent() {
-		const getHighestPlayerStatistic = Math.max.apply(
-			null,
-			playersStore.getPlayers()?.map((obj) => playersStore.getPlayerDataById(obj.id)?.statistics[statisticToShow.value])
-		);
-
+	function getMultiplier() {
 		switch (statisticToShow.value) {
 			case 'kd':
-				return getPercent(2.0);
+				return 30;
 			case 'kills':
-				return getPercent(30);
+				return 2;
 			case 'assists':
-				return getPercent(8);
+				return 8;
 			case 'equipment':
-				return getPercent(5000);
+				return 0.01;
 			case 'adr':
-				return getPercent(150);
+				return 0.45;
 			case 'hs':
-				return getPercent(100);
+				return 0.7;
 			default:
-				return getPercent(1);
-		}
-		function getPercent(defaultValue) {
-			return (statisticValue.value / Math.max(getHighestPlayerStatistic, defaultValue)) * 100;
+				return 1;
 		}
 	}
-
 	return height;
 });
 </script>
