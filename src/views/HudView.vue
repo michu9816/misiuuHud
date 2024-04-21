@@ -2,7 +2,7 @@
 	<PlayerData></PlayerData>
 	<PlayersRemaining></PlayersRemaining>
 	<TopPanel></TopPanel>
-	<StatisticsChart></StatisticsChart>
+	<!-- <StatisticsChart></StatisticsChart> -->
 	<BottomPanel></BottomPanel>
 	<MapRadar v-if="showRadar"></MapRadar>
 </template>
@@ -10,7 +10,7 @@
 <script>
 import BottomPanel from '@/components/BottomPanel.vue';
 import TopPanel from '@/components/TopPanel.vue';
-import StatisticsChart from '@/components/StatisticsChart.vue';
+// import StatisticsChart from '@/components/StatisticsChart.vue';
 import PlayerData from '@/components/PlayerData.vue';
 import PlayersRemaining from '@/components/PlayersRemaining.vue';
 import MapRadar from '@/components/MapRadar.vue';
@@ -26,7 +26,7 @@ export default {
 		BottomPanel,
 		TopPanel,
 		PlayerData,
-		StatisticsChart,
+		// StatisticsChart,
 		PlayersRemaining,
 		MapRadar,
 	},

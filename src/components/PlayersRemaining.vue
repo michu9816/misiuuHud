@@ -30,7 +30,7 @@ const playersAlive = function (team) {
 <style scoped>
 .players {
 	position: absolute;
-	top: 65px;
+	top: 62px;
 	width: 100px;
 	padding: 5px 0;
 	background: var(--color-background-dark-transparent);

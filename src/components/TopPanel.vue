@@ -1,11 +1,10 @@
 <script setup>
-import ScoreBox from "@/components/Top/ScoreBox.vue";
-import TeamBox from "@/components/Top/TeamBox.vue";
-import TimeBox from "@/components/Top/TimeBox.vue";
-import SeriesScore from "@/components/Top/SeriesScore.vue";
-import SeriesMaps from "@/components/Top/SeriesMaps.vue";
-import RoundPhase from "@/components/Top/RoundPhase.vue";
-import RoundWinner from "@/components/Top/RoundWinner.vue";
+import ScoreBox from '@/components/Top/ScoreBox.vue';
+import TeamBox from '@/components/Top/TeamBox.vue';
+import TimeBox from '@/components/Top/TimeBox.vue';
+import SeriesMaps from '@/components/Top/SeriesMaps.vue';
+import RoundPhase from '@/components/Top/RoundPhase.vue';
+import RoundWinner from '@/components/Top/RoundWinner.vue';
 </script>
 
 <template>
@@ -16,7 +15,6 @@ import RoundWinner from "@/components/Top/RoundWinner.vue";
 		<ScoreBox team="t"></ScoreBox>
 		<TeamBox team="t"></TeamBox>
 	</div>
-	<SeriesScore></SeriesScore>
 	<SeriesMaps></SeriesMaps>
 	<RoundPhase></RoundPhase>
 	<RoundWinner></RoundWinner>
@@ -36,4 +34,3 @@ import RoundWinner from "@/components/Top/RoundWinner.vue";
 	overflow: hidden;
 }
 </style>
-

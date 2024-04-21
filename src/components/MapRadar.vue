@@ -1,5 +1,22 @@
 <template>
-	<div class="minimap" v-if="showRadar">
+	<div
+		class="minimap"
+		v-if="showRadar"
+		:class="{
+			mapInformations: maps.length,
+		}">
+		<div
+			class="maps"
+			:class="{
+				showAll: maps.length != 1 && !matchLive,
+			}">
+			<div class="map" v-for="(map, index) in maps" :key="map" :class="{ playing: currentMap == map?.name || maps.length == 1 }">
+				<div class="name">
+					{{ map?.name }}
+					<div class="description">{{ series == 'bo1' ? 'BO1' : index == 2 ? 'Decider' : `Pick ${map?.picked}` }}</div>
+				</div>
+			</div>
+		</div>
 		<div
 			class="zoomable"
 			:style="[
@@ -30,9 +47,11 @@ import RadarGrenade from './Radar/RadarGrenade.vue';
 import BombIcon from './Radar/BombIcon.vue';
 import { usePlayersStore } from '@/stores/players.js';
 import { useMatchStore } from '@/stores/match';
+import { useSeriesStore } from '@/stores/series';
 
 const playersStore = usePlayersStore();
 const matchStore = useMatchStore();
+const seriesStore = useSeriesStore();
 
 const players = computed(() => {
 	return playersStore.getRadarPlayers();
@@ -58,6 +77,10 @@ const getMapBackground = computed(() => {
 const mapSettings = computed(() => {
 	const map = matchStore.getData();
 	return require(`@/assets/maps/${map}/meta.json`);
+});
+
+const matchLive = computed(() => {
+	return matchStore.getPhase()?.round == 'live';
 });
 
 const playersEdgePositions = computed(() => {
@@ -134,6 +157,32 @@ const mapCenter = computed(() => {
 	let yAvg = -50 + ((playersEdgePositions.value?.y?.max + playersEdgePositions.value?.y?.min) / 2) * Math.min(1, scale.value - 0.3);
 	return `margin-left:calc(${Math.round(xAvg)}%);margin-top:calc(${scale.value > 1.2 ? Math.round(yAvg) : 0}%)`;
 });
+
+const teams = computed(() => {
+	return matchStore.getScore().teams;
+});
+
+const currentMap = computed(() => {
+	return matchStore.getData()?.split('_')[1];
+});
+
+const series = computed(() => {
+	return seriesStore.getSeriesType();
+});
+
+const maps = computed(() => {
+	if (series.value == 'bo1') {
+		return [{ name: currentMap?.value }];
+	} else if (series.value == 'bo3') {
+		return seriesStore
+			.getMaps()
+			?.filter((obj) => obj.order < 100)
+			?.map((obj) => {
+				return { ...obj, side: teams.value?.ct == obj.picked };
+			});
+	}
+	return [];
+});
 </script>
 
 <style scoped>
@@ -148,9 +197,12 @@ const mapCenter = computed(() => {
 	border-radius: 5px;
 	overflow: hidden;
 }
+.minimap.mapInformations {
+	height: 375px;
+}
 .zoomable {
-	height: 100%;
-	width: 100%;
+	width: 350px;
+	height: 350px;
 	transition-duration: 3s;
 }
 .map {
@@ -159,5 +211,53 @@ const mapCenter = computed(() => {
 	left: 0;
 	top: 0;
 	background-size: contain;
+}
+.maps {
+	display: flex;
+	font-size: 12px;
+}
+.maps .map {
+	background: var(--color-background-gray);
+	padding: 5px 0;
+	text-transform: uppercase;
+	color: white;
+	transition-duration: 0.5s;
+	font-weight: bold;
+}
+.maps.showAll .map.playing {
+	background: #fff;
+	color: #000;
+}
+.maps .name {
+	display: flex;
+	justify-content: center;
+	padding: 0 10px;
+}
+.maps:not(.showAll) .name {
+	justify-content: space-between;
+}
+.maps:not(.showAll) .map:not(.playing),
+.maps.showAll .map .description {
+	width: 0px;
+	overflow: hidden;
+}
+.maps .description {
+	height: 0px;
+}
+.maps.showAll .description {
+	width: 0px;
+	opacity: 0;
+}
+.maps:not(.showAll) .description {
+	animation: fadeIn 3s;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 </style>

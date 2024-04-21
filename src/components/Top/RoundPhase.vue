@@ -111,7 +111,7 @@ watch(readedPhaseTime, (val) => {
 }
 
 .information.visible {
-	top: 65px;
+	top: 62px;
 }
 
 .information.t {

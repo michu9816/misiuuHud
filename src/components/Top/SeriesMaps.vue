@@ -21,13 +21,35 @@ const score = computed(() => {
 	};
 });
 const maps = computed(() => {
-	return seriesStore.getMaps()?.filter((obj) => obj.order < 100);
+	return seriesStore
+		.getMaps()
+		?.filter((obj) => obj.order < 100)
+		?.map((obj) => {
+			return {
+				...obj,
+				winner:
+					parseInt(obj.scores.find((score) => score.team == teams.value?.t)?.points) >
+					parseInt(obj.scores.find((score) => score.team == teams.value?.ct)?.points)
+						? 't'
+						: parseInt(obj.scores.find((score) => score.team == teams.value?.t)?.points) < // eslint-disable-next-line
+						  parseInt(obj.scores.find((score) => score.team == teams.value?.ct)?.points)
+						? 'ct'
+						: '',
+			};
+		});
 });
+
+const roundInfo = matchStore.getPhase();
 </script>
 <template>
-	<div class="box" v-if="score.show">
+	<div
+		class="box"
+		:class="{
+			timeout: roundInfo?.timeout,
+		}"
+		v-if="score.show">
 		<div class="maps">
-			<div class="map" v-for="map in maps" :key="map.name">
+			<div class="map" v-for="map in maps" :key="map.name" :class="[map.winner]">
 				<div class="pick left" :class="{ ct: map.picked == teams.ct && map.order < 3 }">PICK</div>
 				<div class="score">{{ map.scores.find((obj) => obj.team == teams.ct)?.points || '-' }}</div>
 				<div>{{ map.name }}</div>
@@ -43,18 +65,36 @@ const maps = computed(() => {
 	display: flex;
 	justify-content: center;
 	color: white;
-	animation: fadeIn 0.5s;
+	animation: fadeIn 2.5s;
+	position: fixed;
+	top: 62px;
+	left: calc(50% - 125px);
+	transition-duration: 0.5s;
+}
+.box.timeout {
+	top: 112px;
+	border-radius: 5px;
+	overflow: hidden;
 }
 .maps {
 	background: black;
 	border-radius: 0 0 5px 5px;
-	margin-top: 5px;
+	gap: 5px;
+	display: flex;
+	flex-direction: column;
+	font-size: 12px;
+	text-transform: uppercase;
 }
 .map {
 	display: grid;
 	grid-template-columns: 45px 35px 90px 35px 45px;
-	margin: 5px 0;
 	padding: 5px 0;
+}
+.map.t {
+	background: -webkit-linear-gradient(right, var(--color-background-t), #0000ff00);
+}
+.map.ct {
+	background: -webkit-linear-gradient(left, var(--color-background-ct), #0000ff00);
 }
 .map div {
 	display: flex;
@@ -65,7 +105,6 @@ const maps = computed(() => {
 	font-weight: bold;
 	font-size: 20px;
 }
-
 .pick.t {
 	background: var(--color-background-t);
 }
@@ -85,6 +124,9 @@ const maps = computed(() => {
 
 @keyframes fadeIn {
 	0% {
+		opacity: 0;
+	}
+	80% {
 		opacity: 0;
 	}
 	100% {
