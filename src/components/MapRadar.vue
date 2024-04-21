@@ -215,6 +215,8 @@ const maps = computed(() => {
 .maps {
 	display: flex;
 	font-size: 12px;
+	z-index: 1;
+	position: relative;
 }
 .maps .map {
 	background: var(--color-background-gray);
