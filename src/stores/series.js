@@ -37,7 +37,7 @@ export const useSeriesStore = defineStore('series', () => {
 			],
 		},
 		{
-			name: 'inferno',
+			name: 'dust2',
 			picked: undefined,
 			order: 103,
 			scores: [
@@ -52,7 +52,7 @@ export const useSeriesStore = defineStore('series', () => {
 			],
 		},
 		{
-			name: 'nuke',
+			name: 'inferno',
 			picked: undefined,
 			order: 104,
 			scores: [
@@ -67,7 +67,7 @@ export const useSeriesStore = defineStore('series', () => {
 			],
 		},
 		{
-			name: 'mirage',
+			name: 'nuke',
 			picked: undefined,
 			order: 105,
 			scores: [
@@ -82,7 +82,7 @@ export const useSeriesStore = defineStore('series', () => {
 			],
 		},
 		{
-			name: 'overpass',
+			name: 'mirage',
 			picked: undefined,
 			order: 106,
 			scores: [
@@ -97,9 +97,24 @@ export const useSeriesStore = defineStore('series', () => {
 			],
 		},
 		{
-			name: 'vertigo',
+			name: 'overpass',
 			picked: undefined,
 			order: 107,
+			scores: [
+				{
+					team: undefined,
+					points: undefined,
+				},
+				{
+					team: undefined,
+					points: undefined,
+				},
+			],
+		},
+		{
+			name: 'vertigo',
+			picked: undefined,
+			order: 108,
 			scores: [
 				{
 					team: undefined,
