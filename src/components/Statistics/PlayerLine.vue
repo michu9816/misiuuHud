@@ -1,15 +1,15 @@
 <template>
-	<div class="player" :class="[data.team]">
+	<div class="player" :class="[data.team, { visible, twoColumns: statistics?.length == 2 }]">
 		<div class="nick">{{ data.name }}</div>
 		<div class="statistics">
 			<div class="statistic left">
-				<div class="background" :style="{ width: `${statisticsWidth[0]}%` }"></div>
+				<div class="background" :style="{ width: visible ? `${statisticsWidth[0]}%` : '0%' }"></div>
 				<div class="value">{{ statistics[0] }}</div>
 			</div>
-			<div class="statistic middle" v-if="true && statistics[1]">{{ statistics[1] }}</div>
+			<div class="statistic middle" v-if="true && statistics[2]">{{ statistics[1] }}</div>
 			<div class="statistic right">
-				<div class="background" :style="{ width: `${statisticsWidth[1]}%` }"></div>
-				<div class="value">{{ statistics[2] }}</div>
+				<div class="background" :style="{ width: visible ? `${statisticsWidth[1]}%` : '0%' }"></div>
+				<div class="value">{{ statistics[2] || statistics[1] }}</div>
 			</div>
 		</div>
 	</div>
@@ -17,16 +17,17 @@
 
 <script setup>
 import { usePlayersStore } from '@/stores/players';
-import { defineProps, computed } from 'vue';
-const props = defineProps(['data', 'maxLeft', 'maxRight', 'type']);
+import { defineProps, computed, onMounted, ref } from 'vue';
+const props = defineProps(['data', 'maxLeft', 'maxRight', 'type', 'index']);
 
 const extendedStatistics = computed(() => {
 	return usePlayersStore().getPlayerDataById(props.data.id)?.statistics;
 });
 
 const statistics = computed(() => {
-	console.log(extendedStatistics.value);
 	switch (props.type) {
+		case 'duels':
+			return [extendedStatistics.value?.duels.lost, extendedStatistics.value?.duels.won];
 		case 'default':
 			return [
 				props.data?.match_stats?.deaths,
@@ -34,14 +35,22 @@ const statistics = computed(() => {
 				props.data?.match_stats?.kills,
 			];
 		case 'extended':
-			return [props.data?.match_stats?.deaths, extendedStatistics.value?.adr, props.data?.match_stats?.kills];
+			return [props.data?.match_stats?.deaths, Math.round(extendedStatistics.value?.adr), props.data?.match_stats?.kills];
 		default:
 			return undefined;
 	}
 });
 
 const statisticsWidth = computed(() => {
-	return [Math.round((statistics.value[0] / props.maxLeft) * 100), Math.round((statistics.value[2] / props.maxRight) * 100)];
+	const values = [statistics.value[0], statistics.value[2] || statistics.value[1]];
+	return [Math.round((values[0] / props.maxLeft) * 100), Math.round((values[1] / props.maxRight) * 100)];
+});
+
+const visible = ref(false);
+onMounted(() => {
+	setTimeout(() => {
+		visible.value = true;
+	}, props.index * 200 + 3000);
 });
 </script>
 <style scoped>
@@ -52,6 +61,11 @@ const statisticsWidth = computed(() => {
 	margin-top: 5px;
 	text-shadow: 0 0 5px #000;
 	background: -webkit-linear-gradient(left, #ff000000, rgb(255 255 255 / 10%), #ffffff00);
+	opacity: 0;
+	transition-duration: 0.5s;
+}
+.player.visible {
+	opacity: 1;
 }
 .player .nick {
 	font-size: 18px;
@@ -88,9 +102,13 @@ const statisticsWidth = computed(() => {
 	display: grid;
 	grid-template-columns: 200px 70px 200px;
 }
+.player.twoColumns .statistics {
+	grid-template-columns: 235px 235px;
+}
 .background {
 	width: 0%;
 	transition-duration: 1s;
+	transition-delay: 0.5s;
 }
 .statistic.left .background {
 	right: 0;

@@ -1,5 +1,5 @@
 <template>
-	<div class="player">
+	<div class="player" :class="{ twoColumns: data.length == 3 }">
 		<div class="nick">{{ data[0] }}</div>
 		<div class="statistics">
 			<div class="statistic left">
@@ -7,7 +7,7 @@
 			</div>
 			<div class="statistic middle" v-if="true && data[3]">{{ data[2] }}</div>
 			<div class="statistic right">
-				<div class="value">{{ data[3] }}</div>
+				<div class="value">{{ data[3] || data[2] }}</div>
 			</div>
 		</div>
 	</div>
@@ -54,6 +54,9 @@ console.log(props.data);
 .player .statistics {
 	display: grid;
 	grid-template-columns: 200px 70px 200px;
+}
+.player.twoColumns .statistics {
+	grid-template-columns: 235px 235px;
 }
 .background {
 	width: 0%;

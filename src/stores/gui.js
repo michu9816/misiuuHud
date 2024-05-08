@@ -24,26 +24,45 @@ export const useGuiStore = defineStore('gui', () => {
 
 	function setPlayersDamage(players, round) {
 		try {
-			for (let player of Object.keys(players)) {
-				let playerData = players[player];
+			let playersList = Object.keys(players);
+			playersList = playersList.map((obj) => players[obj]);
+			for (let player of playersList) {
+				let playerData = player;
 				let observerSlot = playerData.observer_slot;
 				if (observerSlot == 0) {
 					observerSlot = 10;
 				}
+				const playersAlive = playersList.filter((obj) => obj.state?.health);
+
+				const duelKills = playersAlive.length == 9 ? playerData.state.round_kills || 0 : undefined;
+				const duelDeaths = playersAlive.length == 9 ? (playerData.state.health == 0 ? 1 : 0) : undefined;
 
 				let dmgData = {
-					player,
+					player: player.id,
 					dmg: playerData.state.round_totaldmg,
 					hs: playerData.state.round_killhs,
+					duelDeaths,
+					duelKills,
 					round,
 				};
 
-				const playerStatisticInThisRound = data.value.playersStatistics.data.find((obj) => obj.player == player && obj.round == round);
+				const playerStatisticInThisRound = data.value.playersStatistics.data.find((obj) => obj.player == player.id && obj.round == round);
 
 				if (playerStatisticInThisRound) {
-					if (playerStatisticInThisRound.dmg != playerData.state.round_totaldmg || playerStatisticInThisRound.hs != playerData.state.round_killhs) {
+					if (
+						playerStatisticInThisRound.dmg != playerData.state.round_totaldmg ||
+						playerStatisticInThisRound.hs != playerData.state.round_killhs ||
+						playerStatisticInThisRound.duelKills != duelKills ||
+						playerStatisticInThisRound.duelDeaths != duelDeaths
+					) {
 						playerStatisticInThisRound.dmg = playerData.state.round_totaldmg;
 						playerStatisticInThisRound.hs = playerData.state.round_killhs;
+						if (playerStatisticInThisRound.duelKills == undefined) {
+							playerStatisticInThisRound.duelKills = duelKills;
+						}
+						if (playerStatisticInThisRound.duelDeaths == undefined) {
+							playerStatisticInThisRound.duelDeaths = duelDeaths;
+						}
 					}
 				} else {
 					data.value.playersStatistics.data.push(dmgData);
@@ -74,6 +93,25 @@ export const useGuiStore = defineStore('gui', () => {
 		return hsSum;
 	}
 
+	function getDuels(id) {
+		let duelsWon = data.value.playersStatistics.data
+			.filter((obj) => obj.player == id && obj.duelKills !== undefined)
+			?.map((obj) => obj.duelKills)
+			.reduce(function (a, b) {
+				return a + b;
+			}, 0);
+		let duelsLost = data.value.playersStatistics.data
+			.filter((obj) => obj.player == id && obj.duelDeaths !== undefined)
+			?.map((obj) => obj.duelDeaths)
+			.reduce(function (a, b) {
+				return a + b;
+			}, 0);
+		return {
+			won: duelsWon || 0,
+			lost: duelsLost || 0,
+		};
+	}
+
 	function restartStatistics() {
 		data.value.playersStatistics = {
 			data: [],
@@ -87,6 +125,7 @@ export const useGuiStore = defineStore('gui', () => {
 	}
 	return {
 		getData,
+		getDuels,
 		setPlayersDamage,
 		getPlayerDamage,
 		getPlayerHS,
