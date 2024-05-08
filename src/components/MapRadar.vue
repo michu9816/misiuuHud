@@ -35,7 +35,6 @@
 			<RadarGrenade :map-settings="mapSettings" v-for="grenade in grenades" :key="grenade.id" :data="grenade.data"></RadarGrenade>
 			<BombIcon :map-settings="mapSettings" :data="matchStore.getPhase()?.bombData"></BombIcon>
 			<!-- {{ playersEdgePositions }} -->
-			{{ scale }}
 		</div>
 	</div>
 </template>

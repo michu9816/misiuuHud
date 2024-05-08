@@ -2,6 +2,7 @@
 	<PlayerData></PlayerData>
 	<PlayersRemaining></PlayersRemaining>
 	<TopPanel></TopPanel>
+	<TimeoutStatistics v-if="showTimeoutStatistics"></TimeoutStatistics>
 	<!-- <StatisticsChart></StatisticsChart> -->
 	<BottomPanel></BottomPanel>
 	<MapRadar v-if="showRadar"></MapRadar>
@@ -14,6 +15,7 @@ import TopPanel from '@/components/TopPanel.vue';
 import PlayerData from '@/components/PlayerData.vue';
 import PlayersRemaining from '@/components/PlayersRemaining.vue';
 import MapRadar from '@/components/MapRadar.vue';
+import TimeoutStatistics from '@/components/TimeoutStatistics.vue';
 import { ipcRenderer } from 'electron';
 import { usePlayersStore } from '@/stores/players';
 import { useMatchStore } from '@/stores/match';
@@ -26,6 +28,7 @@ export default {
 		BottomPanel,
 		TopPanel,
 		PlayerData,
+		TimeoutStatistics,
 		// StatisticsChart,
 		PlayersRemaining,
 		MapRadar,
@@ -75,6 +78,9 @@ export default {
 		},
 		showRadar() {
 			return this.seriesStore.getRadarStatus();
+		},
+		showTimeoutStatistics() {
+			return this.matchStore?.getPhase()?.timeout;
 		},
 	},
 	watch: {

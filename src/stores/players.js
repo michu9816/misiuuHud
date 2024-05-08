@@ -163,6 +163,7 @@ export const usePlayersStore = defineStore('players', () => {
 		playerData.statistics.rounds = matchStore.getScore()?.round;
 		playerData.statistics.equipment = playerData.statistics.equip_value;
 		playerData.statistics.assists = playerData.statistics.assists;
+		playerData.statistics.duels = extendedStatistics() ? guiStore.getDuels(id) : { won: undefined, lost: undefined };
 
 		return playerData;
 	}
