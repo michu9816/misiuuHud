@@ -50,7 +50,7 @@ const visible = ref(false);
 onMounted(() => {
 	setTimeout(() => {
 		visible.value = true;
-	}, props.index * 200 + 3000);
+	}, props.index * 200 + 1000);
 });
 </script>
 <style scoped>

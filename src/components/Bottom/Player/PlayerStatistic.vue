@@ -1,21 +1,15 @@
 <script setup>
 import { useGuiStore } from '@/stores/gui';
-import { useMatchStore } from '@/stores/match';
 import { usePlayersStore } from '@/stores/players';
 import { computed, defineProps } from 'vue';
 
 const playersStore = usePlayersStore();
-const matchStore = useMatchStore();
 const guiStore = useGuiStore();
 
-const props = defineProps(['playerId']);
+const props = defineProps(['playerId', 'show']);
 
 const playerData = computed(() => {
 	return playersStore.getPlayerDataById(props.playerId);
-});
-
-const matchLive = computed(() => {
-	return matchStore.getPhase()?.match == 'live' && matchStore.getPhase()?.round != 'freezetime';
 });
 
 const statisticToShow = computed(() => {
@@ -39,8 +33,7 @@ const statisticValueWithPrefix = computed(() => {
 
 const statisticHeight = computed(() => {
 	let height = 0;
-
-	if (!matchLive.value && guiStore.getData().playersStatistics.show) {
+	if (props.show) {
 		height = parseInt(statisticValue.value) * getMultiplier() + 50;
 	}
 
@@ -67,9 +60,7 @@ const statisticHeight = computed(() => {
 </script>
 
 <template>
-	<!-- Access the state directly from the store -->
-	<!-- {{ playerData.statistics }} -->
-	<div class="statisticsBackground" :class="{ visible: statisticHeight > 0 }">
+	<div class="statisticsBackground" :class="{ hide: !statisticHeight }">
 		<div
 			class="darkBackground"
 			:class="[playerData.team]"
@@ -95,17 +86,18 @@ const statisticHeight = computed(() => {
 }
 
 .statisticsBackground {
-	height: 0px;
 	background: var(--color-background-dark-transparent);
 	border-radius: 5px 5px 0 0;
 	overflow: hidden;
 	display: flex;
 	align-items: flex-end;
 	transition-duration: 0.5s;
+	animation: growUp 0.5s;
+	height: 120px;
 }
 
-.statisticsBackground.visible {
-	height: 120px;
+.statisticsBackground.hide {
+	height: 0px;
 }
 
 .darkBackground {
@@ -128,5 +120,13 @@ const statisticHeight = computed(() => {
 .value {
 	font-weight: bold;
 	text-shadow: 0 0 5px black;
+}
+@keyframes growUp {
+	0% {
+		height: 0px;
+	}
+	100% {
+		height: 120px;
+	}
 }
 </style>

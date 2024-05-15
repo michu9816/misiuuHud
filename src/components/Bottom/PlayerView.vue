@@ -1,6 +1,8 @@
 <script setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, watch, ref } from 'vue';
 import { usePlayersStore } from '@/stores/players';
+import { useMatchStore } from '@/stores/match';
+import { useGuiStore } from '@/stores/gui';
 
 import PlayerHealthAndNickname from '@/components/Bottom/Player/PlayerHealthAndNickname.vue';
 import PlayerKDMoney from '@/components/Bottom/Player/PlayerKDMoney.vue';
@@ -18,10 +20,27 @@ const playerData = computed(() => {
 const isThisPlayerWatching = computed(() => {
 	return playerData.value.id == playersStore.getWatchingPlayerBasicData()?.id;
 });
+
+const matchStore = useMatchStore();
+const guiStore = useGuiStore();
+const createStatisticsUnderNicknames = ref(false);
+
+const showStatisticsUnderNicknames = computed(() => {
+	return matchStore.getPhase()?.match == 'live' && matchStore.getPhase()?.round == 'freezetime' && guiStore.getData().playersStatistics.show;
+});
+
+watch(showStatisticsUnderNicknames, (val) => {
+	if (val) {
+		createStatisticsUnderNicknames.value = true;
+	} else {
+		setTimeout(() => {
+			createStatisticsUnderNicknames.value = false;
+		}, 1000);
+	}
+});
 </script>
 
 <template>
-	<!-- Access the state directly from the store -->
 	<div>
 		<div
 			class="playerInformations darkBackground"
@@ -36,7 +55,7 @@ const isThisPlayerWatching = computed(() => {
 			<PlayerHealthAndNickname :playerId="props.playerId" />
 			<PlayerKDMoney :playerId="props.playerId" />
 		</div>
-		<PlayerStatistic :playerId="props.playerId" />
+		<PlayerStatistic :playerId="props.playerId" :show="showStatisticsUnderNicknames" v-if="createStatisticsUnderNicknames" />
 	</div>
 </template>
 

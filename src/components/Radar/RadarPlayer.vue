@@ -97,7 +97,7 @@ const observerSlot = computed(() => {
 	border-radius: 0 50% 50%;
 	z-index: 2;
 	position: absolute;
-	transition-duration: 0.1s;
+	transition: filter 0.1s, border 0.1s;
 	border: 1px solid rgba(255, 255, 255, 0.5);
 }
 .icon.watching {
@@ -122,7 +122,6 @@ const observerSlot = computed(() => {
 	align-items: center;
 	color: white;
 	z-index: 2;
-	transition-duration: 0.1s;
 }
 .T .icon {
 	background: var(--color-background-t-bright);

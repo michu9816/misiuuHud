@@ -102,12 +102,13 @@ const chartOpacity = computed(() => {
 	let type;
 	const phase = useMatchStore()?.getPhase()?.timeout;
 	const showChart = ['CT', 'T'].includes(phase);
+	const isEvenTimeout = (useMatchStore()?.getScore()?.timeouts?.t + useMatchStore()?.getScore()?.timeouts?.ct) % 2;
 	const round = parseInt(useMatchStore()?.getScore()?.round);
 	const time = roundTime.value;
 
-	if (showChart) {
+	if (showChart && isEvenTimeout) {
 		if (usePlayersStore()?.extendedStatistics()) {
-			if (time > 15.5) {
+			if (time > 10.5) {
 				type = 'duels';
 			} else {
 				type = 'extended';
@@ -115,7 +116,7 @@ const chartOpacity = computed(() => {
 		} else {
 			type = 'default';
 		}
-	} else if (phase == 'paused' || phase == 'technical') {
+	} else if (phase == 'paused' || phase == 'technical' || showChart) {
 		type = 'scoreboard';
 	}
 

@@ -99,17 +99,19 @@ export const useMatchStore = defineStore('match', () => {
 			const someoneHighDMG = playersStore.someoneHighDMG();
 			const anyTeamIsPoor = playersStore.anyTeamIsPoor();
 			const someoneHeadshoted3 = playersStore.someoneHeadshoted3();
-			guiStore.setPlayerStatisticVisibility(true);
+			guiStore.setPlayerStatisticVisibility(roundSideNr % 3 == 0);
 			if (roundSideNr < 3 && roundSideNr > 1) {
 				statistic = 'equipment';
 			} else if (roundSideNr >= 3) {
 				if (someoneHeadshoted3 && extendedStatistics) {
+					guiStore.setPlayerStatisticVisibility(true);
 					statistic = 'hs';
 				} else if (someoneKilled3) {
 					statistic = 'kd';
 				} else if (someoneHighDMG) {
 					statistic = 'assists';
 				} else if (anyTeamIsPoor && roundSideNr >= 6) {
+					guiStore.setPlayerStatisticVisibility(true);
 					statistic = 'equipment';
 				} else {
 					if (extendedStatistics) {
@@ -122,6 +124,8 @@ export const useMatchStore = defineStore('match', () => {
 				guiStore.setPlayerStatisticVisibility(false);
 			}
 			guiStore.setPlayerStatisticType(statistic);
+		} else if (roundPhase.value.timeout) {
+			guiStore.setPlayerStatisticVisibility(false);
 		}
 
 		if (grenadesList) {
