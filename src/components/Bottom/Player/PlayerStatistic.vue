@@ -1,7 +1,7 @@
 <script setup>
 import { useGuiStore } from '@/stores/gui';
 import { usePlayersStore } from '@/stores/players';
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, ref, onMounted } from 'vue';
 
 const playersStore = usePlayersStore();
 const guiStore = useGuiStore();
@@ -31,31 +31,54 @@ const statisticValueWithPrefix = computed(() => {
 	}
 });
 
+const loadedStatisticHeight = ref(undefined);
+
 const statisticHeight = computed(() => {
 	let height = 0;
 	if (props.show) {
-		height = parseInt(statisticValue.value) * getMultiplier() + 50;
-	}
-
-	function getMultiplier() {
-		switch (statisticToShow.value) {
-			case 'kd':
-				return 30;
-			case 'kills':
-				return 2;
-			case 'assists':
-				return 8;
-			case 'equipment':
-				return 0.01;
-			case 'adr':
-				return 0.45;
-			case 'hs':
-				return 0.7;
-			default:
-				return 1;
+		if (statisticToShow.value == 'equipment') {
+			height = parseInt(statisticValue.value) * 0.01 + 50;
+		} else {
+			height = loadedStatisticHeight.value;
 		}
 	}
+
 	return height;
+});
+
+onMounted(() => {
+	let height = 0;
+
+	const getHighestPlayerStatistic = Math.max.apply(
+		null,
+		playersStore.getPlayers()?.map((obj) => playersStore.getPlayerDataById(obj.id)?.statistics[statisticToShow.value])
+	);
+
+	if (props.show) {
+		height = getHeightInPercent() * 0.7 + 50;
+	}
+
+	function getHeightInPercent() {
+		switch (statisticToShow.value) {
+			case 'kd':
+				return getPercent(2.0);
+			case 'kills':
+				return getPercent(30);
+			case 'assists':
+				return getPercent(8);
+			case 'adr':
+				return getPercent(150);
+			case 'hs':
+				return getPercent(100);
+			default:
+				return getPercent(1);
+		}
+	}
+
+	function getPercent(defaultValue) {
+		return (statisticValue.value / Math.max(getHighestPlayerStatistic, defaultValue)) * 100;
+	}
+	loadedStatisticHeight.value = height;
 });
 </script>
 
