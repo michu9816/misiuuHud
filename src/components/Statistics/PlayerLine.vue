@@ -31,13 +31,13 @@ const statistics = computed(() => {
 		case 'default':
 			return [
 				props.data?.match_stats?.deaths,
-				(props.data?.match_stats?.kills / (props.data?.match_stats?.deaths || 0)).toFixed(1),
+				(props.data?.match_stats?.kills / (props.data?.match_stats?.deaths || 1)).toFixed(1),
 				props.data?.match_stats?.kills,
 			];
 		case 'extended':
 			return [props.data?.match_stats?.deaths, Math.round(extendedStatistics.value?.adr), props.data?.match_stats?.kills];
 		default:
-			return undefined;
+			return [undefined];
 	}
 });
 

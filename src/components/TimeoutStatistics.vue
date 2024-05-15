@@ -1,7 +1,7 @@
 <template>
 	<div class="chartBox" :class="{ visible: chartVisibleClass }">
 		<div class="title">{{ title }}</div>
-		<div v-if="chartOpacity.type == 'scoreboard'" class="scoreboard">
+		<div v-if="chartOpacity.type == 'scoreboard' && chartOpacity.show" class="scoreboard">
 			<div v-for="team in ['CT', 'T']" :key="team">
 				<ScoreboardStatisticLabels :data="labels"></ScoreboardStatisticLabels>
 				<ScoreboardPlayerLine
@@ -14,7 +14,7 @@
 					:index="index"></ScoreboardPlayerLine>
 			</div>
 		</div>
-		<div v-else-if="chartOpacity.type">
+		<div v-else-if="chartOpacity.type && chartOpacity.show">
 			<StatisticLabels :data="labels"></StatisticLabels>
 			<PlayerLine
 				v-for="(player, index) in players"
@@ -130,6 +130,9 @@ const hideScoreboardTimeout = ref();
 const chartTeam = ref();
 
 watch(roundTime, (val) => {
+	if (!chartOpacity.value.show) {
+		return;
+	}
 	if (usePlayersStore()?.extendedStatistics()) {
 		if (val > 15 && val < 17) {
 			chartVisibleClass.value = false;
@@ -199,12 +202,12 @@ onMounted(() => {
 	margin: auto auto;
 	background: rgb(0 0 0 / 90%);
 	padding: 30px;
-	margin-top: 180px;
 	opacity: 0;
 	transition-duration: 0.5s;
 	border-radius: 5px;
 	position: absolute;
 	left: calc(50% - 480px);
+	top: 240px;
 }
 
 .chartBox.visible {
