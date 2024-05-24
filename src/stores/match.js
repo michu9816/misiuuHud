@@ -129,9 +129,12 @@ export const useMatchStore = defineStore('match', () => {
 		}
 
 		if (grenadesList) {
-			grenades.value = Object.entries(grenadesList).map((obj) => {
+			const grenadesNew = Object.entries(grenadesList).map((obj) => {
 				return { id: obj[0], data: obj[1] };
 			});
+			if (grenades.value != grenadesNew) {
+				grenades.value = grenadesNew;
+			}
 		}
 
 		match.value = matchData?.name;

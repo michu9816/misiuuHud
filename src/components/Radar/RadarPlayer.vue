@@ -1,5 +1,5 @@
 <template>
-	<div class="player" :class="[data.team, { dead: !data.health, disableAnimation: splitedClass }]" :style="[position]" v-if="showPlayer">
+	<div class="player" :class="[data.team, { dead: !data.alive, disableAnimation: splitedClass }]" :style="[position]" v-if="showPlayer">
 		<img class="bomb" src="@/assets/img/elements/icon_bomb_default.png" v-if="data.bomb" />
 		<div class="icon" :class="{ watching }" :style="[rotation]"></div>
 		<div class="number">{{ observerSlot }}</div>

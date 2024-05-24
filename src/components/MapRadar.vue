@@ -40,13 +40,15 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import RadarPlayer from './Radar/RadarPlayer.vue';
 import RadarGrenade from './Radar/RadarGrenade.vue';
 import BombIcon from './Radar/BombIcon.vue';
 import { usePlayersStore } from '@/stores/players.js';
 import { useMatchStore } from '@/stores/match';
 import { useSeriesStore } from '@/stores/series';
+
+const radarScalable = ref(false);
 
 const playersStore = usePlayersStore();
 const matchStore = useMatchStore();
@@ -143,6 +145,9 @@ const playersEdgePositions = computed(() => {
 });
 
 const scale = computed(() => {
+	if (!radarScalable.value) {
+		return 1;
+	}
 	let xDiff = playersEdgePositions.value?.x?.max - playersEdgePositions.value?.x?.min;
 	let yDiff = playersEdgePositions.value?.y?.max - playersEdgePositions.value?.y?.min;
 	let xPercentage = xDiff / 100 + 0.4;
