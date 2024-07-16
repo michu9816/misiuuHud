@@ -108,7 +108,7 @@ const chartOpacity = computed(() => {
 
 	if (showChart && isEvenTimeout) {
 		if (usePlayersStore()?.extendedStatistics()) {
-			if (time > 10.5) {
+			if (time > 15) {
 				type = 'duels';
 			} else {
 				type = 'extended';
@@ -133,7 +133,7 @@ watch(roundTime, (val) => {
 	if (!chartOpacity.value.show) {
 		return;
 	}
-	if (usePlayersStore()?.extendedStatistics()) {
+	if (usePlayersStore()?.extendedStatistics() && chartOpacity.value.type != 'scoreboard') {
 		if (val > 15 && val < 17) {
 			chartVisibleClass.value = false;
 		} else if (val > 10) {

@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 export const useSeriesStore = defineStore('series', () => {
 	const type = ref(undefined);
-	const showRadar = ref(true);
+	const showRadar = ref(false);
 	const completeType = ref('manual');
 	const maps = ref([
 		{
